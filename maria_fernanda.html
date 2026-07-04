@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maria Fernanda — Rotina</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rosa:#C4648A;--rosa-c:#E8A0B8;--rosa-bg:#FDF0F4;--rosa-bd:#F0C8D8;
+  --lilas:#8B6BAE;--lilas-bg:#F4F0FA;--lilas-bd:#D4C4EC;
+  --verde:#2E8B57;--verde-bg:#EAF5EE;--verde-bd:#B8DFC8;
+  --azul:#4A7FB5;--azul-bg:#EEF4FB;--azul-bd:#BDD4EC;
+  --laranja:#D4750A;--laranja-bg:#FEF4E8;--laranja-bd:#F0D0A0;
+  --verm:#C44040;--verm-bg:#FDEAEA;--verm-bd:#F0B8B8;
+  --creme:#FDFAF7;--creme-e:#F0EBE3;
+  --txt:#2A2420;--txt-s:#6A6058;--branco:#FFFFFF;--r:10px;
+}
+html,body{min-height:100vh;background:var(--creme);color:var(--txt);font-family:'Nunito',system-ui,sans-serif;font-size:15px}
+
+/* TOPO */
+.topo{background:var(--rosa);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.topo-back{color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;font-weight:600}
+.topo-back:hover{color:#fff}
+.topo-titulo{font-size:14px;font-weight:700;color:#fff;letter-spacing:.5px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--rosa) 0%,var(--lilas) 100%);padding:28px 20px 36px;text-align:center;position:relative}
+.hero-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px}
+.hero-nome{font-family:'Cormorant Garamond',serif;font-size:32px;font-style:italic;color:#fff;margin-bottom:4px}
+.hero-info{font-size:12px;color:rgba(255,255,255,.75);letter-spacing:.5px}
+.hero-idade{display:inline-block;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:100px;font-size:12px;font-weight:700;color:#fff;margin-top:8px}
+
+/* NAV */
+.nav-wrap{background:var(--branco);border-bottom:2px solid var(--creme-e);padding:0 16px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.nav-wrap::-webkit-scrollbar{display:none}
+.nav-btn{display:inline-block;padding:12px 14px;font-size:12px;font-weight:700;color:var(--txt-s);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;user-select:none;background:none;border-top:none;border-left:none;border-right:none;letter-spacing:.3px}
+.nav-btn:hover{color:var(--rosa)}
+.nav-btn.on{color:var(--rosa);border-bottom-color:var(--rosa)}
+.pnl{display:none}.pnl.on{display:block}
+
+/* CONTEÚDO */
+.content{padding:16px 16px 80px}
+
+/* CARDS */
+.card{background:var(--branco);border-radius:var(--r);border:1px solid var(--creme-e);margin-bottom:12px;overflow:hidden}
+.card-header{padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.card-icon{font-size:22px;flex-shrink:0}
+.card-titulo{font-size:15px;font-weight:700;color:var(--txt);flex:1}
+.card-chevron{color:var(--txt-s);font-size:18px;transition:transform .2s;flex-shrink:0}
+.card.open .card-chevron{transform:rotate(180deg)}
+.card-body{display:none;padding:0 16px 16px;border-top:1px solid var(--creme-e)}
+.card.open .card-body{display:block}
+
+/* SEÇÃO */
+.sec{margin-top:14px}
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt-s);opacity:.7;margin-bottom:8px}
+
+/* HORÁRIO */
+.hora-item{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--creme-e)}
+.hora-item:last-child{border-bottom:none}
+.hora-time{font-size:12px;font-weight:700;color:var(--rosa);min-width:48px;flex-shrink:0;padding-top:1px}
+.hora-task{font-size:14px;color:var(--txt);flex:1;line-height:1.5}
+.hora-obs{font-size:12px;color:var(--txt-s);margin-top:2px;font-style:italic}
+
+/* TAGS */
+.tag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:12px;font-weight:600;margin:2px}
+.tag-rosa{background:var(--rosa-bg);color:var(--rosa);border:1px solid var(--rosa-bd)}
+.tag-verde{background:var(--verde-bg);color:var(--verde);border:1px solid var(--verde-bd)}
+.tag-azul{background:var(--azul-bg);color:var(--azul);border:1px solid var(--azul-bd)}
+.tag-lilas{background:var(--lilas-bg);color:var(--lilas);border:1px solid var(--lilas-bd)}
+.tag-laranja{background:var(--laranja-bg);color:var(--laranja);border:1px solid var(--laranja-bd)}
+
+/* ALERTA */
+.alerta{padding:12px 14px;border-radius:var(--r);margin-bottom:10px;display:flex;gap:10px;align-items:flex-start}
+.alerta-verm{background:var(--verm-bg);border:1px solid var(--verm-bd)}
+.alerta-laranja{background:var(--laranja-bg);border:1px solid var(--laranja-bd)}
+.alerta-verde{background:var(--verde-bg);border:1px solid var(--verde-bd)}
+.alerta-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.alerta-txt{font-size:13px;line-height:1.5}
+.alerta-txt strong{display:block;margin-bottom:2px}
+
+/* CHECKLIST */
+.ci{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--r);border:1px solid var(--creme-e);margin-bottom:6px;background:var(--branco);cursor:pointer;transition:all .15s}
+.ci:hover{border-color:var(--rosa-bd);background:var(--rosa-bg)}
+.ci.done{opacity:.5}
+.ci.done .ci-label{text-decoration:line-through;color:var(--txt-s)}
+.cbox{width:20px;height:20px;border-radius:6px;border:2px solid var(--creme-e);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;margin-top:1px}
+.ci.done .cbox{background:var(--rosa);border-color:var(--rosa)}
+.ci-label{flex:1;font-size:14px;color:var(--txt)}
+.ci-obs{font-size:12px;color:var(--txt-s);margin-top:3px;font-style:italic}
+
+/* MOCHILA ITEM */
+.moch-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r);border:1px solid var(--creme-e);margin-bottom:6px;background:var(--branco);font-size:14px}
+.moch-icon{font-size:18px;flex-shrink:0}
+
+/* REMÉDIO CARD */
+.rem-card{border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.rem-nome{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.rem-dose{font-size:13px;color:var(--txt-s);margin-bottom:4px}
+.rem-quando{font-size:12px;font-weight:600;padding:2px 10px;border-radius:100px;display:inline-block}
+
+/* DIA SELECTOR */
+.dia-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.dchip{padding:6px 14px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--creme-e);background:var(--branco);color:var(--txt-s);transition:all .15s;user-select:none}
+.dchip.on{background:var(--rosa);color:#fff;border-color:var(--rosa)}
+
+/* CHECKLIST FIM DO DIA */
+.clf-section{margin-bottom:18px}
+.clf-titulo{font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.clf-textarea{width:100%;border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--branco);resize:none;min-height:70px}
+.clf-textarea:focus{outline:none;border-color:var(--rosa-bd)}
+.slf-select{width:100%;border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--branco)}
+.slf-select:focus{outline:none;border-color:var(--rosa-bd)}
+.clf-save{width:100%;padding:14px;background:var(--rosa);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;font-family:'Nunito',sans-serif}
+.clf-save:hover{background:var(--lilas)}
+.clf-hist{margin-top:20px}
+.clf-hist-titulo{font-size:13px;font-weight:700;color:var(--txt-s);margin-bottom:10px}
+.clf-entry{background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.clf-entry-data{font-size:11px;font-weight:700;color:var(--rosa);margin-bottom:8px}
+.clf-entry-row{font-size:13px;color:var(--txt);margin-bottom:4px;display:flex;gap:6px}
+.clf-entry-row span:first-child{color:var(--txt-s);min-width:120px;flex-shrink:0}
+
+/* BOTÃO FLUTUANTE */
+.fab{position:fixed;bottom:24px;right:20px;background:var(--rosa);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;box-shadow:0 4px 16px rgba(196,100,138,.4);transition:all .2s;z-index:100}
+.fab:hover{background:var(--lilas);transform:scale(1.08)}
+
+@media(min-width:600px){.content{max-width:600px;margin:0 auto}}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <a class="topo-back" href="index.html">← Início</a>
+  <span class="topo-titulo">Casa Magnum</span>
+</div>
+
+<div class="hero">
+  <div class="hero-avatar">👧</div>
+  <div class="hero-nome">Maria Fernanda</div>
+  <div class="hero-info">Nascida em 23 de abril de 2023</div>
+  <div class="hero-idade" id="idade-mf"></div>
+</div>
+
+<div class="nav-wrap">
+  <button class="nav-btn on" onclick="nav('rotina',this)">📅 Rotina</button>
+  <button class="nav-btn" onclick="nav('remedios',this)">💊 Remédios</button>
+  <button class="nav-btn" onclick="nav('mochilas',this)">🎒 Mochilas</button>
+  <button class="nav-btn" onclick="nav('aulas',this)">🩰 Aulas & Agenda</button>
+  <button class="nav-btn" onclick="nav('atividades',this)">🎨 Atividades</button>
+  <button class="nav-btn" onclick="nav('avisar',this)">📢 O que avisar</button>
+  <button class="nav-btn" onclick="nav('checklist',this)">✅ Fim do dia</button>
+  <button class="nav-btn" onclick="nav('viagem',this)">✈️ Viagem</button>
+</div>
+
+<!-- ROTINA -->
+<div class="pnl on content" id="pnl-rotina">
+
+  <div class="alerta alerta-verm">
+    <span class="alerta-icon">🚨</span>
+    <div class="alerta-txt"><strong>Atenção — Alergia!</strong>Maria Fernanda tem alergia à <strong>bala de caramelo</strong>. Nunca oferecer!</div>
+  </div>
+
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">📵</span>
+    <div class="alerta-txt"><strong>Sem telas durante a semana.</strong>Maria não tem acesso a celular, tablet ou TV de segunda a sexta-feira.</div>
+  </div>
+
+  <p style="font-size:13px;color:var(--txt-s);margin-bottom:12px">Selecione o dia para ver a rotina:</p>
+  <div class="dia-chips" id="dia-chips">
+    <div class="dchip" onclick="setDia(0,this)">Seg</div>
+    <div class="dchip" onclick="setDia(1,this)">Ter</div>
+    <div class="dchip" onclick="setDia(2,this)">Qua</div>
+    <div class="dchip" onclick="setDia(3,this)">Qui</div>
+    <div class="dchip" onclick="setDia(4,this)">Sex</div>
+    <div class="dchip" onclick="setDia(5,this)">Sáb</div>
+    <div class="dchip" onclick="setDia(6,this)">Dom</div>
+  </div>
+  <div id="rotina-content"></div>
+</div>
+
+<!-- REMÉDIOS -->
+<div class="pnl content" id="pnl-remedios">
+  <div class="alerta alerta-verm">
+    <span class="alerta-icon">⚠️</span>
+    <div class="alerta-txt" style="color:var(--verm)"><strong>SEMPRE avisar Dimona antes de dar qualquer remédio.</strong>Dar sem avisar SOMENTE se não conseguir falar com ela.</div>
+  </div>
+
+  <div class="sec-lbl" style="margin-top:4px">Uso contínuo</div>
+
+  <div class="rem-card" style="background:var(--verde-bg);border:1px solid var(--verde-bd)">
+    <div class="rem-nome">💊 Vitamina D 600 UI</div>
+    <div class="rem-dose">Dose: <strong>1 gota ao dia</strong></div>
+    <span class="rem-quando" style="background:var(--verde-bg);color:var(--verde);border:1px solid var(--verde-bd)">Segunda a sexta-feira</span>
+  </div>
+
+  <div class="rem-card" style="background:var(--azul-bg);border:1px solid var(--azul-bd)">
+    <div class="rem-nome">💊 Ômega 3 Essential</div>
+    <div class="rem-dose">Dose: <strong>1,5ml todos os dias</strong></div>
+    <span class="rem-quando" style="background:var(--azul-bg);color:var(--azul);border:1px solid var(--azul-bd)">Todos os dias</span>
+  </div>
+
+  <div class="sec-lbl" style="margin-top:16px">Uso se necessário</div>
+
+  <div class="rem-card" style="background:var(--verm-bg);border:1px solid var(--verm-bd)">
+    <div class="rem-nome">🌡️ Maxalgina</div>
+    <div class="rem-dose">Dose: <strong>12 gotas</strong></div>
+    <span class="rem-quando" style="background:var(--verm-bg);color:var(--verm);border:1px solid var(--verm-bd)">Se febre (temp acima de 37,5°C) ou febril mas molinha</span>
+  </div>
+
+  <div class="rem-card" style="background:var(--laranja-bg);border:1px solid var(--laranja-bd)">
+    <div class="rem-nome">💨 Luftal</div>
+    <div class="rem-dose">Dose: <strong>12 gotas</strong></div>
+    <span class="rem-quando" style="background:var(--laranja-bg);color:var(--laranja);border:1px solid var(--laranja-bd)">Se gases</span>
+  </div>
+
+  <div class="rem-card" style="background:var(--lilas-bg);border:1px solid var(--lilas-bd)">
+    <div class="rem-nome">🤧 Esalerg</div>
+    <div class="rem-dose">Dose: <strong>20 gotas</strong></div>
+    <span class="rem-quando" style="background:var(--lilas-bg);color:var(--lilas);border:1px solid var(--lilas-bd)">Se alergia</span>
+  </div>
+
+  <div class="alerta alerta-verm" style="margin-top:16px">
+    <span class="alerta-icon">🚨</span>
+    <div class="alerta-txt"><strong>Alergia conhecida</strong>Bala de caramelo — <strong>nunca oferecer!</strong></div>
+  </div>
+</div>
+
+<!-- MOCHILAS -->
+<div class="pnl content" id="pnl-mochilas">
+
+  <div class="card open">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🏫</span>
+      <span class="card-titulo">Mochila da escola — dia a dia</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--txt-s);margin-bottom:10px">Fernanda prepara a mochila na noite anterior.</p>
+      <div class="moch-item"><span class="moch-icon">📓</span>Agenda escolar</div>
+      <div class="moch-item"><span class="moch-icon">👗</span>Farda extra + calcinha extra</div>
+      <div class="moch-item"><span class="moch-icon">🧻</span>Lenço umedecido</div>
+      <div class="moch-item"><span class="moch-icon">🍱</span>Lancheira com lanche + talher</div>
+      <div class="moch-item"><span class="moch-icon">💧</span>Garrafinha de água</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🎉</span>
+      <span class="card-titulo">Mochila para festas e eventos</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="moch-item"><span class="moch-icon">👗</span>Roupa extra completa</div>
+      <div class="moch-item"><span class="moch-icon">🦟</span>Repelente</div>
+      <div class="moch-item"><span class="moch-icon">🚽</span>Protetor de assento sanitário</div>
+      <div class="moch-item"><span class="moch-icon">💧</span>Garrafinha de água</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🏊</span>
+      <span class="card-titulo">Mochila para eventos com água</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="alerta alerta-laranja" style="margin-top:8px">
+        <span class="alerta-icon">☀️</span>
+        <div class="alerta-txt">Protetor solar no rosto e corpo + repelente + hidratante são obrigatórios <strong>sempre</strong>.</div>
+      </div>
+      <div class="moch-item"><span class="moch-icon">🩱</span>Roupa de banho</div>
+      <div class="moch-item"><span class="moch-icon">🩲</span>Fralda de piscina</div>
+      <div class="moch-item"><span class="moch-icon">🛟</span>Boia (se for piscina)</div>
+      <div class="moch-item"><span class="moch-icon">☀️</span>Protetor solar — rosto e corpo</div>
+      <div class="moch-item"><span class="moch-icon">🦟</span>Repelente</div>
+      <div class="moch-item"><span class="moch-icon">💧</span>Hidratante</div>
+      <div class="moch-item"><span class="moch-icon">🕶️</span>Óculos de sol</div>
+      <div class="moch-item"><span class="moch-icon">🏖️</span>Toalha</div>
+      <div class="moch-item"><span class="moch-icon">👗</span>Roupa extra completa</div>
+      <div class="sec-lbl" style="margin-top:12px">Kit de higiene</div>
+      <div class="moch-item"><span class="moch-icon">🪥</span>Escova de cabelo</div>
+      <div class="moch-item"><span class="moch-icon">🧴</span>Shampoo</div>
+      <div class="moch-item"><span class="moch-icon">🧴</span>Condicionador</div>
+      <div class="moch-item"><span class="moch-icon">🧴</span>Creme de pentear</div>
+      <div class="moch-item"><span class="moch-icon">🧼</span>Sabonete</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ATIVIDADES -->
+<div class="pnl content" id="pnl-aulas">
+  <div class="card open">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">💃</span>
+      <span class="card-titulo">Ballet</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="hora-item"><span class="hora-time">Dias</span><div><div class="hora-task">Segunda e Quarta-feira</div></div></div>
+      <div class="hora-item"><span class="hora-time">Horário</span><div><div class="hora-task">16h às 16:40h</div></div></div>
+      <div class="hora-item"><span class="hora-time">Quem leva</span><div><div class="hora-task">Fernanda (babá)</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🏊</span>
+      <span class="card-titulo">Natação</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="hora-item"><span class="hora-time">Dia</span><div><div class="hora-task">Sexta-feira</div></div></div>
+      <div class="hora-item"><span class="hora-time">Horário</span><div><div class="hora-task">16h às 16:30h</div></div></div>
+      <div class="hora-item"><span class="hora-time">Quem vai</span><div><div class="hora-task">Dimona + Fernanda + Maria — Fernanda auxilia na troca de roupa ao final da aula. Retornam ~17h</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">📚</span>
+      <span class="card-titulo">Agenda escolar</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="alerta alerta-azul" style="background:var(--azul-bg);border:1px solid var(--azul-bd)">
+        <span class="alerta-icon">📖</span>
+        <div class="alerta-txt"><strong>Leia a agenda todos os dias!</strong>Se houver leitura ou atividade proposta, realize. Se houver aviso de evento, feriado ou recado, <strong>avisar Dimona imediatamente.</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🌙</span>
+      <span class="card-titulo">Rotina do sono</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="hora-item"><span class="hora-time">Cocô</span><div><div class="hora-task">Sentar no vaso ouvindo uma história</div></div></div>
+      <div class="hora-item"><span class="hora-time">Banho</span><div><div class="hora-task">Banho e preparo para dormir</div></div></div>
+      <div class="hora-item"><span class="hora-time">Sono</span><div><div class="hora-task">Dorme sozinha — sempre com o ursinho</div></div></div>
+      <div class="hora-item"><span class="hora-time">💧 Água</span><div><div class="hora-task">Sempre deixar garrafinha de água ao lado da cama</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- O QUE AVISAR -->
+<div class="pnl content" id="pnl-avisar">
+  <div class="alerta alerta-verm">
+    <span class="alerta-icon">🚨</span>
+    <div class="alerta-txt"><strong>Remédios</strong>Avisar SEMPRE antes de dar qualquer remédio. Dar sem avisar somente se não conseguir falar.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">📓</span>
+    <div class="alerta-txt"><strong>Agenda escolar</strong>Qualquer recado, evento, feriado ou comunicado da escola.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">🤕</span>
+    <div class="alerta-txt"><strong>Quedas ou acidentes</strong>Qualquer queda, batida na cabeça ou machucado.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">🤒</span>
+    <div class="alerta-txt"><strong>Sintomas</strong>Febre, vômito, diarreia, alergia, choro excessivo ou comportamento diferente do habitual.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">😔</span>
+    <div class="alerta-txt"><strong>Comportamento</strong>Se Maria estiver muito agitada, triste, ou se algo incomum acontecer.</div>
+  </div>
+  <div class="alerta alerta-verde">
+    <span class="alerta-icon">✅</span>
+    <div class="alerta-txt"><strong>No geral</strong>Em caso de dúvida, sempre prefira avisar a não avisar.</div>
+  </div>
+</div>
+
+<!-- CHECKLIST FIM DO DIA -->
+<div class="pnl content" id="pnl-checklist">
+  <p style="font-size:13px;color:var(--txt-s);margin-bottom:16px">Preencha ao final do dia antes de sair. O histórico fica salvo no aparelho.</p>
+
+  <div class="clf-section">
+    <div class="clf-titulo">📅 Data</div>
+    <input type="date" id="clf-data" style="width:100%;border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--branco)">
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">🍽️ Almoço</div>
+    <select class="slf-select" id="clf-almoco">
+      <option value="">Como foi o almoço?</option>
+      <option>Comeu bem e sozinha</option>
+      <option>Comeu bem com ajuda</option>
+      <option>Comeu pouco</option>
+      <option>Deu trabalho para comer</option>
+      <option>Não quis comer</option>
+    </select>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">🌙 Jantar</div>
+    <select class="slf-select" id="clf-jantar">
+      <option value="">Como foi o jantar?</option>
+      <option>Comeu bem e sozinha</option>
+      <option>Comeu bem com ajuda</option>
+      <option>Comeu pouco</option>
+      <option>Deu trabalho para comer</option>
+      <option>Não quis comer</option>
+    </select>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">💧 Água</div>
+    <select class="slf-select" id="clf-agua">
+      <option value="">Bebeu água suficiente?</option>
+      <option>Sim, bebeu bem</option>
+      <option>Bebeu pouco</option>
+      <option>Não quis beber</option>
+    </select>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">🚽 Cocô</div>
+    <select class="slf-select" id="clf-coco">
+      <option value="">Fez cocô?</option>
+      <option>Sim, normal</option>
+      <option>Sim, consistência diferente</option>
+      <option>Não fez</option>
+    </select>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">💊 Remédios</div>
+    <div style="margin-bottom:6px">
+      <div class="ci" onclick="togCI(this)" id="ci-vitd"><div class="cbox"></div><span class="ci-label">Vitamina D — 1 gota</span></div>
+      <div class="ci" onclick="togCI(this)" id="ci-omega"><div class="cbox"></div><span class="ci-label">Ômega 3 — 1,5ml</span></div>
+      <div class="ci" onclick="togCI(this)" id="ci-outro"><div class="cbox"></div><span class="ci-label">Outro remédio (descrever abaixo)</span></div>
+    </div>
+    <textarea class="clf-textarea" id="clf-remedios-obs" placeholder="Se deu outro remédio, descreva qual e por quê..." rows="2"></textarea>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">😊 Humor do dia</div>
+    <select class="slf-select" id="clf-humor">
+      <option value="">Como foi o humor de Maria?</option>
+      <option>Muito bem, feliz e animada</option>
+      <option>Bem, comportamento normal</option>
+      <option>Agitada</option>
+      <option>Chorosa / sensível</option>
+      <option>Mal-humorada</option>
+      <option>Cansada</option>
+    </select>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">😴 Soneca</div>
+    <select class="slf-select" id="clf-soneca">
+      <option value="">Fez soneca?</option>
+      <option>Não fez soneca</option>
+      <option>Fez soneca — acordou antes das 15h</option>
+      <option>Fez soneca — acordou depois das 15h</option>
+    </select>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">⚠️ Incidentes</div>
+    <textarea class="clf-textarea" id="clf-incidente" placeholder="Quedas, machucados, choro excessivo, algo diferente... Se não houve nada, deixe em branco." rows="3"></textarea>
+  </div>
+
+  <div class="clf-section">
+    <div class="clf-titulo">📝 Observações gerais</div>
+    <textarea class="clf-textarea" id="clf-obs" placeholder="Qualquer outra observação do dia..." rows="3"></textarea>
+  </div>
+
+  <button class="clf-save" onclick="salvarChecklist()">💾 Salvar relatório do dia</button>
+  <div style="text-align:center;margin-top:10px"><a href="configurar_sheets.html" style="font-size:12px;color:var(--txt-s);text-decoration:none">⚙️ Configurar envio para Google Sheets</a></div>
+  <div id="clf-feedback" style="display:none;margin-top:10px;padding:10px;background:var(--verde-bg);border:1px solid var(--verde-bd);border-radius:var(--r);font-size:13px;color:var(--verde);text-align:center;font-weight:700"></div>
+
+  <div class="clf-hist" id="clf-hist"></div>
+</div>
+
+
+<!-- ATIVIDADES -->
+<div class="pnl content" id="pnl-atividades">
+
+  <div class="alerta" style="background:var(--rosa-bg);border:1px solid var(--rosa-bd);margin-bottom:14px">
+    <span class="alerta-icon">💡</span>
+    <div class="alerta-txt"><strong>Como usar</strong>Cada dia tem dois blocos de atividades sugeridos. Fernanda pode adaptar conforme o humor de Maria — o importante é tornar cada atividade divertida!</div>
+  </div>
+
+  <!-- GRADE SEMANAL -->
+  <div class="sec-lbl">Grade semanal — tarde (após lanche das 14h30)</div>
+  <div class="dia-chips" id="atv-chips">
+    <div class="dchip" onclick="setAtvDia(0,this)">Seg</div>
+    <div class="dchip" onclick="setAtvDia(1,this)">Ter</div>
+    <div class="dchip" onclick="setAtvDia(2,this)">Qua</div>
+    <div class="dchip" onclick="setAtvDia(3,this)">Qui</div>
+    <div class="dchip" onclick="setAtvDia(4,this)">Sex</div>
+    <div class="dchip" onclick="setAtvDia(5,this)">Sáb</div>
+    <div class="dchip" onclick="setAtvDia(6,this)">Dom</div>
+  </div>
+  <div id="atv-dia-content"></div>
+
+  <!-- BANCO DE ATIVIDADES -->
+  <div class="sec-lbl" style="margin-top:24px">Banco de atividades</div>
+  <p style="font-size:13px;color:var(--txt-s);margin-bottom:12px">Fernanda pode escolher atividades extras aqui quando quiser variar!</p>
+  <div class="dia-chips" id="atv-cat-chips">
+    <div class="dchip on" onclick="setAtvCat('todas',this)">Todas</div>
+    <div class="dchip" onclick="setAtvCat('arte',this)">🎨 Arte</div>
+    <div class="dchip" onclick="setAtvCat('aprendizado',this)">📚 Aprendizado</div>
+    <div class="dchip" onclick="setAtvCat('faz-de-conta',this)">👑 Faz de conta</div>
+    <div class="dchip" onclick="setAtvCat('natureza',this)">🌿 Natureza</div>
+    <div class="dchip" onclick="setAtvCat('motricidade',this)">🏃 Motricidade</div>
+  </div>
+  <div id="atv-banco-content"></div>
+</div>
+
+
+<!-- VIAGEM -->
+<div class="pnl content" id="pnl-viagem">
+
+  <div class="alerta" style="background:var(--rosa-bg);border:1px solid var(--rosa-bd);margin-bottom:16px">
+    <span class="alerta-icon">✈️</span>
+    <div class="alerta-txt"><strong>Calculadora de viagem</strong>Informe quantos dias de viagem e se haverá praia ou piscina. O sistema calcula automaticamente as quantidades!</div>
+  </div>
+
+  <!-- CALCULADORA -->
+  <div style="background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);padding:16px;margin-bottom:16px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">⚙️ Configurar viagem</div>
+
+    <div style="margin-bottom:12px">
+      <label style="font-size:13px;font-weight:600;color:var(--txt);display:block;margin-bottom:6px">Quantos dias de viagem?</label>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button onclick="ajustarDias(-1)" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--rosa-bd);background:var(--rosa-bg);color:var(--rosa);font-size:20px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
+        <span id="dias-num" style="font-size:28px;font-weight:700;color:var(--rosa);min-width:40px;text-align:center">3</span>
+        <button onclick="ajustarDias(1)" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--rosa-bd);background:var(--rosa-bg);color:var(--rosa);font-size:20px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
+        <span style="font-size:13px;color:var(--txt-s)">dias</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:4px">
+      <label style="font-size:13px;font-weight:600;color:var(--txt);display:block;margin-bottom:8px">Tipo de viagem:</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div id="tipo-cidade" class="dchip on" onclick="setTipo('cidade',this)" style="border-color:var(--rosa);background:var(--rosa);color:#fff">🏙️ Cidade / Campo</div>
+        <div id="tipo-praia" class="dchip" onclick="setTipo('praia',this)">🏖️ Praia / Piscina</div>
+        <div id="tipo-frio" class="dchip" onclick="setTipo('frio',this)">🧥 Frio / Serra</div>
+        <div id="tipo-frio-extremo" class="dchip" onclick="setTipo('frio-extremo',this)">🌨️ Frio extremo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTA CALCULADA -->
+  <div id="lista-viagem"></div>
+
+</div>
+
+<a class="fab" href="index.html" title="Voltar ao início">🏡</a>
+
+<script>
+// IDADE
+var nascMF = new Date(2023,3,23);
+function calcIdade(nasc){
+  var hoje = new Date();
+  var anos = hoje.getFullYear()-nasc.getFullYear();
+  var meses = hoje.getMonth()-nasc.getMonth();
+  if(meses<0||(meses===0&&hoje.getDate()<nasc.getDate())){anos--;meses+=12;}
+  if(hoje.getDate()<nasc.getDate()) meses--;
+  if(meses<0) meses+=12;
+  return anos+'a '+meses+'m';
+}
+document.getElementById('idade-mf').textContent = calcIdade(nascMF);
+
+// NAV
+function nav(id,btn){
+  document.querySelectorAll('.pnl').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('pnl-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// CARDS
+function togCard(header){header.parentElement.classList.toggle('open');}
+
+// ROTINAS
+var rotinas = {
+  0:{ // SEGUNDA
+    chegada:'08:00',
+    itens:[
+      {h:'08:00',t:'Chegada de Fernanda',obs:'Segunda-feira: chega às 8h'},
+      {h:'08:00',t:'Organização da brinquedoteca',obs:'Tarefa extra de segunda'},
+      {h:'08:00',t:'Passar as roupas de Maria',obs:'Tarefa extra de segunda'},
+      {h:'11:00',t:'Organizar quarto e coisas de Maria',obs:null},
+      {h:'12:00',t:'Servir almoço para Maria',obs:'Maria chega da escola por volta das 12h'},
+      {h:'13:00',t:'Banho de Maria — lavar o cabelo',obs:null},
+      {h:'14:00',t:'Lanche da tarde',obs:null},
+      {h:'14:30',t:'Atividades — Arte + Aprendizado',obs:'Ver aba 🎨 Atividades'},
+      {h:'15:15',t:'Arrumar para o ballet',obs:'Trocar roupa e preparar'},
+      {h:'16:00',t:'Ballet — Fernanda leva Maria',obs:'16h às 16:40h'},
+      {h:'17:00',t:'Preparar mochila do dia seguinte',obs:'Conferir agenda escolar e preparar farda'},
+      {h:'17:30',t:'Jantar de Maria',obs:null},
+      {h:'18:00',t:'Saída de Fernanda',obs:null},
+    ],
+    extra:'ballet'
+  },
+  1:{ // TERÇA
+    chegada:'11:00',
+    itens:[
+      {h:'11:00',t:'Chegada de Fernanda',obs:'Organizar quarto e coisas de Maria'},
+      {h:'11:00',t:'Organizar quarto e coisas espalhadas de Maria',obs:null},
+      {h:'12:00',t:'Servir almoço para Maria',obs:'Maria chega da escola por volta das 12h'},
+      {h:'13:00',t:'Banho de Maria — lavar o cabelo',obs:null},
+      {h:'14:00',t:'Lanche da tarde',obs:null},
+      {h:'14:30',t:'Atividades — Bloco 1: Faz de conta',obs:'Ver aba 🎨 Atividades — dia livre, mais tempo!'},
+      {h:'15:30',t:'Atividades — Bloco 2: Motricidade lúdica ou natureza',obs:'Ver aba 🎨 Atividades'},
+      {h:'16:30',t:'Atividade extra ou brinquedo livre',obs:'Maria escolhe o que quer fazer'},
+      {h:'17:00',t:'Preparar mochila do dia seguinte',obs:'Conferir agenda escolar e preparar farda'},
+      {h:'17:30',t:'Jantar de Maria',obs:null},
+      {h:'18:00',t:'Saída de Fernanda',obs:null},
+    ]
+  },
+  2:{ // QUARTA
+    chegada:'11:00',
+    itens:[
+      {h:'11:00',t:'Chegada de Fernanda',obs:'Organizar quarto e coisas de Maria'},
+      {h:'11:00',t:'Organizar quarto e coisas espalhadas de Maria',obs:null},
+      {h:'12:00',t:'Servir almoço para Maria',obs:'Maria chega da escola por volta das 12h'},
+      {h:'13:00',t:'Banho de Maria — lavar o cabelo',obs:null},
+      {h:'14:00',t:'Lanche da tarde',obs:null},
+      {h:'14:30',t:'Atividades — Natureza + Arte',obs:'Ver aba 🎨 Atividades'},
+      {h:'15:15',t:'Arrumar para o ballet',obs:'Trocar roupa e preparar'},
+      {h:'16:00',t:'Ballet — Fernanda leva Maria',obs:'16h às 16:40h'},
+      {h:'17:00',t:'Preparar mochila do dia seguinte',obs:'Conferir agenda escolar e preparar farda'},
+      {h:'17:30',t:'Jantar de Maria',obs:null},
+      {h:'18:00',t:'Saída de Fernanda',obs:null},
+    ],
+    extra:'ballet'
+  },
+  3:{ // QUINTA
+    chegada:'11:00',
+    itens:[
+      {h:'11:00',t:'Chegada de Fernanda',obs:'Organizar quarto e coisas de Maria'},
+      {h:'11:00',t:'Organizar quarto e coisas espalhadas de Maria',obs:null},
+      {h:'12:00',t:'Servir almoço para Maria',obs:'Maria chega da escola por volta das 12h'},
+      {h:'13:00',t:'Banho de Maria — lavar o cabelo',obs:null},
+      {h:'14:00',t:'Lanche da tarde',obs:null},
+      {h:'14:30',t:'Atividades — Bloco 1: Alfabetização',obs:'Ver aba 🎨 Atividades — dia livre, mais tempo!'},
+      {h:'15:30',t:'Atividades — Bloco 2: Recorte, colagem ou massinha',obs:'Ver aba 🎨 Atividades'},
+      {h:'16:30',t:'Atividade extra ou brinquedo livre',obs:'Maria escolhe o que quer fazer'},
+      {h:'17:00',t:'Preparar mochila do dia seguinte',obs:'Conferir agenda escolar e preparar farda'},
+      {h:'17:30',t:'Jantar de Maria',obs:null},
+      {h:'18:00',t:'Saída de Fernanda',obs:null},
+    ]
+  },
+  4:{ // SEXTA
+    chegada:'11:00',
+    itens:[
+      {h:'11:00',t:'Chegada de Fernanda',obs:'Organizar quarto e coisas de Maria'},
+      {h:'11:00',t:'Organizar quarto e coisas espalhadas de Maria',obs:null},
+      {h:'12:00',t:'Servir almoço para Maria',obs:'Maria chega da escola por volta das 12h'},
+      {h:'13:00',t:'Banho de Maria — lavar o cabelo',obs:null},
+      {h:'14:00',t:'Lanche da tarde',obs:null},
+      {h:'14:30',t:'Atividades — Livre criativo + Surpresa',obs:'Ver aba 🎨 Atividades'},
+      {h:'15:15',t:'Arrumar para a natação',obs:'Separar roupa de banho, fralda de piscina, toalha e protetor solar'},
+      {h:'16:00',t:'Natação — Dimona, Fernanda e Maria',obs:'Fernanda auxilia na troca de roupa de Maria enquanto Dimona se troca. Retornam ~17h'},
+      {h:'17:30',t:'Jantar de Maria',obs:null},
+      {h:'18:00',t:'Saída de Fernanda',obs:null},
+    ],
+    extra:'natacao'
+  },
+  5:{ // SÁBADO
+    chegada:null,
+    itens:[{h:'—',t:'Fernanda não trabalha aos sábados',obs:'Dia de folga'}]
+  },
+  6:{ // DOMINGO
+    chegada:null,
+    itens:[{h:'—',t:'Fernanda não trabalha aos domingos',obs:'Dia de folga'}]
+  }
+};
+
+var curDia = new Date().getDay();
+// converter: js 0=dom → interno 0=seg
+function dowToIdx(d){if(d===0)return 6;return d-1;}
+var curIdx = dowToIdx(curDia);
+
+function setDia(idx,btn){
+  curIdx=idx;
+  document.querySelectorAll('#dia-chips .dchip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderRotina();
+}
+
+function renderRotina(){
+  var r=rotinas[curIdx];
+  var html='';
+  if(r.extra==='ballet') html+='<div class="alerta alerta-rosa" style="background:var(--rosa-bg);border:1px solid var(--rosa-bd);margin-bottom:10px"><span class="alerta-icon">💃</span><div class="alerta-txt"><strong>Dia de ballet!</strong>Fernanda leva Maria às 16h. Aula até 16:40h.</div></div>';
+  if(r.extra==='natacao') html+='<div class="alerta alerta-azul" style="background:var(--azul-bg);border:1px solid var(--azul-bd);margin-bottom:10px"><span class="alerta-icon">🏊</span><div class="alerta-txt"><strong>Dia de natação!</strong>Dimona, Fernanda e Maria vão juntas às 16h. Fernanda auxilia na troca de roupa de Maria ao final da aula.</div></div>';
+  r.itens.forEach(function(item){
+    html+='<div class="hora-item"><span class="hora-time">'+item.h+'</span><div><div class="hora-task">'+item.t+'</div>'+(item.obs?'<div class="hora-obs">'+item.obs+'</div>':'')+'</div></div>';
+  });
+
+  // Soneca
+  if(curIdx<=4){
+    html+='<div class="alerta alerta-lilas" style="background:var(--lilas-bg);border:1px solid var(--lilas-bd);margin-top:12px"><span class="alerta-icon">😴</span><div class="alerta-txt"><strong>Soneca (se necessário)</strong>Eventualmente pode fazer soneca de até 1h, <strong>mas deve acordar antes das 15h</strong>.</div></div>';
+  }
+
+  document.getElementById('rotina-content').innerHTML=html;
+}
+
+// Selecionar dia atual
+var chips=document.querySelectorAll('#dia-chips .dchip');
+chips.forEach(function(c,i){c.classList.toggle('on',i===curIdx);});
+renderRotina();
+
+// CARD TOGGLE
+function togCI(el){el.classList.toggle('done');}
+
+// CHECKLIST
+var hoje=new Date();
+document.getElementById('clf-data').value=hoje.getFullYear()+'-'+(hoje.getMonth()+1<10?'0':'')+(hoje.getMonth()+1)+'-'+(hoje.getDate()<10?'0':'')+hoje.getDate();
+
+function salvarChecklist(){
+  var data=document.getElementById('clf-data').value;
+  if(!data){alert('Informe a data.');return;}
+  var entry={
+    data:data,
+    almoco:document.getElementById('clf-almoco').value,
+    jantar:document.getElementById('clf-jantar').value,
+    agua:document.getElementById('clf-agua').value,
+    coco:document.getElementById('clf-coco').value,
+    vitd:document.getElementById('ci-vitd').classList.contains('done'),
+    omega:document.getElementById('ci-omega').classList.contains('done'),
+    outro:document.getElementById('ci-outro').classList.contains('done'),
+    remediosObs:document.getElementById('clf-remedios-obs').value,
+    humor:document.getElementById('clf-humor').value,
+    soneca:document.getElementById('clf-soneca').value,
+    incidente:document.getElementById('clf-incidente').value,
+    obs:document.getElementById('clf-obs').value
+  };
+  // Salvar localmente
+  try{
+    var hist=JSON.parse(localStorage.getItem('mf_checklist')||'[]');
+    hist=hist.filter(function(e){return e.data!==data;});
+    hist.unshift(entry);
+    if(hist.length>30) hist=hist.slice(0,30);
+    localStorage.setItem('mf_checklist',JSON.stringify(hist));
+  }catch(e){}
+  // Enviar para Google Sheets se configurado
+  var sheetsUrl=localStorage.getItem('cm_sheets_url');
+  var fb=document.getElementById('clf-feedback');
+  if(sheetsUrl){
+    fb.style.display='block';
+    fb.style.background='var(--azul-bg)';
+    fb.style.borderColor='var(--azul-bd)';
+    fb.style.color='var(--azul)';
+    fb.textContent='⏳ Enviando para a planilha...';
+    fetch(sheetsUrl,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(entry)
+    }).then(function(){
+      fb.style.background='var(--verde-bg)';
+      fb.style.borderColor='var(--verde-bd)';
+      fb.style.color='var(--verde)';
+      fb.textContent='✅ Relatório salvo e enviado para a planilha!';
+      renderHist();
+      setTimeout(function(){fb.style.display='none';},4000);
+    }).catch(function(){
+      fb.style.background='var(--laranja-bg)';
+      fb.style.borderColor='var(--laranja-bd)';
+      fb.style.color='var(--laranja)';
+      fb.textContent='✅ Salvo localmente. Sem conexão com a planilha no momento.';
+      renderHist();
+      setTimeout(function(){fb.style.display='none';},4000);
+    });
+  } else {
+    fb.style.display='block';
+    fb.textContent='✅ Relatório salvo! (Configure o Google Sheets para envio automático)';
+    renderHist();
+    setTimeout(function(){fb.style.display='none';},3000);
+  }
+}
+
+function renderHist(){
+  try{
+    var hist=JSON.parse(localStorage.getItem('mf_checklist')||'[]');
+    if(!hist.length){document.getElementById('clf-hist').innerHTML='';return;}
+    var html='<div class="clf-hist-titulo">📋 Relatórios anteriores ('+hist.length+')</div>';
+    hist.forEach(function(e){
+      var d=e.data.split('-');
+      var ds=d[2]+'/'+d[1]+'/'+d[0];
+      html+='<div class="clf-entry"><div class="clf-entry-data">'+ds+'</div>';
+      if(e.almoco) html+='<div class="clf-entry-row"><span>Almoço:</span>'+e.almoco+'</div>';
+      if(e.jantar) html+='<div class="clf-entry-row"><span>Jantar:</span>'+e.jantar+'</div>';
+      if(e.agua) html+='<div class="clf-entry-row"><span>Água:</span>'+e.agua+'</div>';
+      if(e.coco) html+='<div class="clf-entry-row"><span>Cocô:</span>'+e.coco+'</div>';
+      html+='<div class="clf-entry-row"><span>Vitamina D:</span>'+(e.vitd?'✅ Deu':'❌ Não deu')+'</div>';
+      html+='<div class="clf-entry-row"><span>Ômega 3:</span>'+(e.omega?'✅ Deu':'❌ Não deu')+'</div>';
+      if(e.humor) html+='<div class="clf-entry-row"><span>Humor:</span>'+e.humor+'</div>';
+      if(e.soneca) html+='<div class="clf-entry-row"><span>Soneca:</span>'+e.soneca+'</div>';
+      if(e.incidente) html+='<div class="clf-entry-row"><span>Incidente:</span>'+e.incidente+'</div>';
+      if(e.obs) html+='<div class="clf-entry-row"><span>Obs:</span>'+e.obs+'</div>';
+      html+='</div>';
+    });
+    document.getElementById('clf-hist').innerHTML=html;
+  }catch(ex){}
+}
+renderHist();
+
+// ─── FIM DE SEMANA — CICLO ALTERNADO ─────────────────────────────
+// Fernanda trabalhou no fim de semana de 05/07/2025 (semana 0 = trabalha)
+var fdsInicio = new Date(2025,6,5); // 05/07/2025
+fdsInicio.setHours(0,0,0,0);
+
+function semanaFDS(data){
+  // calcular qual semana de fim de semana é (a partir de sábado)
+  var sat = new Date(data);
+  var dow = sat.getDay();
+  if(dow===0) sat.setDate(sat.getDate()-1); // voltar para sábado
+  else if(dow!==6) return null; // não é fim de semana
+  sat.setHours(0,0,0,0);
+  var diff = Math.round((sat - fdsInicio)/(7*24*3600*1000));
+  return diff;
+}
+
+function fernandaTrabalhaFDS(data){
+  var dow = data.getDay();
+  if(dow!==0 && dow!==6) return null; // não é fds
+  var chave = 'fds_troca_'+fdsChave(data);
+  var trocado = localStorage.getItem(chave);
+  var semIdx = semanaFDS(data);
+  var base = (semIdx !== null) ? (semIdx % 2 === 0) : true; // par=trabalha
+  if(trocado === '1') return !base;
+  return base;
+}
+
+function fdsChave(data){
+  var sat = new Date(data);
+  if(sat.getDay()===0) sat.setDate(sat.getDate()-1);
+  return sat.getFullYear()+'-'+(sat.getMonth()+1)+'-'+sat.getDate();
+}
+
+function trocarFDS(data){
+  var chave = 'fds_troca_'+fdsChave(data);
+  var atual = localStorage.getItem(chave);
+  localStorage.setItem(chave, atual==='1'?'0':'1');
+  renderRotina();
+}
+
+// ─── ROTINA FIM DE SEMANA ─────────────────────────────────────────
+var rotinaFDS = [
+  {h:'08:00',t:'Chegada de Fernanda'},
+  {h:'08:30',t:'Café da manhã de Maria'},
+  {h:'09:00',t:'Atividades da manhã — ver aba Atividades'},
+  {h:'10:30',t:'Lanche da manhã'},
+  {h:'12:00',t:'Almoço de Maria'},
+  {h:'13:00',t:'Banho de Maria — lavar o cabelo'},
+  {h:'14:30',t:'Lanche da tarde'},
+  {h:'15:00',t:'Atividades da tarde — ver aba Atividades'},
+  {h:'17:30',t:'Jantar de Maria'},
+  {h:'18:00',t:'Saída de Fernanda'},
+];
+
+// Atualizar renderRotina para incluir fds
+var _renderRotinaOrig = renderRotina;
+renderRotina = function(){
+  if(curIdx===5||curIdx===6){
+    var dowMap={5:6,6:0}; // idx5=sab(getDay6), idx6=dom(getDay0)
+    var dataFDS = new Date();
+    var hoje2 = new Date(); hoje2.setHours(0,0,0,0);
+    // calcular a data correta do dia selecionado
+    var targetDow = dowMap[curIdx]; // 6=sab, 0=dom
+    var diffDow = targetDow - hoje2.getDay();
+    // Garantir que pega o próximo sab/dom (não o passado)
+    if(diffDow < 0) diffDow += 7;
+    if(diffDow === 0 && hoje2.getDay() !== targetDow) diffDow = 7;
+    dataFDS = new Date(hoje2); dataFDS.setDate(hoje2.getDate()+diffDow);
+
+    var trabalha = fernandaTrabalhaFDS(dataFDS);
+    var html='';
+    var chave = fdsChave(dataFDS);
+    var trocaBtnTxt = trabalha ? '🔄 Trocar fim de semana — marcar como folga' : '🔄 Trocar fim de semana — marcar como trabalho';
+
+    html += '<div style="background:'+(trabalha?'var(--verde-bg)':'var(--creme-e)')+';border:1px solid '+(trabalha?'var(--verde-bd)':'var(--creme-e)')+';border-radius:var(--r);padding:12px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">';
+    html += '<div><div style="font-size:14px;font-weight:700;color:'+(trabalha?'var(--verde)':'var(--txt-s)')+';">'+(trabalha?'✅ Fernanda trabalha este fim de semana':'🌙 Fernanda está de folga este fim de semana')+'</div>';
+    html += '<div style="font-size:12px;color:var(--txt-s);margin-top:2px">Sábado e domingo — 8h às 18h</div></div>';
+    html += '<button onclick="trocarFDS(new Date('+(dataFDS.getFullYear())+','+(dataFDS.getMonth())+','+(dataFDS.getDate())+'))" style="padding:7px 14px;border-radius:var(--r);border:1px solid var(--creme-e);background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:Nunito,sans-serif;color:var(--txt-s)">'+trocaBtnTxt+'</button>';
+    html += '</div>';
+
+    if(trabalha){
+      rotinaFDS.forEach(function(item){
+        html+='<div class="hora-item"><span class="hora-time">'+item.h+'</span><div><div class="hora-task">'+item.t+'</div></div></div>';
+      });
+    } else {
+      html += '<div class="alerta" style="background:var(--lilas-bg);border:1px solid var(--lilas-bd)"><span class="alerta-icon">🌙</span><div class="alerta-txt">Fernanda está de folga. Aproveite o dia em família!</div></div>';
+    }
+    document.getElementById('rotina-content').innerHTML=html;
+    return;
+  }
+  _renderRotinaOrig();
+};
+
+// Atualizar chips para mostrar sáb e dom
+document.querySelectorAll('#dia-chips .dchip').forEach(function(c,i){
+  c.classList.toggle('on',i===curIdx);
+});
+renderRotina();
+
+// ─── ATIVIDADES ───────────────────────────────────────────────────
+var gradeSemanal = {
+  0:{ // SEGUNDA
+    blocos:[
+      {
+        tema:'🎨 Arte',
+        atividades:[
+          {
+            nome:'Pintura de princesa',
+            tempo:'30 min',
+            materiais:['Tinta guache','Papel sulfite ou cartolina','Pincel grosso','Avental ou roupa velha','Potinho de água'],
+            passos:['Coloque um avental em Maria para não sujar a roupa','Desenhe (ou imprima) o contorno de uma princesa no papel','Deixe Maria pintar livremente dentro e fora do contorno','Elogie as escolhas de cor dela!','Pendure para secar com o nome e a data'],
+            dica:'Se ela pedir para pintar o rosto também, ofereça uma folha nova para "a princesa dela".',
+            resistencia:'Se recusar tintas, ofereça canetinha hidrocor no lugar.'
+          },
+          {
+            nome:'Carimbos mágicos',
+            tempo:'20 min',
+            materiais:['Tinta guache','Papel sulfite','Rolha de garrafa','Esponja cortada em formatos','Batata cortada ao meio (estrela)'],
+            passos:['Corte a batata em formato de estrela ou coração','Molhe levemente o carimbo na tinta','Deixe Maria carimbar livremente no papel','Faça junto — ela vai adorar ver você participar!'],
+            dica:'Chame de "varinha mágica que cria estrelas de princesa".',
+            resistencia:''
+          }
+        ]
+      },
+      {
+        tema:'📚 Aprendizado — Vogais',
+        atividades:[
+          {
+            nome:'Vogais das princesas',
+            tempo:'15-20 min',
+            materiais:['Papel sulfite','Canetinha','Figurinhas ou imagens de princesas (opcional)'],
+            passos:['Escreva uma vogal grande no papel: A','Diga: "A de Ariel! A Ariel é uma princesa!"','Peça para Maria repetir e traçar o dedo por cima da letra','Repita com outra vogal usando outra princesa: E de Elsa, I de Isabel, O de... (invente!), U de Ursula','Não faça mais de 2 vogais por dia'],
+            dica:'Use as bonecas dela como personagens — "A boneca Ana começa com A!"',
+            resistencia:'Se resistir, transforme em música — cante as vogais com ela.'
+          }
+        ]
+      }
+    ]
+  },
+  1:{ // TERÇA
+    blocos:[
+      {
+        tema:'👑 Faz de conta',
+        atividades:[
+          {
+            nome:'Casinha de princesa',
+            tempo:'40-50 min',
+            materiais:['Bonecas e ursinhos de Maria','Panos e cobertores','Caixas de papelão (se tiver)'],
+            passos:['Monte um "castelo" com cobertores sobre a mesa ou sofá','Distribua as bonecas e personagens','Fernanda pode ser a "fada madrinha" que ajuda na história','Deixe Maria conduzir — apenas alimente a imaginação dela'],
+            dica:'Pergunte: "E o que a princesa vai fazer agora?" para estimular a narrativa.',
+            resistencia:''
+          },
+          {
+            nome:'Comidinha mágica do reino',
+            tempo:'30 min',
+            materiais:['Kit de comidinha de Maria','Pratinhos e copinhos','Ingredientes imaginários'],
+            passos:['Monte um "restaurante do reino"','Fernanda é a cliente especial','Maria é a cozinheira das princesas','Peça pratos diferentes e deixe ela "preparar" e servir'],
+            dica:'Use o vocabulário dela — se ela chamar de outra coisa, entre na brincadeira!',
+            resistencia:''
+          }
+        ]
+      },
+      {
+        tema:'🏃 Motricidade lúdica',
+        atividades:[
+          {
+            nome:'Dança das princesas',
+            tempo:'15-20 min',
+            materiais:['Música (celular ou caixinha de som)','Lenços coloridos ou fantasias (se tiver)'],
+            passos:['Coloque uma música animada','Dancem juntas — Fernanda participa!','Façam movimentos: girar, pular, agachar como "reverência de princesa"','Brinque de estátua no ritmo da música'],
+            dica:'Não chame de exercício — é "baile do reino"!',
+            resistencia:'Se parar, Fernanda continua dançando sozinha — a curiosidade vai trazer Maria de volta.'
+          }
+        ]
+      }
+    ]
+  },
+  2:{ // QUARTA
+    blocos:[
+      {
+        tema:'🌿 Natureza e ao ar livre',
+        atividades:[
+          {
+            nome:'Jardim das fadas',
+            tempo:'30-40 min',
+            materiais:['Regador pequeno','Pazinha de jardim','Flores ou plantas do jardim','Pedrinhas e folhas'],
+            passos:['Leve Maria ao jardim','Deixe ela regar as plantas com o regador','Colete folhas, pedras e flores caídas','Monte juntas uma "casa de fada" com os materiais coletados no chão','Fotografe a criação!'],
+            dica:'Diga que as fadas vêm à noite visitar o jardim que Maria cuidou.',
+            resistencia:''
+          },
+          {
+            nome:'Caça ao tesouro no jardim',
+            tempo:'20 min',
+            materiais:['Papel e caneta (para o mapa)','Objetos pequenos escondidos'],
+            passos:['Antes de Maria chegar, esconda 3-4 objetos pequenos no jardim','Desenhe um mapa bem simples','Maria segue o mapa para encontrar o "tesouro da princesa"'],
+            dica:'O tesouro pode ser um sticker, uma figurinha ou simplesmente um elogio especial.',
+            resistencia:''
+          }
+        ]
+      },
+      {
+        tema:'🎨 Arte com materiais naturais',
+        atividades:[
+          {
+            nome:'Quadro da natureza',
+            tempo:'20 min',
+            materiais:['Folhas e flores coletadas no jardim','Cola bastão','Papel cartão ou cartolina','Canetinhas'],
+            passos:['Com o material coletado no jardim, cole na cartolina','Forme flores, borboletas ou uma princesa com folhas','Finalize com detalhes de canetinha'],
+            dica:'',
+            resistencia:''
+          }
+        ]
+      }
+    ]
+  },
+  3:{ // QUINTA
+    blocos:[
+      {
+        tema:'📚 Alfabetização',
+        atividades:[
+          {
+            nome:'Caixinha das letras',
+            tempo:'20-25 min',
+            materiais:['Folha com as vogais escritas grandes','Canetinha ou giz de cera','Revistas velhas para recortar (opcional)'],
+            passos:['Escreva uma vogal grande: M-A-R-I-A (nome dela)','Mostre: "Olha, o nome de Maria começa com M, e tem A, R, I, A!"','Peça para ela circular todas as letras A que encontrar na folha','Se tiver revista, recorte letras e cole no papel'],
+            dica:'Use sempre o nome dela como referência — é a palavra mais motivadora!',
+            resistencia:'Transforme em jogo: "Quem acha mais letras A ganha um abraço?"'
+          },
+          {
+            nome:'Sílabas com massinha',
+            tempo:'20 min',
+            materiais:['Massinha colorida','Papel com sílabas escritas: MA, RI, A'],
+            passos:['Escreva no papel: MA — RI — A','Leia junto: "MA-RI-A — Maria!"','Peça para ela fazer bolinhas de massinha e colocar em cima de cada sílaba','Depois tente com nomes das bonecas dela'],
+            dica:'Mantenha leve — se cansar, pode virar brincadeira livre com massinha.',
+            resistencia:''
+          }
+        ]
+      },
+      {
+        tema:'✂️ Recorte e colagem',
+        atividades:[
+          {
+            nome:'Roupa da princesa',
+            tempo:'25 min',
+            materiais:['Revistas velhas ou papel colorido','Tesoura sem ponta','Cola bastão','Papel sulfite com desenho de boneca simples'],
+            passos:['Desenhe (ou imprima) o contorno de uma boneca no papel','Recorte pedaços de papel colorido — roupas, chapéus, sapatos','Maria cola as roupas na boneca criando o look da princesa','Dê nome à princesa criada!'],
+            dica:'',
+            resistencia:''
+          }
+        ]
+      }
+    ]
+  },
+  4:{ // SEXTA
+    blocos:[
+      {
+        tema:'👑 Livre e criativo — princesas e bonecas',
+        atividades:[
+          {
+            nome:'Desfile do reino',
+            tempo:'30-40 min',
+            materiais:['Fantasias ou roupas velhas','Lenços e panos para fantasia','Coroa (se tiver)','Espelho'],
+            passos:['Monte um "camarim da princesa"','Maria e Fernanda se fantasiam juntas','Montem um "desfile" pela casa','Use o espelho para Maria ver a fantasia'],
+            dica:'Fernanda pode fazer a "locutora" do desfile: "E agora, a princesa Maria Fernanda!"',
+            resistencia:''
+          }
+        ]
+      },
+      {
+        tema:'🎨 Atividade surpresa de Fernanda',
+        atividades:[
+          {
+            nome:'Escolha livre de Fernanda',
+            tempo:'30 min',
+            materiais:['A critério de Fernanda — use o banco de atividades!'],
+            passos:['Fernanda escolhe qualquer atividade do banco abaixo que combine com o humor de Maria naquele dia','Pode repetir uma favorita da semana','Pode inventar algo novo!'],
+            dica:'Confie na criatividade de Fernanda — ela conhece Maria!',
+            resistencia:''
+          }
+        ]
+      }
+    ]
+  },
+  5:{ // SÁBADO
+    blocos:[
+      {
+        tema:'🎨 Arte especial de fim de semana',
+        atividades:[
+          {
+            nome:'Ateliê da princesa',
+            tempo:'40 min',
+            materiais:['Tinta guache','Aquarela','Papel cartão','Pincel','Esponja','Carimbo','Glitter (opcional)'],
+            passos:['Monte um "ateliê" com vários materiais na mesa','Maria escolhe o que quiser usar','Sem tema definido — pura expressão livre','Ao final, dê um nome à obra e pendure'],
+            dica:'Sábado é dia de fazer algo mais elaborado — com mais tempo e menos pressa!',
+            resistencia:''
+          },
+          {
+            nome:'Argila e modelagem',
+            tempo:'30 min',
+            materiais:['Argila ou massinha','Base para trabalhar','Palito para detalhes'],
+            passos:['Façam juntas uma boneca de argila','Maria escolhe a roupa e os detalhes','Deixe secar se for argila — vai virar lembrança!'],
+            dica:'',
+            resistencia:''
+          }
+        ]
+      },
+      {
+        tema:'🌿 Ao ar livre — jardim e piscina',
+        atividades:[
+          {
+            nome:'Piquenique no jardim',
+            tempo:'45 min',
+            materiais:['Toalha ou manta','Lanche de Maria','Bonecas e brinquedos'],
+            passos:['Monte um piquenique no jardim com toalha no chão','Traga as bonecas para a festa','Sirvam o lanche como se fosse um "chá de princesas"','Explore o jardim depois'],
+            dica:'O cenário diferente fora de casa estimula muito a imaginação.',
+            resistencia:''
+          },
+          {
+            nome:'Brincadeira na piscina',
+            tempo:'40 min',
+            materiais:['Protetor solar','Repelente','Fralda de piscina','Boia','Brinquedos de água'],
+            passos:['Aplique protetor solar antes de entrar','Brinque na borda e dentro com supervisão constante','Cante músicas e brinque de jogar objetos flutuantes','Nunca deixar Maria sozinha — nem por um segundo!'],
+            dica:'Chame de "reino das sereias"!',
+            resistencia:''
+          }
+        ]
+      }
+    ]
+  },
+  6:{ // DOMINGO
+    blocos:[
+      {
+        tema:'👑 Faz de conta especial',
+        atividades:[
+          {
+            nome:'Teatro das princesas',
+            tempo:'40 min',
+            materiais:['Bonecas e ursinhos','Fantasias ou panos coloridos','Palco improvisado — cadeiras e cobertores'],
+            passos:['Monte um "teatro" com cadeiras e um cobertor como palco','Fernanda e Maria criam uma história juntas','Cada boneca é um personagem','Apresentem a peça para os ursinhos como plateia'],
+            dica:'Deixe Maria inventar o final da história — estimula a criatividade e narrativa.',
+            resistencia:''
+          }
+        ]
+      },
+      {
+        tema:'📚 Leitura e aprendizado leve',
+        atividades:[
+          {
+            nome:'Hora do livro',
+            tempo:'20-30 min',
+            materiais:['Livros ilustrados de Maria','Almofadas confortáveis'],
+            passos:['Monte um cantinho aconchegante com almofadas','Leia um livro com Maria no colo','Use vozes diferentes para cada personagem','Pergunte: "O que você acha que vai acontecer?"'],
+            dica:'Domingo é ótimo dia para leitura tranquila antes do jantar.',
+            resistencia:''
+          },
+          {
+            nome:'Atividade impressa temática',
+            tempo:'20 min',
+            materiais:['Folha impressa com atividade (labirinto, ligar os pontos, colorir)','Giz de cera ou canetinha'],
+            passos:['Imprima uma atividade de princesas','Faça junto com Maria','Elogie o esforço, não o resultado'],
+            dica:'Ótimas opções gratuitas para imprimir: labirinto de princesas, ligar os pontos, sequência de cores.',
+            resistencia:''
+          }
+        ]
+      }
+    ]
+  }
+};
+
+// Banco de atividades completo
+var bancoAtv = [
+  {cat:'arte',nome:'Aquarela livre',tempo:'25 min',materiais:['Aquarela ou tinta diluída em água','Pincel','Papel grosso ou cartolina'],passos:['Molhe levemente o papel','Pinte com aquarela — as cores misturam sozinhas','Efeito mágico que encanta crianças'],dica:'Chame de "tinta mágica que mistura as cores".'},
+  {cat:'arte',nome:'Desenho com giz de cera',tempo:'20 min',materiais:['Giz de cera','Papel sulfite'],passos:['Deixe Maria desenhar livremente','Pergunte o que ela desenhou e escreva o nome no papel','Não corrija — estimule!'],dica:''},
+  {cat:'arte',nome:'Colagem de revistas',tempo:'25 min',materiais:['Revistas velhas','Tesoura sem ponta','Cola','Cartolina'],passos:['Recorte imagens que Maria escolher','Cole na cartolina formando uma colagem','Pode ser temático: "coisas que eu gosto"'],dica:''},
+  {cat:'arte',nome:'Pintura com dedos',tempo:'20 min',materiais:['Tinta guache','Papel grande','Avental'],passos:['Deixe Maria mergulhar os dedos na tinta','Criar estampas livres no papel','Use as mãos inteiras para carimbos!'],dica:'Avise antes: "Vamos sujar as mãos de propósito hoje!"'},
+  {cat:'arte',nome:'Modelagem com argila',tempo:'30 min',materiais:['Argila ou massinha','Base para trabalhar'],passos:['Façam juntas — Fernanda modela uma boneca','Maria imita e cria a própria','Deixe secar se for argila'],dica:''},
+  {cat:'aprendizado',nome:'Vogais com objetos',tempo:'15 min',materiais:['Objetos da casa','Papel com vogais'],passos:['Escolha uma vogal: A','Percorram a casa procurando objetos que comecem com A','Cada objeto encontrado: comemore muito!'],dica:'Use as bonecas dela — "A boneca Ana começa com A!"'},
+  {cat:'aprendizado',nome:'Cores e formas',tempo:'20 min',materiais:['Papéis coloridos','Tesoura','Cola'],passos:['Recorte formas geométricas em cores diferentes','Nomeie as formas e cores','Maria cola no papel criando uma figura'],dica:''},
+  {cat:'aprendizado',nome:'Contagem com objetos',tempo:'15 min',materiais:['Objetos pequenos — botões, tampinhas, pedrinhas'],passos:['Contem juntas de 1 a 5','Separe grupos: "me dá 3 bolinhas"','Use as bonecas: "quantas bonecas temos?"'],dica:''},
+  {cat:'aprendizado',nome:'Sequência de cores',tempo:'15 min',materiais:['Missangas ou tampinhas coloridas','Barbante'],passos:['Monte uma sequência: vermelho, azul, vermelho, azul','Peça para Maria continuar a sequência','Aumente a dificuldade aos poucos'],dica:''},
+  {cat:'faz-de-conta',nome:'Salão de beleza das princesas',tempo:'30 min',materiais:['Escova de cabelo','Grampos e laços','Espelho'],passos:['Monte um "salão"','Fernanda é a cabeleireira','Maria é a princesa que vai ao salão','Depois trocam — Maria faz o cabelo de Fernanda!'],dica:'Use grampos coloridos para decorar.'},
+  {cat:'faz-de-conta',nome:'Hospital das bonecas',tempo:'25 min',materiais:['Bonecas de Maria','Pano para bandagem','Caixinha de "remédios" de brinquedo'],passos:['Uma boneca está doente','Maria é a médica que vai cuidar','Fernanda é a mãe preocupada','Monte a consulta completa'],dica:'Ótimo para trabalhar empatia e cuidado.'},
+  {cat:'faz-de-conta',nome:'Escola das bonecas',tempo:'30 min',materiais:['Bonecas de Maria','Papel e canetinha','Cadeirinha ou mesa baixa'],passos:['Fernanda é a professora','As bonecas são os alunos','Maria ajuda a ensinar as bonecas as letras e números','Use o que Maria aprendeu na semana!'],dica:'Maria vai adorar ser mais velha que as bonecas.'},
+  {cat:'natureza',nome:'Observação de insetos',tempo:'20 min',materiais:['Potinho de vidro ou pote transparente','Lupa (se tiver)'],passos:['Vão ao jardim procurar insetos','Observe formigas, borboletas, minhocas','Nomeie os animais encontrados','Sempre deixar o animal no mesmo lugar depois'],dica:'Não force o contato — observe junto primeiro.'},
+  {cat:'natureza',nome:'Plantio de sementes',tempo:'25 min',materiais:['Vasinho pequeno','Terra','Sementes de feijão ou girassol','Regador'],passos:['Maria coloca a terra no vasinho','Faça um buraquinho','Coloque a semente e cubra','Regue com cuidado','Coloque na janela e acompanhe o crescimento nos dias seguintes'],dica:'Escreva o nome de Maria no vaso — ela vai adorar cuidar da própria plantinha.'},
+  {cat:'natureza',nome:'Brincadeira na piscina',tempo:'40 min',materiais:['Protetor solar','Repelente','Fralda de piscina','Boia','Brinquedos de água'],passos:['Aplique protetor solar antes de entrar','Brincadeiras na borda: chutar a água, jogar objetos','Cante músicas na água','Sempre supervisão constante'],dica:'Nunca deixar Maria sozinha na piscina — nem por um segundo!'},
+  {cat:'motricidade',nome:'Amarelinha da princesa',tempo:'20 min',materiais:['Giz de chão ou fita crepe','Espaço no jardim ou varanda'],passos:['Desenhe a amarelinha no chão','Chame de "caminho para o castelo"','Cada quadrado tem um nome de princesa','Pule até chegar ao castelo!'],dica:'Adapte o tamanho dos quadrados para o tamanho dos passos dela.'},
+  {cat:'motricidade',nome:'Boliche de princesas',tempo:'20 min',materiais:['Garrafinhas pet','Bolinha macia'],passos:['Enfileire as garrafinhas como pinos','Chame cada uma de uma princesa','Maria joga a bolinha para "visitar" as princesas','Conte quantas derrubou'],dica:''},
+  {cat:'motricidade',nome:'Circuito da magia',tempo:'25 min',materiais:['Almofadas','Cadeiras','Corda ou fita no chão'],passos:['Monte um mini circuito: pular de almofada em almofada, passar por baixo da cadeira, seguir a linha no chão','Cada estação tem uma "missão de princesa"','Fernanda participa para encorajar'],dica:'Nunca force — se ela não quiser uma etapa, pule e volta depois.'},
+  {cat:'motricidade',nome:'Bolha de sabão',tempo:'20 min',materiais:['Pote de bolha de sabão ou água+detergente+glicerina'],passos:['Vão ao jardim','Soprem bolhas juntas','Maria tenta estourar as bolhas','Corra para alcançar as que sobem alto'],dica:'Fazer as próprias bolhas com palito e arame é ainda mais divertido!'},
+];
+
+var curAtvDia = new Date().getDay();
+if(curAtvDia===0||curAtvDia===6) curAtvDia=1; // fds -> mostrar segunda
+// converter para índice 0=seg
+function atvDowToIdx(d){if(d===0||d===6)return 0;return d-1;}
+var curAtvIdx = atvDowToIdx(curAtvDia);
+var curAtvCat = 'todas';
+
+function setAtvDia(idx,btn){
+  curAtvIdx=idx;
+  document.querySelectorAll('#atv-chips .dchip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderAtvDia();
+}
+function setAtvCat(cat,btn){
+  curAtvCat=cat;
+  document.querySelectorAll('#atv-cat-chips .dchip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderBanco();
+}
+
+function renderAtvCard(a){
+  var html='<div style="background:var(--rosa-bg);border:1px solid var(--rosa-bd);border-radius:var(--r);padding:14px;margin-bottom:10px">';
+  html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">';
+  html+='<div style="font-size:15px;font-weight:700;color:var(--txt)">'+a.nome+'</div>';
+  html+='<span style="font-size:11px;background:#fff;border:1px solid var(--rosa-bd);border-radius:100px;padding:2px 9px;color:var(--rosa);font-weight:600;white-space:nowrap;margin-left:8px">⏱ '+a.tempo+'</span>';
+  html+='</div>';
+  if(a.materiais&&a.materiais.length){
+    html+='<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-s);opacity:.7;margin-bottom:6px">Materiais</div>';
+    html+='<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">';
+    a.materiais.forEach(function(m){html+='<span style="background:#fff;border:1px solid var(--creme-e);border-radius:100px;padding:2px 9px;font-size:12px;color:var(--txt-s)">'+m+'</span>';});
+    html+='</div>';
+  }
+  html+='<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-s);opacity:.7;margin-bottom:6px">Passo a passo</div>';
+  a.passos.forEach(function(p,i){
+    html+='<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid rgba(196,100,138,.1)">';
+    html+='<div style="width:20px;height:20px;border-radius:50%;background:var(--rosa);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">'+(i+1)+'</div>';
+    html+='<div style="font-size:13px;color:var(--txt);line-height:1.5">'+p+'</div></div>';
+  });
+  if(a.dica) html+='<div style="margin-top:10px;background:#fff;border:1px solid var(--rosa-bd);border-radius:var(--r);padding:8px 11px;font-size:12px;color:var(--rosa)">💡 '+a.dica+'</div>';
+  if(a.resistencia) html+='<div style="margin-top:6px;background:var(--laranja-bg);border:1px solid var(--laranja-bd);border-radius:var(--r);padding:8px 11px;font-size:12px;color:var(--laranja)">🔄 Se resistir: '+a.resistencia+'</div>';
+  html+='</div>';
+  return html;
+}
+
+function renderAtvDia(){
+  var grade = gradeSemanal[curAtvIdx];
+  if(!grade){document.getElementById('atv-dia-content').innerHTML='';return;}
+  var html='';
+  grade.blocos.forEach(function(bloco){
+    html+='<div style="margin-bottom:16px"><div style="font-size:13px;font-weight:700;color:var(--txt);background:var(--lilas-bg);border:1px solid var(--lilas-bd);border-radius:var(--r);padding:8px 12px;margin-bottom:8px">'+bloco.tema+'</div>';
+    bloco.atividades.forEach(function(a){html+=renderAtvCard(a);});
+    html+='</div>';
+  });
+  document.getElementById('atv-dia-content').innerHTML=html;
+}
+
+function renderBanco(){
+  var lista = curAtvCat==='todas' ? bancoAtv : bancoAtv.filter(function(a){return a.cat===curAtvCat;});
+  var html='';
+  lista.forEach(function(a){html+=renderAtvCard(a);});
+  document.getElementById('atv-banco-content').innerHTML=html||'<p style="color:var(--txt-s);font-size:13px">Nenhuma atividade nesta categoria.</p>';
+}
+
+
+// ─── VIAGEM ───────────────────────────────────────────────────────
+var diasViagem = 3;
+var tipoViagem = 'cidade';
+
+function ajustarDias(d){
+  diasViagem = Math.max(1, diasViagem + d);
+  var el = document.getElementById('dias-num');
+  if(el) el.textContent = diasViagem;
+  renderViagem();
+}
+
+function setTipo(tipo, btn){
+  tipoViagem = tipo;
+  ['tipo-cidade','tipo-praia','tipo-frio','tipo-frio-extremo'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.classList.remove('on');
+    el.style.background=''; el.style.color=''; el.style.borderColor='';
+  });
+  btn.classList.add('on');
+  btn.style.background='var(--rosa)'; btn.style.color='#fff'; btn.style.borderColor='var(--rosa)';
+  renderViagem();
+}
+
+function arred(n){ return Math.ceil(n); }
+
+function renderViagem(){
+  var el = document.getElementById('lista-viagem');
+  if(!el) return;
+  var d = diasViagem;
+  var praia     = tipoViagem==='praia';
+  var frio      = tipoViagem==='frio' || tipoViagem==='frio-extremo';
+  var frioExtr  = tipoViagem==='frio-extremo';
+
+  var roupas       = d * 2;
+  var calcinhas    = arred(d * 2 * 1.5);
+  var fraldaDormir = arred(d * 1.5);
+  var pijamas      = arred(d / 2);
+  var casacos      = frio ? Math.max(2, arred(d / 2)) : 2;
+  var meiaCalca    = frio ? arred(d / 2) + 1 : 0;
+  
+
+  var cats = [
+    {
+      titulo:'👗 Roupas e vestuário', cor:'var(--rosa)', corBg:'var(--rosa-bg)', corBd:'var(--rosa-bd)',
+      itens:[
+        {nome:'Roupas (conjuntos completos)', qtd:roupas, obs:'2 por dia'},
+        {nome:'Calcinhas', qtd:calcinhas, obs:'2 por dia + 50% extra'},
+        {nome:'Pijamas + par de meias de dormir', qtd:pijamas, obs:'1 conjunto a cada 2 dias'},
+        {nome:'Casacos de frio', qtd:casacos, obs:frio?'1 a cada 2 dias, combinando com os looks':'2 (precaução)'},
+        {nome:'Meias', qtd:roupas, obs:'1 par por conjunto'},
+        {nome:'Meia-calça', qtd:frio?meiaCalca:0, obs:frio?'1 a cada 2 dias + 1 extra':'Não necessário para este tipo de viagem', ocultar:!frio},
+        {nome:'Havaiana', qtd:frioExtr?0:1, obs:''},
+        {nome:'Sapatinho arrumado', qtd:1, obs:''},
+        {nome:'Sandália arrumada', qtd:frioExtr?0:1, obs:''},
+        {nome:'Crocs', qtd:frioExtr?1:0, obs:'Para usar dentro de casa / hotel'},
+        {nome:'Bota', qtd:frioExtr?1:0, obs:'Resistente ao frio e umidade'},
+        {nome:'Tênis', qtd:1, obs:''},
+        {nome:'Óculos de sol', qtd:1, obs:''},
+      ]
+    },
+    {
+      titulo:'🧷 Fraldas e higiene íntima', cor:'var(--lilas)', corBg:'var(--lilas-bg)', corBd:'var(--lilas-bd)',
+      itens:[
+        {nome:'Fraldas para dormir', qtd:fraldaDormir, obs:'1 por noite + 50% extra'},
+        {nome:'Lenço umedecido (pacotes)', qtd:arred(d/3)+1, obs:''},
+        {nome:'Creme de assaduras', qtd:1, obs:''},
+        {nome:'Protetor de assento sanitário', qtd:arred(d*1.5), obs:'unidades'},
+      ]
+    },
+    {
+      titulo:'🛁 Higiene e cuidados pessoais', cor:'var(--azul)', corBg:'var(--azul-bg)', corBd:'var(--azul-bd)',
+      itens:[
+        {nome:'Shampoo + condicionador', qtd:1, obs:'Tamanho de viagem'},
+        {nome:'Sabonete', qtd:1, obs:''},
+        {nome:'Escova de dentes + pasta', qtd:1, obs:''},
+        {nome:'Escova de cabelo', qtd:1, obs:''},
+        {nome:'Itens para penteados (grampos, laços, elásticos)', qtd:1, obs:'Kit completo'},
+        {nome:'Cotonete', qtd:1, obs:'Pacotinho'},
+        {nome:'Algodão', qtd:1, obs:'Kit higiene íntima (troca de fralda)'},
+        {nome:'Frasco com água', qtd:1, obs:'Kit higiene íntima (troca de fralda)'},
+        {nome:'Dispositivo de lavagem nasal', qtd:1, obs:'Para lavagem nasal — separado do kit íntimo'},
+        {nome:'Toalha de banho', qtd:2, obs:''},
+        {nome:'Panos de boca', qtd:d, obs:'1 por dia'},
+        {nome:'Hidratante de corpo', qtd:1, obs:''},
+        {nome:'Hidratante facial', qtd:1, obs:''},
+        {nome:'Repelente', qtd:1, obs:''},
+      ]
+    },
+    {
+      titulo:'💊 Remédios', cor:'var(--verm)', corBg:'var(--verm-bg)', corBd:'var(--verm-bd)',
+      alerta:'⚠️ Sempre avisar Dimona antes de dar qualquer remédio!',
+      itens:[
+        {nome:'Vitamina D 600 UI', qtd:d, obs:d+' doses (1 por dia, seg a sex)'},
+        {nome:'Ômega 3 Essential', qtd:d, obs:d+' doses (1 por dia)'},
+        {nome:'Maxalgina — febre', qtd:1, obs:'Frasco — 12 gotas se febre > 37,5°C'},
+        {nome:'Luftal — gases', qtd:1, obs:'Frasco — 12 gotas'},
+        {nome:'Esalerg — alergia', qtd:1, obs:'Frasco — 20 gotas'},
+        {nome:'Termômetro', qtd:1, obs:''},
+      ]
+    },
+    {
+      titulo:'🎒 Entretenimento e conforto', cor:'var(--verde)', corBg:'var(--verde-bg)', corBd:'var(--verde-bd)',
+      itens:[
+        {nome:'Urso de dormir 🐻', qtd:1, obs:'NUNCA ESQUECER!'},
+        {nome:'Manta plush', qtd:2, obs:'1 para o transporte + 1 para o quarto'},
+        {nome:'Tablet carregado + cabo', qtd:1, obs:'Com desenhos baixados para offline'},
+        {nome:'Fone de ouvido infantil', qtd:1, obs:''},
+        {nome:'Brinquedos', qtd:3, obs:'Pequenos e variados — boneca, livro, massinha'},
+        {nome:'Lanche para a viagem', qtd:1, obs:'Frutas, biscoito, suco'},
+        {nome:'Garrafinha de água', qtd:1, obs:''},
+        {nome:'Mochila de passeio', qtd:1, obs:''},
+      ]
+    },
+    {
+      titulo:'🔊 Equipamentos', cor:'var(--laranja)', corBg:'var(--laranja-bg)', corBd:'var(--laranja-bd)',
+      itens:[
+        {nome:'Babá eletrônica + carregador', qtd:1, obs:''},
+        {nome:'Ruído branco portátil + carregador', qtd:1, obs:''},
+        {nome:'Assento de vaso dobrável', qtd:1, obs:''},
+      ]
+    },
+  ];
+
+  if(frioExtr){
+    cats.push({
+      titulo:'🌨️ Frio extremo', cor:'var(--azul)', corBg:'var(--azul-bg)', corBd:'var(--azul-bd)',
+      itens:[
+        {nome:'Calça térmica', qtd:arred(d/2), obs:'1 a cada 2 dias'},
+        {nome:'Blusa térmica', qtd:arred(d/2)+1, obs:'1 a cada 2 dias + 1 extra'},
+        {nome:'Luvas infantis', qtd:2, obs:'2 pares (uma sempre pode molhar)'},
+        {nome:'Gorro', qtd:2, obs:'2 (um para o dia + reserva)'},
+        {nome:'Cachecol ou gola', qtd:1, obs:''},
+        {nome:'Agasalho com capuz', qtd:arred(d/2), obs:'1 a cada 2 dias'},
+        {nome:'Meia de lã ou antiderrapante', qtd:arred(d*1.5), obs:'Trocar se molhar'},
+        
+        {nome:'Cobertor extra ou saco de dormir', qtd:1, obs:'Para noites muito frias'},
+        {nome:'Creme facial barreira (frio)', qtd:1, obs:'Protege o rosto do frio intenso'},
+        {nome:'Protetor labial', qtd:1, obs:'Lábios ressecam muito no frio'},
+        {nome:'Umidificador de ar portátil', qtd:1, obs:'Frio seco resseca as vias aéreas'},
+      ]
+    });
+  }
+
+  if(praia){
+    cats.push({
+      titulo:'🏖️ Praia e piscina', cor:'var(--azul)', corBg:'var(--azul-bg)', corBd:'var(--azul-bd)',
+      itens:[
+        {nome:'Roupa de banho', qtd:Math.max(2,arred(d*0.5)), obs:'Trocar após cada uso'},
+        {nome:'Fralda de piscina/praia', qtd:arred(d*1.5), obs:''},
+        {nome:'Protetor solar FPS 50+ (rosto e corpo)', qtd:1, obs:'Reaplicar a cada 2h'},
+        {nome:'Boia', qtd:1, obs:''},
+        {nome:'Óculos de natação', qtd:1, obs:'Se usar na natação'},
+        {nome:'Toalha de praia/piscina', qtd:2, obs:''},
+        {nome:'Chapéu ou boné', qtd:1, obs:'Proteção solar'},
+        {nome:'Mochila de praia', qtd:1, obs:''},
+        {nome:'Kit brinquedos de areia', qtd:1, obs:'Balde, pazinha, forminhas'},
+        {nome:'Saída de praia', qtd:2, obs:''},
+      ]
+    });
+  }
+
+  var html='';
+  html+='<div style="background:linear-gradient(135deg,var(--rosa),var(--lilas));border-radius:var(--r);padding:14px 16px;margin-bottom:16px;color:#fff">';
+  html+='<div style="font-size:11px;opacity:.8;margin-bottom:4px;font-weight:700;letter-spacing:1px">RESUMO DA VIAGEM</div>';
+  html+='<div style="font-size:16px;font-weight:700">'+d+' dias · '+(praia?'Praia / Piscina':frioExtr?'Frio extremo':frio?'Frio / Serra':'Cidade / Campo')+'</div>';
+  html+='<div style="font-size:12px;opacity:.85;margin-top:8px;line-height:1.6">';
+  html+='👗 '+roupas+' roupas &nbsp;|&nbsp; 👙 '+calcinhas+' calcinhas &nbsp;|&nbsp; 🌙 '+fraldaDormir+' fraldas noturnas &nbsp;|&nbsp; 😴 '+pijamas+' pijamas';
+  html+='</div></div>';
+
+  html+='<div style="font-size:11px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">✅ Marque conforme for arrumando a mala</div>';
+
+  cats.forEach(function(cat, ci){
+    html+='<div style="margin-bottom:14px">';
+    html+='<div style="font-size:13px;font-weight:700;color:'+cat.cor+';background:'+cat.corBg+';border:1px solid '+cat.corBd+';border-radius:var(--r);padding:8px 12px;margin-bottom:6px">'+cat.titulo+'</div>';
+    if(cat.alerta) html+='<div style="font-size:12px;color:var(--verm);background:var(--verm-bg);border:1px solid var(--verm-bd);border-radius:var(--r);padding:7px 10px;margin-bottom:6px">'+cat.alerta+'</div>';
+    cat.itens.forEach(function(item, ii){
+      if(item.qtd===0) return; // ocultar itens não aplicáveis
+      var cid='vg-'+ci+'-'+ii;
+      html+='<div class="ci" id="'+cid+'" onclick="togCI(this)">';
+      html+='<div class="cbox"></div>';
+      html+='<div style="flex:1"><span class="ci-label">'+item.nome+'</span>';
+      if(item.qtd>1||item.obs){
+        html+='<div style="font-size:11px;color:var(--txt-s);margin-top:1px">';
+        if(item.qtd>1) html+='<strong style="color:'+cat.cor+'">'+item.qtd+'x</strong> ';
+        if(item.obs) html+=item.obs;
+        html+='</div>';
+      }
+      html+='</div></div>';
+    });
+    html+='</div>';
+  });
+
+  html+='<button onclick="resetViagem()" style="width:100%;padding:12px;border:1px solid var(--creme-e);border-radius:var(--r);background:var(--branco);font-size:13px;color:var(--txt-s);cursor:pointer;font-family:Nunito,sans-serif;margin-top:4px">↺ Limpar marcações</button>';
+
+  el.innerHTML = html;
+}
+
+function resetViagem(){
+  document.querySelectorAll('#pnl-viagem .ci').forEach(function(c){
+    c.classList.remove('done');
+    var box=c.querySelector('.cbox');
+    if(box) box.innerHTML='';
+  });
+}
+
+renderViagem();
+
+// Init atividades
+// Para fds, mostrar sáb=5 ou dom=6 conforme dia atual
+if(new Date().getDay()===6) curAtvIdx=5;
+else if(new Date().getDay()===0) curAtvIdx=6;
+var atvChips=document.querySelectorAll('#atv-chips .dchip');
+atvChips.forEach(function(c,i){c.classList.toggle('on',i===curAtvIdx);});
+renderAtvDia();
+renderBanco();
+</script>
+</body>
+</html>

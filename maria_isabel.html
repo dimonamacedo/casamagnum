@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maria Isabel — Rotina</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --lilas:#8B6BAE;--lilas-c:#B89ECC;--lilas-bg:#F4F0FA;--lilas-bd:#D4C4EC;
+  --rosa:#C4648A;--rosa-bg:#FDF0F4;--rosa-bd:#F0C8D8;
+  --verde:#2E8B57;--verde-bg:#EAF5EE;--verde-bd:#B8DFC8;
+  --azul:#4A7FB5;--azul-bg:#EEF4FB;--azul-bd:#BDD4EC;
+  --laranja:#D4750A;--laranja-bg:#FEF4E8;--laranja-bd:#F0D0A0;
+  --verm:#C44040;--verm-bg:#FDEAEA;--verm-bd:#F0B8B8;
+  --creme:#FDFAF7;--creme-e:#F0EBE3;
+  --txt:#2A2420;--txt-s:#6A6058;--branco:#FFFFFF;--r:10px;
+}
+html,body{min-height:100vh;background:var(--creme);color:var(--txt);font-family:'Nunito',system-ui,sans-serif;font-size:15px}
+.topo{background:var(--lilas);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.topo-back{color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;font-weight:600}
+.topo-titulo{font-size:14px;font-weight:700;color:#fff;letter-spacing:.5px}
+.hero{background:linear-gradient(135deg,var(--lilas) 0%,var(--rosa) 100%);padding:28px 20px 36px;text-align:center}
+.hero-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px}
+.hero-nome{font-family:'Cormorant Garamond',serif;font-size:32px;font-style:italic;color:#fff;margin-bottom:4px}
+.hero-info{font-size:12px;color:rgba(255,255,255,.75);letter-spacing:.5px}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:100px;font-size:12px;font-weight:700;color:#fff;margin-top:8px}
+.esbozo-banner{background:var(--laranja-bg);border:2px solid var(--laranja-bd);margin:16px;border-radius:var(--r);padding:14px;display:flex;gap:10px;align-items:flex-start}
+.esbozo-banner-icon{font-size:22px;flex-shrink:0}
+.esbozo-banner-txt{font-size:13px;color:var(--laranja);line-height:1.5}
+.esbozo-banner-txt strong{display:block;margin-bottom:2px;font-size:14px}
+.nav-wrap{background:var(--branco);border-bottom:2px solid var(--creme-e);padding:0 16px;overflow-x:auto;white-space:nowrap}
+.nav-wrap::-webkit-scrollbar{display:none}
+.nav-btn{display:inline-block;padding:12px 14px;font-size:12px;font-weight:700;color:var(--txt-s);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;user-select:none;background:none;border-top:none;border-left:none;border-right:none}
+.nav-btn:hover{color:var(--lilas)}
+.nav-btn.on{color:var(--lilas);border-bottom-color:var(--lilas)}
+.pnl{display:none}.pnl.on{display:block}
+.content{padding:16px 16px 80px}
+.card{background:var(--branco);border-radius:var(--r);border:1px solid var(--creme-e);margin-bottom:12px;overflow:hidden}
+.card-header{padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.card-icon{font-size:22px;flex-shrink:0}
+.card-titulo{font-size:15px;font-weight:700;color:var(--txt);flex:1}
+.card-chevron{color:var(--txt-s);font-size:18px;transition:transform .2s;flex-shrink:0}
+.card.open .card-chevron{transform:rotate(180deg)}
+.card-body{display:none;padding:0 16px 16px;border-top:1px solid var(--creme-e)}
+.card.open .card-body{display:block}
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt-s);opacity:.7;margin:14px 0 8px}
+.hora-item{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--creme-e)}
+.hora-item:last-child{border-bottom:none}
+.hora-time{font-size:12px;font-weight:700;color:var(--lilas);min-width:48px;flex-shrink:0;padding-top:1px}
+.hora-task{font-size:14px;color:var(--txt);flex:1;line-height:1.5}
+.hora-obs{font-size:12px;color:var(--txt-s);margin-top:2px;font-style:italic}
+.alerta{padding:12px 14px;border-radius:var(--r);margin-bottom:10px;display:flex;gap:10px;align-items:flex-start}
+.alerta-verm{background:var(--verm-bg);border:1px solid var(--verm-bd)}
+.alerta-laranja{background:var(--laranja-bg);border:1px solid var(--laranja-bd)}
+.alerta-verde{background:var(--verde-bg);border:1px solid var(--verde-bd)}
+.alerta-lilas{background:var(--lilas-bg);border:1px solid var(--lilas-bd)}
+.alerta-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.alerta-txt{font-size:13px;line-height:1.5}
+.alerta-txt strong{display:block;margin-bottom:2px}
+.moch-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r);border:1px solid var(--creme-e);margin-bottom:6px;background:var(--branco);font-size:14px}
+.moch-icon{font-size:18px;flex-shrink:0}
+.rem-card{border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.rem-nome{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.rem-dose{font-size:13px;color:var(--txt-s);margin-bottom:4px}
+.edit-field{width:100%;border:1px dashed var(--lilas-bd);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--lilas-bg);margin-bottom:6px;min-height:44px}
+.edit-field:focus{outline:none;border-color:var(--lilas);background:#fff}
+.edit-lbl{font-size:12px;color:var(--lilas);font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.ci{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--r);border:1px solid var(--creme-e);margin-bottom:6px;background:var(--branco);cursor:pointer;transition:all .15s}
+.ci:hover{border-color:var(--lilas-bd);background:var(--lilas-bg)}
+.ci.done{opacity:.5}
+.ci.done .ci-label{text-decoration:line-through;color:var(--txt-s)}
+.cbox{width:20px;height:20px;border-radius:6px;border:2px solid var(--creme-e);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;margin-top:1px}
+.ci.done .cbox{background:var(--lilas);border-color:var(--lilas)}
+.ci-label{flex:1;font-size:14px;color:var(--txt)}
+.clf-textarea{width:100%;border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--branco);resize:none;min-height:70px}
+.clf-textarea:focus{outline:none;border-color:var(--lilas-bd)}
+.slf-select{width:100%;border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--branco);margin-bottom:6px}
+.clf-save{width:100%;padding:14px;background:var(--lilas);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;font-family:'Nunito',sans-serif}
+.clf-save:hover{background:var(--rosa)}
+.clf-hist-titulo{font-size:13px;font-weight:700;color:var(--txt-s);margin:20px 0 10px}
+.clf-entry{background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.clf-entry-data{font-size:11px;font-weight:700;color:var(--lilas);margin-bottom:8px}
+.clf-entry-row{font-size:13px;color:var(--txt);margin-bottom:4px;display:flex;gap:6px}
+.clf-entry-row span:first-child{color:var(--txt-s);min-width:120px;flex-shrink:0}
+.fab{position:fixed;bottom:24px;right:20px;background:var(--lilas);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;box-shadow:0 4px 16px rgba(139,107,174,.4);transition:all .2s;z-index:100}
+.fab:hover{background:var(--rosa);transform:scale(1.08)}
+@media(min-width:600px){.content{max-width:600px;margin:0 auto}}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <a class="topo-back" href="index.html">← Início</a>
+  <span class="topo-titulo">Casa Magnum</span>
+</div>
+
+<div class="hero">
+  <div class="hero-avatar">👶</div>
+  <div class="hero-nome">Maria Isabel</div>
+  <div class="hero-info">Nascimento previsto: Novembro de 2025</div>
+  <div class="hero-badge">Recém-nascida</div>
+</div>
+
+<div class="esbozo-banner">
+  <span class="esbozo-banner-icon">📝</span>
+  <div class="esbozo-banner-txt">
+    <strong>Este é um esboço!</strong>
+    As informações serão atualizadas após o nascimento de Maria Isabel. Os campos em azul claro são editáveis e podem ser preenchidos pela Dimona conforme a rotina for se estabelecendo.
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <button class="nav-btn on" onclick="nav('rotina',this)">🍼 Rotina</button>
+  <button class="nav-btn" onclick="nav('remedios',this)">💊 Remédios</button>
+  <button class="nav-btn" onclick="nav('mochilas',this)">🎒 Mochilas</button>
+  <button class="nav-btn" onclick="nav('avisar',this)">📢 O que avisar</button>
+  <button class="nav-btn" onclick="nav('checklist',this)">✅ Fim do dia</button>
+</div>
+
+<!-- ROTINA -->
+<div class="pnl on content" id="pnl-rotina">
+  <div class="alerta alerta-lilas">
+    <span class="alerta-icon">💜</span>
+    <div class="alerta-txt"><strong>Rotina de recém-nascida</strong>Nos primeiros meses, a rotina é guiada pelos sinais do bebê — fome, sono e fralda. Os horários abaixo são uma referência geral que será ajustada conforme Maria Isabel se estabelecer.</div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🍼</span>
+      <span class="card-titulo">Alimentação</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="edit-lbl">✏️ Tipo de alimentação (a preencher)</div>
+      <input class="edit-field" placeholder="Ex: Amamentação / Fórmula / Misto..." oninput="saveField('mi_aliment',this.value)" id="f-aliment">
+      <div class="edit-lbl" style="margin-top:8px">✏️ Intervalo entre mamadas (a preencher)</div>
+      <input class="edit-field" placeholder="Ex: A cada 2-3 horas / A cada 3 horas..." oninput="saveField('mi_intervalo',this.value)" id="f-intervalo">
+      <div class="edit-lbl" style="margin-top:8px">✏️ Quantidade por mamada (a preencher)</div>
+      <input class="edit-field" placeholder="Ex: 60ml / livre demanda..." oninput="saveField('mi_qtd',this.value)" id="f-qtd">
+    </div>
+  </div>
+
+  <div class="card open">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🛁</span>
+      <span class="card-titulo">Banho</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="edit-lbl">✏️ Horário do banho (a preencher)</div>
+      <input class="edit-field" placeholder="Ex: Todo dia às 17h..." oninput="saveField('mi_banho',this.value)" id="f-banho">
+      <div class="hora-item" style="margin-top:10px"><span class="hora-time">📌</span><div><div class="hora-task">Suporte na banheira até que saiba sentar sozinha</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Água morna — testar com o cotovelo antes</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Produtos específicos para bebê — verificar com Dimona quais usar</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">😴</span>
+      <span class="card-titulo">Sono</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="edit-lbl">✏️ Rotina de sono (a preencher)</div>
+      <textarea class="edit-field" rows="3" placeholder="Ex: Dorme no berço... acorda para mamar de noite... método de sono..." oninput="saveField('mi_sono',this.value)" id="f-sono"></textarea>
+      <div class="hora-item" style="margin-top:10px"><span class="hora-time">📌</span><div><div class="hora-task">Sempre colocar de costas para dormir</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Ambiente silencioso e com pouca luz</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Temperatura do quarto confortável — não abafar</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🧷</span>
+      <span class="card-titulo">Troca de fralda</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Trocar sempre que estiver molhada ou suja</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Limpar bem a região com lenço umedecido sem álcool</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Aplicar creme para prevenir assaduras</div></div></div>
+      <div class="edit-lbl" style="margin-top:10px">✏️ Creme de assadura utilizado (a preencher)</div>
+      <input class="edit-field" placeholder="Ex: Bepantol / Hipoglós / outro..." oninput="saveField('mi_creme',this.value)" id="f-creme">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🎀</span>
+      <span class="card-titulo">Colo e estimulação</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Conversar e cantar para o bebê — estimula o desenvolvimento</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Tempo de barriga para baixo quando acordada e supervisionada</div></div></div>
+      <div class="hora-item"><span class="hora-time">📌</span><div><div class="hora-task">Contato visual e sorriso — fundamental nos primeiros meses</div></div></div>
+      <div class="edit-lbl" style="margin-top:10px">✏️ Brinquedos e objetos preferidos (a preencher)</div>
+      <input class="edit-field" placeholder="A preencher após conhecer as preferências de Maria Isabel..." oninput="saveField('mi_brinquedos',this.value)" id="f-brinquedos">
+    </div>
+  </div>
+</div>
+
+<!-- REMÉDIOS -->
+<div class="pnl content" id="pnl-remedios">
+  <div class="alerta alerta-verm">
+    <span class="alerta-icon">⚠️</span>
+    <div class="alerta-txt" style="color:var(--verm)"><strong>SEMPRE avisar Dimona antes de dar qualquer remédio.</strong>Nunca medicamentar sem orientação médica ou autorização de Dimona.</div>
+  </div>
+  <div class="alerta alerta-lilas">
+    <span class="alerta-icon">📝</span>
+    <div class="alerta-txt"><strong>A preencher após o nascimento</strong>Os remédios de uso contínuo e de uso emergencial serão definidos pelo pediatra e informados por Dimona.</div>
+  </div>
+
+  <div class="sec-lbl">Uso contínuo (a preencher)</div>
+
+  <div class="rem-card" style="background:var(--lilas-bg);border:1px dashed var(--lilas-bd)">
+    <div class="edit-lbl">✏️ Remédio 1</div>
+    <input class="edit-field" placeholder="Nome do remédio..." oninput="saveField('mi_rem1_nome',this.value)" id="f-rem1n">
+    <input class="edit-field" placeholder="Dose e horário..." oninput="saveField('mi_rem1_dose',this.value)" id="f-rem1d">
+  </div>
+
+  <div class="rem-card" style="background:var(--lilas-bg);border:1px dashed var(--lilas-bd)">
+    <div class="edit-lbl">✏️ Remédio 2</div>
+    <input class="edit-field" placeholder="Nome do remédio..." oninput="saveField('mi_rem2_nome',this.value)" id="f-rem2n">
+    <input class="edit-field" placeholder="Dose e horário..." oninput="saveField('mi_rem2_dose',this.value)" id="f-rem2d">
+  </div>
+
+  <div class="sec-lbl">Em caso de febre / emergência (a preencher)</div>
+  <div class="rem-card" style="background:var(--verm-bg);border:1px dashed var(--verm-bd)">
+    <div class="edit-lbl">✏️ Antitérmico indicado pelo pediatra</div>
+    <input class="edit-field" placeholder="Nome e dose..." oninput="saveField('mi_antitermico',this.value)" id="f-antit">
+  </div>
+
+  <div class="alerta alerta-laranja" style="margin-top:8px">
+    <span class="alerta-icon">🌡️</span>
+    <div class="alerta-txt"><strong>Febre em bebê é emergência!</strong>Qualquer febre em bebê abaixo de 3 meses — ir direto ao pronto-socorro e avisar Dimona imediatamente.</div>
+  </div>
+</div>
+
+<!-- MOCHILAS -->
+<div class="pnl content" id="pnl-mochilas">
+  <div class="card open">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🎒</span>
+      <span class="card-titulo">Bolsa do bebê — dia a dia</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="moch-item"><span class="moch-icon">🧷</span>Fraldas (mínimo 6)</div>
+      <div class="moch-item"><span class="moch-icon">🧻</span>Lenços umedecidos sem álcool</div>
+      <div class="moch-item"><span class="moch-icon">🧴</span>Creme de assaduras</div>
+      <div class="moch-item"><span class="moch-icon">👶</span>2 trocas de roupa completas</div>
+      <div class="moch-item"><span class="moch-icon">🍼</span>Mamadeiras / leite (se aplicável)</div>
+      <div class="moch-item"><span class="moch-icon">🪫</span>Chupeta (se usar)</div>
+      <div class="moch-item"><span class="moch-icon">🏖️</span>Manta leve</div>
+      <div class="edit-lbl" style="margin-top:10px">✏️ Itens extras a preencher</div>
+      <textarea class="edit-field" rows="3" placeholder="Outros itens que Dimona quiser adicionar..." oninput="saveField('mi_bolsa_extra',this.value)" id="f-bolsa-extra"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="togCard(this)">
+      <span class="card-icon">🏊</span>
+      <span class="card-titulo">Bolsa para eventos com água</span>
+      <span class="card-chevron">⌄</span>
+    </div>
+    <div class="card-body">
+      <div class="moch-item"><span class="moch-icon">🩱</span>Roupa de banho para bebê</div>
+      <div class="moch-item"><span class="moch-icon">🧷</span>Fralda de piscina</div>
+      <div class="moch-item"><span class="moch-icon">☀️</span>Protetor solar bebê (FPS 50+)</div>
+      <div class="moch-item"><span class="moch-icon">🦟</span>Repelente para bebê</div>
+      <div class="moch-item"><span class="moch-icon">🏖️</span>Toalha macia</div>
+      <div class="moch-item"><span class="moch-icon">👶</span>2 trocas de roupa completas</div>
+      <div class="moch-item"><span class="moch-icon">🧢</span>Chapéu ou boné para o sol</div>
+      <div class="alerta alerta-verm" style="margin-top:10px">
+        <span class="alerta-icon">☀️</span>
+        <div class="alerta-txt">Bebês abaixo de 6 meses não devem ter exposição direta ao sol. Manter sempre na sombra.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- O QUE AVISAR -->
+<div class="pnl content" id="pnl-avisar">
+  <div class="alerta alerta-verm">
+    <span class="alerta-icon">🚨</span>
+    <div class="alerta-txt"><strong>Remédios</strong>Avisar SEMPRE antes de dar qualquer remédio. Nunca medicamentar sem autorização.</div>
+  </div>
+  <div class="alerta alerta-verm">
+    <span class="alerta-icon">🌡️</span>
+    <div class="alerta-txt"><strong>Febre em bebê</strong>Qualquer temperatura acima do normal — avisar imediatamente e ir ao pronto-socorro.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">😭</span>
+    <div class="alerta-txt"><strong>Choro inconsolável</strong>Se o bebê chorar por mais de 30 minutos sem conseguir consolar.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">🤮</span>
+    <div class="alerta-txt"><strong>Vômito ou regurgitação excessiva</strong>Além do cuspe normal do bebê.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">🍼</span>
+    <div class="alerta-txt"><strong>Recusa alimentar</strong>Se o bebê recusar mamar por mais de 3 horas.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">🤕</span>
+    <div class="alerta-txt"><strong>Quedas ou acidentes</strong>Qualquer queda, mesmo pequena — avisar imediatamente.</div>
+  </div>
+  <div class="alerta alerta-laranja">
+    <span class="alerta-icon">💩</span>
+    <div class="alerta-txt"><strong>Fezes com sangue ou muito diferentes</strong>Cor esverdeada escura, branca ou com sangue.</div>
+  </div>
+  <div class="alerta alerta-verde">
+    <span class="alerta-icon">✅</span>
+    <div class="alerta-txt"><strong>No geral</strong>Em caso de qualquer dúvida, sempre prefira avisar a não avisar.</div>
+  </div>
+</div>
+
+<!-- CHECKLIST FIM DO DIA -->
+<div class="pnl content" id="pnl-checklist">
+  <p style="font-size:13px;color:var(--txt-s);margin-bottom:16px">Preencha ao final do dia antes de sair.</p>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">📅 Data</div>
+    <input type="date" id="clf-data" style="width:100%;border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--branco)">
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">🍼 Alimentação</div>
+    <select class="slf-select" id="clf-mamar">
+      <option value="">Mamou bem?</option>
+      <option>Sim, mamou muito bem</option>
+      <option>Mamou, mas menos que o normal</option>
+      <option>Teve dificuldade para mamar</option>
+      <option>Recusou mamar</option>
+    </select>
+    <textarea class="clf-textarea" id="clf-mamar-obs" placeholder="Quantas mamadas, horários... (opcional)" rows="2"></textarea>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">💩 Fraldas</div>
+    <select class="slf-select" id="clf-fralda">
+      <option value="">Como foram as fraldas?</option>
+      <option>Normal — xixi e cocô normais</option>
+      <option>Só xixi, não fez cocô</option>
+      <option>Cocô de aparência diferente</option>
+      <option>Assaduras — aplicou creme</option>
+    </select>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">😴 Sono</div>
+    <select class="slf-select" id="clf-sono">
+      <option value="">Como foi o sono?</option>
+      <option>Dormiu bem, rotina normal</option>
+      <option>Dormiu pouco, agitada</option>
+      <option>Dificuldade para dormir</option>
+    </select>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">😊 Humor / Comportamento</div>
+    <select class="slf-select" id="clf-humor">
+      <option value="">Como foi o humor?</option>
+      <option>Tranquila e feliz</option>
+      <option>Normal</option>
+      <option>Agitada / chorosa</option>
+      <option>Muito chorosa — difícil consolar</option>
+    </select>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">⚠️ Incidentes</div>
+    <textarea class="clf-textarea" id="clf-incidente" placeholder="Quedas, febres, vômitos, algo diferente... Se não houve nada, deixe em branco." rows="3"></textarea>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700;color:var(--txt-s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">📝 Observações gerais</div>
+    <textarea class="clf-textarea" id="clf-obs" placeholder="Qualquer outra observação do dia..." rows="3"></textarea>
+  </div>
+
+  <button class="clf-save" onclick="salvarChecklist()">💾 Salvar relatório do dia</button>
+  <div id="clf-feedback" style="display:none;margin-top:10px;padding:10px;background:var(--verde-bg);border:1px solid var(--verde-bd);border-radius:var(--r);font-size:13px;color:var(--verde);text-align:center;font-weight:700"></div>
+  <div id="clf-hist"></div>
+</div>
+
+<a class="fab" href="index.html" title="Voltar ao início">🏡</a>
+
+<script>
+// NAV
+function nav(id,btn){
+  document.querySelectorAll('.pnl').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('pnl-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+function togCard(h){h.parentElement.classList.toggle('open');}
+
+// CAMPOS EDITÁVEIS — salvar no localStorage
+function saveField(key,val){
+  try{localStorage.setItem('mi_'+key,val);}catch(e){}
+}
+function loadFields(){
+  var fields={
+    'f-aliment':'mi_aliment','f-intervalo':'mi_intervalo','f-qtd':'mi_qtd',
+    'f-banho':'mi_banho','f-sono':'mi_sono','f-creme':'mi_creme',
+    'f-brinquedos':'mi_brinquedos','f-bolsa-extra':'mi_bolsa_extra',
+    'f-rem1n':'mi_rem1_nome','f-rem1d':'mi_rem1_dose',
+    'f-rem2n':'mi_rem2_nome','f-rem2d':'mi_rem2_dose',
+    'f-antit':'mi_antitermico'
+  };
+  Object.keys(fields).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){
+      var v=localStorage.getItem(fields[id]);
+      if(v) el.value=v;
+    }
+  });
+}
+loadFields();
+
+// DATA hoje
+var hoje=new Date();
+document.getElementById('clf-data').value=hoje.getFullYear()+'-'+(hoje.getMonth()+1<10?'0':'')+(hoje.getMonth()+1)+'-'+(hoje.getDate()<10?'0':'')+hoje.getDate();
+
+function salvarChecklist(){
+  var data=document.getElementById('clf-data').value;
+  if(!data){alert('Informe a data.');return;}
+  var entry={
+    data:data,
+    mamar:document.getElementById('clf-mamar').value,
+    mamarObs:document.getElementById('clf-mamar-obs').value,
+    fralda:document.getElementById('clf-fralda').value,
+    sono:document.getElementById('clf-sono').value,
+    humor:document.getElementById('clf-humor').value,
+    incidente:document.getElementById('clf-incidente').value,
+    obs:document.getElementById('clf-obs').value
+  };
+  try{
+    var hist=JSON.parse(localStorage.getItem('mi_checklist')||'[]');
+    hist=hist.filter(function(e){return e.data!==data;});
+    hist.unshift(entry);
+    if(hist.length>30) hist=hist.slice(0,30);
+    localStorage.setItem('mi_checklist',JSON.stringify(hist));
+    var fb=document.getElementById('clf-feedback');
+    fb.style.display='block';
+    fb.textContent='✅ Relatório salvo com sucesso!';
+    setTimeout(function(){fb.style.display='none';},3000);
+    renderHist();
+  }catch(e){alert('Erro ao salvar.');}
+}
+
+function renderHist(){
+  try{
+    var hist=JSON.parse(localStorage.getItem('mi_checklist')||'[]');
+    if(!hist.length){document.getElementById('clf-hist').innerHTML='';return;}
+    var html='<div class="clf-hist-titulo">📋 Relatórios anteriores ('+hist.length+')</div>';
+    hist.forEach(function(e){
+      var d=e.data.split('-');
+      var ds=d[2]+'/'+d[1]+'/'+d[0];
+      html+='<div class="clf-entry"><div class="clf-entry-data">'+ds+'</div>';
+      if(e.mamar) html+='<div class="clf-entry-row"><span>Alimentação:</span>'+e.mamar+'</div>';
+      if(e.fralda) html+='<div class="clf-entry-row"><span>Fraldas:</span>'+e.fralda+'</div>';
+      if(e.sono) html+='<div class="clf-entry-row"><span>Sono:</span>'+e.sono+'</div>';
+      if(e.humor) html+='<div class="clf-entry-row"><span>Humor:</span>'+e.humor+'</div>';
+      if(e.incidente) html+='<div class="clf-entry-row"><span>Incidente:</span>'+e.incidente+'</div>';
+      if(e.obs) html+='<div class="clf-entry-row"><span>Obs:</span>'+e.obs+'</div>';
+      html+='</div>';
+    });
+    document.getElementById('clf-hist').innerHTML=html;
+  }catch(ex){}
+}
+renderHist();
+</script>
+</body>
+</html>
