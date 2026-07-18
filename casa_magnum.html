@@ -706,7 +706,7 @@ var lembretesCarregados=false;
 var compromissosCarregados=false;
 
 function carregarLembretes(){
-  fetch(sheetsUrlCM+'?app=lembretes')
+  fetch(sheetsUrlCM+'?app=lembretes&_ts='+Date.now(),{cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(data){
       lembretesCache=(data&&data.lembretes)?data.lembretes:[];
@@ -718,7 +718,7 @@ function carregarLembretes(){
     .catch(function(){lembretesCarregados=true;if(typeof renderSched==='function') renderSched();});
 }
 function carregarCompromissos(){
-  fetch(sheetsUrlCM+'?app=compromissos')
+  fetch(sheetsUrlCM+'?app=compromissos&_ts='+Date.now(),{cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(data){
       compromissosCache=(data&&data.compromissos)?data.compromissos:[];
@@ -1556,7 +1556,7 @@ function salvarLembManual(idx){
 var manutencaoCache={};
 var manutencaoCarregada=false;
 function carregarLemb(){
-  fetch(sheetsUrlCM+'?app=manutencao')
+  fetch(sheetsUrlCM+'?app=manutencao&_ts='+Date.now(),{cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(data){
       var lista=(data&&data.manutencao)?data.manutencao:[];

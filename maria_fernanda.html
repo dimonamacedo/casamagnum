@@ -1116,7 +1116,7 @@ var compromissosCacheMF=[];
 var lembretesCarregadosMF=false;
 var compromissosCarregadosMF=false;
 function carregarLembretesMF(){
-  fetch(sheetsUrlCM+'?app=lembretes')
+  fetch(sheetsUrlCM+'?app=lembretes&_ts='+Date.now(),{cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(data){
       lembretesCacheMF=(data&&data.lembretes)?data.lembretes:[];
@@ -1128,7 +1128,7 @@ function carregarLembretesMF(){
     .catch(function(){lembretesCarregadosMF=true;if(typeof renderRotina==='function') renderRotina();});
 }
 function carregarCompromissosMF(){
-  fetch(sheetsUrlCM+'?app=compromissos')
+  fetch(sheetsUrlCM+'?app=compromissos&_ts='+Date.now(),{cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(data){
       compromissosCacheMF=(data&&data.compromissos)?data.compromissos:[];
