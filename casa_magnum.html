@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Magnum</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--vd:#2E6B4F;--vc:#4A9970;--vb:#EAF4EF;--vbd:#C0DECE;--cl:#6B4FA0;--cb:#F0EAFA;--cbd:#C9BAE8;--rs:#1A6B5A;--rb:#E6F5F1;--rbd:#A8D9CC;--ab:#FFF4E0;--am:#A0700A;--cr:#FDFAF6;--c0:#F7F5F2;--c1:#EDEAE5;--c2:#D5D0C8;--c3:#9E9890;--c4:#5C5850;--tx:#2C2A26;--bd:#DDD9D1;--r:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--cr);color:var(--tx);display:flex;min-height:100vh;font-size:14px}
+#sb{width:220px;min-height:100vh;background:var(--vd);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto}
+#sbh{padding:20px 20px 14px;border-bottom:1px solid rgba(255,255,255,.15)}
+#sbh h1{font-size:15px;font-weight:600;color:#fff}
+#sbh p{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+#sb nav{flex:1;padding:10px 0}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;color:rgba(255,255,255,.75);font-size:13px;border-left:3px solid transparent;transition:all .15s;user-select:none}
+.ni:hover{background:rgba(255,255,255,.1);color:#fff}
+.ni.on{background:rgba(255,255,255,.15);color:#fff;border-left-color:#fff;font-weight:500}
+.ni svg{flex-shrink:0;opacity:.8}.ni.on svg{opacity:1}
+#sbf{padding:14px 20px;border-top:1px solid rgba(255,255,255,.15);font-size:11px;color:rgba(255,255,255,.45)}
+#main{margin-left:220px;flex:1;padding:28px 32px}
+.pnl{display:none}.pnl.on{display:block}
+.pgt{font-size:20px;font-weight:600;color:var(--tx);margin-bottom:4px}
+.pgs{font-size:13px;color:var(--c3);margin-bottom:22px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.chip{padding:5px 14px;border-radius:100px;font-size:12px;cursor:pointer;border:1px solid var(--bd);background:#fff;color:var(--c4);transition:all .15s;user-select:none}
+.chip.on{background:var(--vd);color:#fff;border-color:var(--vd)}
+.chip:hover:not(.on){border-color:var(--vc);color:var(--vd)}
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.sr{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid var(--c1)}
+.sr:last-child{border-bottom:none}
+.sh{font-size:12px;font-weight:600;color:var(--vd);min-width:46px;flex-shrink:0;padding-top:1px}
+.sk{font-size:13px;color:var(--tx)}
+.folga{text-align:center;padding:40px;color:var(--c3)}
+.fds-box{background:var(--ab);border:1px solid #E8D4A0;border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--am);margin-bottom:14px}
+.rcoz{background:var(--rb);border:1px solid var(--rbd);border-radius:12px;padding:14px 16px;margin-top:16px}
+.rcoz-t{font-size:11px;font-weight:700;color:var(--rs);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+.rcoz-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.rcoz-chip{padding:4px 12px;border-radius:100px;font-size:12px;cursor:pointer;border:1px solid var(--rbd);background:#fff;color:var(--rs);transition:all .15s;user-select:none}
+.rcoz-chip.on{background:var(--rs);color:#fff;border-color:var(--rs)}
+.rcoz-task{font-size:13px;color:var(--tx);padding:8px 10px;background:#fff;border-radius:var(--r);border:1px solid var(--rbd)}
+.pw{background:var(--c1);border-radius:100px;height:6px;overflow:hidden;margin-bottom:4px}
+.pb{height:100%;background:var(--vd);border-radius:100px;transition:width .3s}
+.pt{font-size:11px;color:var(--c3);margin-bottom:16px}
+.ci{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);border:1px solid var(--bd);cursor:pointer;transition:all .15s;margin-bottom:6px;background:#fff}
+.ci:hover{border-color:var(--vc);background:var(--vb)}
+.ci.done{opacity:.5}
+.ci.done .cil{text-decoration:line-through;color:var(--c3)}
+.cbox{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--c2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.ci.done .cbox{background:var(--vd);border-color:var(--vd)}
+.cil{flex:1;font-size:13px}
+.cif{font-size:11px;color:var(--c3);white-space:nowrap}
+.bc{font-size:10px;padding:2px 8px;border-radius:100px;background:var(--cb);color:var(--cl);border:1px solid var(--cbd);white-space:nowrap}
+.br{font-size:10px;padding:2px 8px;border-radius:100px;background:var(--rb);color:var(--rs);border:1px solid var(--rbd);white-space:nowrap}
+.ba{font-size:10px;padding:2px 8px;border-radius:100px;background:var(--ab);color:var(--am);border:1px solid #E8D4A0;white-space:nowrap}
+.sl{font-size:11px;font-weight:700;color:var(--c3);text-transform:uppercase;letter-spacing:.6px;margin:20px 0 8px}
+.sl:first-child{margin-top:0}
+.rbtn{margin-top:12px;padding:7px 16px;border-radius:var(--r);border:1px solid var(--bd);background:#fff;color:var(--c4);font-size:12px;cursor:pointer;transition:all .15s}
+.rbtn:hover{border-color:var(--vd);color:var(--vd)}
+/* CALENDÁRIO */
+.cal-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.07);overflow:hidden;margin-bottom:20px}
+.cal-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--c1)}
+.cal-nav{background:none;border:none;cursor:pointer;color:var(--c3);font-size:22px;padding:2px 8px;border-radius:var(--r);line-height:1}
+.cal-nav:hover{background:var(--c0);color:var(--tx)}
+.cal-mes{font-size:15px;font-weight:600;color:var(--tx)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:8px}
+.cal-dow{font-size:11px;font-weight:600;color:var(--c3);text-align:center;padding:8px 0;text-transform:uppercase;letter-spacing:.4px}
+.cal-day{text-align:center;padding:6px 2px;cursor:pointer;border-radius:8px;margin:2px;min-height:48px;display:flex;flex-direction:column;align-items:center;gap:3px;transition:background .1s}
+.ev-ic{font-size:8px;line-height:1;margin-top:-2px}
+.cal-day:hover:not(.vz){background:var(--c0)}
+.cal-day.hj{background:var(--vd)!important}
+.cal-day.hj .cdn{color:#fff!important;font-weight:700}
+.cal-day.hj .dots span{opacity:.8}
+.cal-day.sel:not(.hj){background:var(--vb);outline:1px solid var(--vbd)}
+.cal-day.vz{cursor:default}
+.cdn{font-size:13px;color:var(--tx);line-height:1}
+.dots{display:flex;gap:2px;justify-content:center}
+.dots span{width:6px;height:6px;border-radius:50%;display:inline-block}
+.dc{background:var(--cl)}.dr{background:var(--rs)}.df{background:var(--am)}
+/* DETALHE DIA */
+.ddet{background:#fff;border:1px solid var(--vbd);border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-top:4px}
+.ddet h3{font-size:15px;font-weight:600;color:var(--tx);margin-bottom:14px}
+.dbloco{margin-bottom:12px}
+.dbloco:last-child{margin-bottom:0}
+.dbt{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.dbt.c{color:var(--cl)}.dbt.r{color:var(--rs)}.dbt.f{color:var(--am)}
+.ditem{font-size:13px;color:var(--tx);padding:6px 10px;background:var(--c0);border-radius:var(--r);margin-bottom:4px;display:flex;gap:8px}
+.dih{font-size:11px;font-weight:600;color:var(--vd);min-width:38px;flex-shrink:0;padding-top:1px}
+.drot{border-radius:var(--r);padding:10px 12px;margin-top:6px}
+.drot.c{background:var(--cb);border:1px solid var(--cbd)}
+.drot.r{background:var(--rb);border:1px solid var(--rbd)}
+.drotl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.drotl.c{color:var(--cl)}.drotl.r{color:var(--rs)}
+.drott{font-size:13px;color:var(--tx)}
+/* CONFIG */
+.cfg{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:20px}
+.cfg h3{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px}
+.cfg p{font-size:12px;color:var(--c3);margin-bottom:14px}
+.cfg-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cfg-row label{font-size:13px;color:var(--c4)}
+.cfg-row input[type=date]{padding:7px 10px;border:1px solid var(--bd);border-radius:var(--r);font-size:13px;color:var(--tx);background:var(--c0)}
+.cfg-row input:focus{outline:none;border-color:var(--vd)}
+.cfg-btn{padding:7px 16px;border-radius:var(--r);border:none;background:var(--vd);color:#fff;font-size:13px;cursor:pointer}
+.cfg-btn:hover{background:var(--vc)}
+.cfg-ok{font-size:12px;padding:8px 12px;border-radius:var(--r);background:var(--vb);color:var(--vd);border:1px solid var(--vbd);margin-top:10px;display:none}
+/* FAXINA */
+.fx-card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:8px}
+.fx-dia{font-size:11px;font-weight:700;color:var(--cl);margin-bottom:4px}
+.fx-task{font-size:13px;color:var(--tx)}
+.fx-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fx-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:5px 11px;border-radius:100px;cursor:pointer;transition:all .15s;user-select:none;border:1px solid transparent}
+.fx-link.amb{background:var(--vb);border-color:var(--vbd);color:var(--vd)}
+.fx-link.amb:hover{background:var(--vd);color:#fff}
+.fx-link.ori{background:var(--rb);border-color:var(--rbd);color:var(--rs)}
+.fx-link.ori:hover{background:var(--rs);color:#fff}
+.ctxbar{display:none}
+.ctxbar:not(:empty){display:block;background:var(--cb);border:1px solid var(--cbd);color:var(--cl);font-size:12px;padding:10px 14px;border-radius:var(--r);margin-bottom:16px}
+.ctxlink{cursor:pointer;font-weight:600;text-decoration:underline;margin-left:10px;user-select:none}
+.ctxlink:hover{opacity:.75}
+.fx-status{font-size:12px;padding:8px 12px;border-radius:var(--r);background:var(--vb);color:var(--vd);border:1px solid var(--vbd);margin-bottom:14px;display:none}
+/* AMBIENTES */
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:8px}
+.acard{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:14px 12px;cursor:pointer;transition:all .15s;text-align:center}
+.acard:hover{border-color:var(--vc);background:var(--vb);transform:translateY(-1px)}
+.acard.on{border-color:var(--vd);background:var(--vb)}
+.adet{display:none;background:#fff;border:1px solid var(--vbd);border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.adet.on{display:block}
+.adet h3{font-size:15px;font-weight:600;color:var(--tx);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.xbtn{background:none;border:none;cursor:pointer;color:var(--c3);font-size:20px;line-height:1}
+.astep{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--c1)}
+.ocard{background:#fff;border:1px solid var(--bd);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.ocard-hd{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;user-select:none}
+.ocard-hd:hover{background:var(--c0)}
+.ocard-ic{font-size:20px}
+.ocard-titulo{flex:1;font-size:15px;font-weight:600;color:var(--tx)}
+.ocard-chev{font-size:13px;color:var(--c3);transition:transform .15s}
+.ocard.on .ocard-chev{transform:rotate(180deg)}
+.ocard-body{display:none;padding:0 18px 18px}
+.ocard.on .ocard-body{display:block}
+.osub-t{font-size:12px;font-weight:700;color:var(--vd);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 4px}
+.osub-t:first-child{margin-top:0}
+.astep:last-of-type{border-bottom:none}
+.asn{width:22px;height:22px;border-radius:50%;background:var(--vb);color:var(--vd);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.aobs{font-size:12px;color:#C45C1A;background:#FFF4E8;border:1px solid #FFD9B0;border-radius:var(--r);padding:9px 12px;margin-top:12px}
+/* ORIENTAÇÕES */
+.ogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.ocard{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);cursor:pointer;transition:all .15s}
+.ocard:hover{border-color:var(--vc);transform:translateY(-1px)}
+.ocard.on{border-color:var(--vd)}
+.ohd{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.oic{font-size:22px;flex-shrink:0}
+.otit{font-size:14px;font-weight:600;color:var(--tx)}
+.osub{font-size:11px;color:var(--c3);margin-top:1px}
+.ochev{margin-left:auto;color:var(--c3);font-size:18px;transition:transform .2s}
+.ocard.on .ochev{transform:rotate(180deg)}
+.obdy{display:none;padding:0 16px 16px;border-top:1px solid var(--c1)}
+.ocard.on .obdy{display:block}
+.ostep{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--c1)}
+.ostep:last-child{border-bottom:none}
+.osn{width:22px;height:22px;border-radius:50%;background:var(--vb);color:var(--vd);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ost{font-size:13px;color:var(--tx);line-height:1.5}
+.odica{font-size:12px;color:var(--rs);background:var(--rb);border:1px solid var(--rbd);border-radius:var(--r);padding:8px 11px;margin-top:10px}
+.oalert{font-size:12px;color:#C45C1A;background:#FFF4E8;border:1px solid #FFD9B0;border-radius:var(--r);padding:8px 11px;margin-top:8px}
+.oprod{display:inline-block;font-size:11px;padding:2px 9px;border-radius:100px;background:var(--c0);border:1px solid var(--bd);color:var(--c4);margin:2px}
+.oplbl{font-size:11px;font-weight:700;color:var(--c3);text-transform:uppercase;letter-spacing:.4px;margin:10px 0 5px}
+/* LEMBRETES */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.lcard{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:14px}
+.lcard h4{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px}
+.lcard p{font-size:11px;color:var(--c3);margin-bottom:8px}
+.lfreq{font-size:11px;padding:2px 9px;border-radius:100px;display:inline-block;margin-bottom:10px;font-weight:500}
+.fa{background:#FDECEA;color:#B03C3C}.f6{background:#FFF4E0;color:#A0700A}
+.f3{background:#EAF4EF;color:#2E6B4F}.f1{background:#EEF4FF;color:#3B5FC0}
+.dg{margin-top:6px}
+.dg label{display:block;font-size:11px;color:var(--c3);margin-bottom:3px}
+.dg input{width:100%;padding:5px 8px;border:1px solid var(--bd);border-radius:var(--r);font-size:12px;color:var(--tx);background:var(--c0)}
+.dg input:focus{outline:none;border-color:var(--vd)}
+.cal-legenda{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--c3);margin-bottom:16px;align-items:center}
+.cal-legenda span{display:flex;align-items:center;gap:5px}
+.cal-legenda i{width:10px;height:10px;border-radius:50%;display:inline-block}
+@media(max-width:700px){#sb{width:56px}#main{margin-left:56px;padding:18px 14px}.ni span,#sbh p,#sbh h1,#sbf{display:none}}
+
+/* CASA MAGNUM — TRAVA DE ACESSO */
+.cm-lock{position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#1E4D35,#173F2A);display:flex;align-items:center;justify-content:center;padding:20px}
+.cm-lock-box{background:#fff;border-radius:16px;padding:36px 30px;max-width:340px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.cm-lock-box h2{font-family:'Cormorant Garamond',serif;font-size:26px;color:#1E4D35;margin-bottom:6px;font-weight:400}
+.cm-lock-box p{font-size:13px;color:#5A574F;margin-bottom:18px}
+.cm-lock-box input{width:100%;padding:12px 14px;border:1.5px solid #EDE8DF;border-radius:10px;font-size:15px;text-align:center;margin-bottom:12px;box-sizing:border-box;font-family:inherit}
+.cm-lock-box button{width:100%;padding:12px;border:none;border-radius:10px;background:#1E4D35;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.cm-lock-box button:hover{background:#173F2A}
+.cm-lock-err{color:#C44040;font-size:12px;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+<div class="cm-lock" id="cmLock">
+  <div class="cm-lock-box">
+    <h2>Casa Magnum</h2>
+    <p>Digite a senha de acesso para continuar</p>
+    <input type="password" id="cmLockInput" placeholder="Senha" onkeydown="if(event.key==='Enter')cmCheckLock()">
+    <button onclick="cmCheckLock()">Entrar</button>
+    <div class="cm-lock-err" id="cmLockErr">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+<script>
+(function(){
+  var SENHA_CM='casamagnum2026';
+  if(localStorage.getItem('cm_unlocked')==='1'){
+    document.getElementById('cmLock').style.display='none';
+  }
+  window.cmCheckLock=function(){
+    var v=document.getElementById('cmLockInput').value;
+    if(v===SENHA_CM){
+      try{localStorage.setItem('cm_unlocked','1');}catch(e){}
+      document.getElementById('cmLock').style.display='none';
+    } else {
+      document.getElementById('cmLockErr').style.display='block';
+    }
+  };
+})();
+</script>
+
+<aside id="sb">
+  <div id="sbh">
+  <h1>🏡 Casa Magnum</h1>
+  <p id="dtsbf"></p>
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:11px;color:rgba(255,255,255,.55);text-decoration:none;letter-spacing:.5px;transition:color .15s" onmouseover="this.style.color='#D4B483'" onmouseout="this.style.color='rgba(255,255,255,.55)'">← Página inicial</a>
+</div>
+  <nav>
+    <div class="ni on" onclick="nav('calendario',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Calendário</span></div>
+    <div class="ni" onclick="nav('rotina',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>Rotina diária</span></div>
+    <div class="ni" onclick="nav('faxina',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Faxina rotativa</span></div>
+    <div class="ni" onclick="nav('ambientes',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Ambientes</span></div>
+    <div class="ni" onclick="nav('tarefas',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Tarefas</span></div>
+    <div class="ni" onclick="nav('orientacoes',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span>Orientações</span></div>
+    <div class="ni" onclick="nav('lembretes',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span>Lembretes</span></div>
+    <div class="ni" onclick="nav('ocasioes',this)"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z"/></svg><span>Ocasiões especiais</span></div>
+  </nav>
+  <div id="sbf"></div>
+</aside>
+<main id="main">
+<section class="pnl on" id="pnl-calendario">
+  <div class="pgt">Calendário</div>
+  <p class="pgs">Clique em qualquer dia para ver as atividades de Célia e Rose.</p>
+
+  <div class="cal-legenda">
+    <span><i class="dc"></i> Faxina rotativa — Célia</span>
+    <span><i class="dr"></i> Rotativa cozinha — Rose</span>
+    <span><i class="df"></i> Final de semana (revezamento)</span>
+  </div>
+  <div class="cal-wrap">
+    <div class="cal-hd">
+      <button class="cal-nav" onclick="mudarMes(-1)">&#8249;</button>
+      <span class="cal-mes" id="cal-mes"></span>
+      <button class="cal-nav" onclick="mudarMes(1)">&#8250;</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+  <div style="background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px;margin:16px 0">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--c3);margin-bottom:10px">✈️ Novo compromisso (várias datas — ex: viagem)</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+      <input type="date" id="compromisso-inicio" style="padding:8px 10px;border:1px solid var(--bd);border-radius:var(--r);font-size:13px">
+      <span style="font-size:12px;color:var(--c3)">até</span>
+      <input type="date" id="compromisso-fim" style="padding:8px 10px;border:1px solid var(--bd);border-radius:var(--r);font-size:13px">
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="text" id="compromisso-texto" placeholder="Ex: Viagem em família" style="flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--bd);border-radius:var(--r);font-size:13px">
+      <button onclick="adicionarCompromisso()" style="padding:8px 16px;border:none;border-radius:var(--r);background:var(--vd);color:#fff;font-size:12px;font-weight:600;cursor:pointer">Salvar compromisso</button>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <label style="font-size:11px;color:var(--c3);display:flex;align-items:center;gap:3px"><input type="radio" name="dest-comp" value="todos" checked style="margin:0"> Ambos</label>
+      <label style="font-size:11px;color:var(--c3);display:flex;align-items:center;gap:3px"><input type="radio" name="dest-comp" value="casa" style="margin:0"> Só Casa Magnum</label>
+      <label style="font-size:11px;color:var(--c3);display:flex;align-items:center;gap:3px"><input type="radio" name="dest-comp" value="fernanda" style="margin:0"> Só Maria Fernanda</label>
+    </div>
+    <div id="compromisso-fb" style="display:none;font-size:12px;margin-top:8px"></div>
+  </div>
+  <div id="ddet-wrap"></div>
+</section>
+<section class="pnl" id="pnl-rotina">
+  <div class="pgt">Rotina diária</div>
+  <p class="pgs" id="dt-titulo"></p>
+  <div class="chips" id="cfn">
+    <div class="chip on" onclick="setFn('rose',this)">🍳 Rose</div>
+    <div class="chip" onclick="setFn('celia',this)">✨ Célia</div>
+  </div>
+  <div class="chips" id="cdia">
+    <div class="chip" onclick="setDia(0,this)">Segunda</div>
+    <div class="chip" onclick="setDia(1,this)">Terça</div>
+    <div class="chip" onclick="setDia(2,this)">Quarta</div>
+    <div class="chip" onclick="setDia(3,this)">Quinta</div>
+    <div class="chip" onclick="setDia(4,this)">Sexta</div>
+    <div class="chip" onclick="setDia(5,this)">Sábado</div>
+    <div class="chip" onclick="setDia(6,this)">Domingo</div>
+  </div>
+  <div id="fds-info" style="display:none" class="fds-box"></div>
+  <div class="card"><div id="sched"></div></div>
+  <div id="rcoz-wrap"></div>
+  <div id="rose-arrum-wrap"></div>
+</section>
+<section class="pnl" id="pnl-faxina">
+  <div class="pgt">Faxina rotativa — Célia</div>
+  <p class="pgs">O conteúdo abaixo é calculado automaticamente com base no ciclo configurado no Calendário. Para consultar outra semana, use os chips abaixo.</p>
+
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+    <span style="font-size:12px;color:var(--c3)">Consultar semana:</span>
+    <div class="chips" id="csem" style="margin-bottom:0">
+      <div class="chip" onclick="setSemana(1,this)">Semana 1</div>
+      <div class="chip" onclick="setSemana(2,this)">Semana 2</div>
+      <div class="chip" onclick="setSemana(3,this)">Semana 3</div>
+      <div class="chip" onclick="setSemana(4,this)">Semana 4</div>
+    </div>
+  </div>
+  <div id="fax-content"></div>
+</section>
+<section class="pnl" id="pnl-ambientes">
+  <div class="pgt">Ambientes da casa</div>
+  <p class="pgs">Toque em um ambiente para ver o passo a passo completo.</p>
+  <div id="ctxbar-amb"></div>
+  <div class="adet" id="adet"></div>
+  <div class="agrid" id="agrid"></div>
+</section>
+<section class="pnl" id="pnl-tarefas">
+  <div class="pgt">Tarefas de hoje</div>
+  <p class="pgs" id="tarefas-data"></p>
+  <div class="chips" id="cfiltro">
+    <div class="chip on" onclick="setFiltro('todas',this)">Todas</div>
+    <div class="chip" onclick="setFiltro('celia',this)">✨ Célia</div>
+    <div class="chip" onclick="setFiltro('rose',this)">🍳 Rose</div>
+  </div>
+  <div class="pw"><div class="pb" id="prog" style="width:0%"></div></div>
+  <div class="pt" id="ptxt">0 de 0 concluídas</div>
+  <div id="tlist"></div>
+  <button class="rbtn" onclick="resetT()">↺ Reiniciar checklist do dia</button>
+</section>
+<section class="pnl" id="pnl-orientacoes">
+  <div class="pgt">Orientações de limpeza</div>
+  <p class="pgs">Como limpar cada superfície corretamente. Clique para expandir.</p>
+  <div id="ctxbar-ori"></div>
+  <div class="ogrid" id="ogrid"></div>
+</section>
+<section class="pnl" id="pnl-lembretes">
+  <div class="pgt">Lembretes de manutenção</div>
+  <p class="pgs">Registre a data do último serviço para controlar os próximos.</p>
+  <div id="avisos-manut"></div>
+  <div class="lgrid" id="lgrid"></div>
+</section>
+<section class="pnl" id="pnl-ocasioes">
+  <div class="pgt">Ocasiões especiais</div>
+  <p class="pgs">Guias de preparo para situações fora da rotina — recepção, jantares e festas.</p>
+  <div id="ocasioes-grid"></div>
+</section>
+</main>
+<script>
+var hoje=new Date();hoje.setHours(0,0,0,0);
+var mesesN=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var diasN=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+var diasC=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+// CALENDÁRIO ESCOLAR — Maria Fernanda (Escola Gente Miúda, 2026)
+var calendarioEscolarMF={
+  '2026-01-01':{tipo:'feriado',texto:'Ano Novo'},
+  '2026-02-16':{tipo:'recesso',texto:'Recesso de Carnaval (Maria Fernanda)'},
+  '2026-02-17':{tipo:'feriado',texto:'Carnaval'},
+  '2026-02-18':{tipo:'recesso',texto:'Recesso de Carnaval (Maria Fernanda)'},
+  '2026-04-03':{tipo:'feriado',texto:'Sexta-feira Santa'},
+  '2026-04-21':{tipo:'feriado',texto:'Tiradentes'},
+  '2026-05-01':{tipo:'feriado',texto:'Dia do Trabalho'},
+  '2026-05-09':{tipo:'evento',texto:'Comemoração Dia das Mães (Maria Fernanda)'},
+  '2026-05-26':{tipo:'evento',texto:'Aniversário de Barreiras'},
+  '2026-06-04':{tipo:'feriado',texto:'Corpus Christi'},
+  '2026-06-19':{tipo:'evento',texto:'Arraiá Gente Miúda (Maria Fernanda)'},
+  '2026-06-24':{tipo:'feriado',texto:'São João'},
+  '2026-08-08':{tipo:'evento',texto:'Comemoração Dia dos Pais (Maria Fernanda)'},
+  '2026-09-07':{tipo:'feriado',texto:'Independência do Brasil'},
+  '2026-09-19':{tipo:'evento',texto:'Projeto Institucional (Maria Fernanda)'},
+  '2026-10-08':{tipo:'evento',texto:'Comemoração Dia das Crianças (Maria Fernanda)'},
+  '2026-10-09':{tipo:'evento',texto:'Comemoração Dia das Crianças (Maria Fernanda)'},
+  '2026-10-12':{tipo:'feriado',texto:'Dia de Nossa Sra. Aparecida'},
+  '2026-10-15':{tipo:'evento',texto:'Dia do Professor (Maria Fernanda)'},
+  '2026-11-02':{tipo:'feriado',texto:'Finados'},
+  '2026-11-15':{tipo:'feriado',texto:'Proclamação da República'},
+  '2026-11-20':{tipo:'feriado',texto:'Consciência Negra'},
+  '2026-12-01':{tipo:'evento',texto:'Espetáculo Musical — Maria Fernanda'},
+  '2026-12-02':{tipo:'evento',texto:'Espetáculo Musical — Maria Fernanda'},
+  '2026-12-11':{tipo:'evento',texto:'Fim do ano letivo — Maria Fernanda'},
+  '2026-12-25':{tipo:'feriado',texto:'Natal'}
+};
+function chaveData(dt){
+  var pad=function(n){return n<10?'0'+n:''+n;};
+  return dt.getFullYear()+'-'+pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
+}
+document.getElementById('dtsbf').textContent=hoje.getDate()+'/'+(hoje.getMonth()+1)+'/'+hoje.getFullYear();
+document.getElementById('dt-titulo').textContent=diasN[hoje.getDay()]+', '+hoje.getDate()+' de '+mesesN[hoje.getMonth()]+' de '+hoje.getFullYear();
+
+// NAV
+var faxFoco=null;
+var faxFocoCod=null;
+function nav(id,btn){
+  document.querySelectorAll('.pnl').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+  document.getElementById('pnl-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='faxina'){faxFoco=null;faxFocoCod=null;syncFaxSem();}
+  if(id==='tarefas') renderT();
+  if(id==='ambientes'){var cba=document.getElementById('ctxbar-amb');if(cba)cba.innerHTML='';}
+  if(id==='orientacoes'){var cbo=document.getElementById('ctxbar-ori');if(cbo)cbo.innerHTML='';}
+}
+function irTab(id){
+  var btns=document.querySelectorAll('.ni');
+  for(var i=0;i<btns.length;i++){
+    var oc=btns[i].getAttribute('onclick')||'';
+    if(oc.indexOf("'"+id+"'")!==-1){nav(id,btns[i]);return;}
+  }
+}
+function diaNomeCod(codigo){return {seg:'Segunda',ter:'Terça',sex:'Sexta'}[codigo]||'';}
+function ctxBarHtml(diaCod){
+  if(!diaCod) return '';
+  return '<div class="ctxbar">↩️ Você veio da faxina rotativa de <strong>'+diaNomeCod(diaCod)+'</strong> — '
+    +'<span class="ctxlink" onclick="irFaxinaDia(\''+diaCod+'\')">Voltar à Faxina rotativa</span>'
+    +'<span class="ctxlink" onclick="irRotinaDia(\''+diaCod+'\')">Voltar à Rotina de Célia</span></div>';
+}
+function irRotinaDia(codigo){
+  var diaMap={seg:0,ter:1,sex:4};
+  var d=diaMap[codigo];
+  if(d===undefined) return;
+  irTab('rotina');
+  curFn='celia';
+  var fnChips=document.querySelectorAll('#cfn .chip');
+  for(var i=0;i<fnChips.length;i++){
+    fnChips[i].classList.toggle('on',(fnChips[i].getAttribute('onclick')||'').indexOf("'celia'")!==-1);
+  }
+  curDia=d;
+  document.querySelectorAll('#cdia .chip').forEach(function(c,idx){c.classList.toggle('on',idx===d);});
+  renderSched();
+}
+function irFaxinaDia(codigo){
+  var mapa={seg:['Seg tarde'],ter:['Ter manhã'],sex:['Sex manhã','Sex tarde']};
+  irTab('faxina');
+  faxFoco=mapa[codigo]||null;
+  faxFocoCod=codigo;
+  renderFaxina(true);
+}
+function irAmbiente(id,diaCod){
+  irTab('ambientes');
+  var cba=document.getElementById('ctxbar-amb');
+  if(cba) cba.innerHTML=ctxBarHtml(diaCod);
+  setTimeout(function(){
+    mostraAmb(id);
+    var el=document.getElementById('adet');
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  },50);
+}
+function irOrientacao(i,diaCod){
+  irTab('orientacoes');
+  var cbo=document.getElementById('ctxbar-ori');
+  if(cbo) cbo.innerHTML=ctxBarHtml(diaCod);
+  setTimeout(function(){
+    var card=document.getElementById('oc-'+i);
+    if(card&&!card.classList.contains('on')) togOri(i);
+    if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
+  },50);
+}
+
+// CICLO — início fixo em 07/07/2025 (segunda-feira)
+var inicioCiclo=new Date(2025,6,7); // mês 6 = julho (0-indexado)
+inicioCiclo.setHours(0,0,0,0);
+function semCiclo(data){
+  var diff=Math.floor((data-inicioCiclo)/(7*24*3600*1000));
+  if(diff<0) return null;
+  return (diff%4)+1;
+}
+
+// ALTERNÂNCIA DE FOLGA DA ROSE — quarta/sexta, semana a semana
+// Semana de início: segunda-feira 06/07/2026 é uma semana em que Rose folga na sexta.
+var roseFolgaSextaInicio=new Date(2026,6,6);
+roseFolgaSextaInicio.setHours(0,0,0,0);
+function segundaDaSemana(data){
+  var d=new Date(data);d.setHours(0,0,0,0);
+  var dow=d.getDay();
+  var diffSeg=(dow===0)?-6:(1-dow);
+  d.setDate(d.getDate()+diffSeg);
+  return d;
+}
+function roseFolgaSexta(data){
+  var seg=segundaDaSemana(data);
+  var diffSemanas=Math.round((seg-roseFolgaSextaInicio)/(7*24*3600*1000));
+  var mod=((diffSemanas%2)+2)%2;
+  return mod===0; // true = nesta semana Rose folga na sexta (troca ativa); false = folga na quarta (padrão)
+}
+function diaEfetivo(dIdx,data){
+  // Quando a troca está ativa, quarta (2) e sexta (4) trocam de conteúdo — vale para Rose e Célia
+  if(!roseFolgaSexta(data)) return dIdx;
+  if(dIdx===2) return 4;
+  if(dIdx===4) return 2;
+  return dIdx;
+}
+
+// REVEZAMENTO DE FIM DE SEMANA — Rose e Célia
+// Sábado 11/07/2026 é um fim de semana em que a Célia trabalha.
+var celiaTrabalhaFDSInicio=new Date(2026,6,11);
+celiaTrabalhaFDSInicio.setHours(0,0,0,0);
+function sabadoDaSemana(data){
+  var seg=segundaDaSemana(data);
+  var sab=new Date(seg);sab.setDate(seg.getDate()+5);
+  return sab;
+}
+function celiaTrabalhaFDS(data){
+  var sab=sabadoDaSemana(data);
+  var diffSemanas=Math.round((sab-celiaTrabalhaFDSInicio)/(7*24*3600*1000));
+  var mod=((diffSemanas%2)+2)%2;
+  return mod===0; // true = Célia trabalha este fim de semana; false = Rose trabalha
+}
+function quemTrabalhaFDS(data){
+  return celiaTrabalhaFDS(data)?'Célia':'Rose';
+}
+function quemFolgaFDS(data){
+  return celiaTrabalhaFDS(data)?'Rose':'Célia';
+}
+
+function syncFaxSem(){
+  var s=semCiclo(hoje);
+  if(s){
+    curSem=s;
+    document.querySelectorAll('#csem .chip').forEach(function(c,i){c.classList.toggle('on',i+1===s);});
+    renderFaxina(true);
+  }
+}
+
+// DADOS FAXINA ROTATIVA
+var faxRot={
+  1:[
+    {dia:'Seg tarde',t:'Cozinha e cristaleira',amb:['cozinha','cristaleira'],ori:[0,2,3]},
+    {dia:'Ter manhã',t:'Banheiro gourmet + Rouparia',amb:['banheiro-gourmet','rouparia'],ori:[0,1]},
+    {dia:'Sex manhã',t:'Limpar vidros — quartos e banheiros de cima',amb:[],ori:[0]},
+    {dia:'Sex tarde',t:'Limpar teto, sancas, teias de aranha / Lustres e luminárias',amb:[],ori:[]}
+  ],
+  2:[
+    {dia:'Seg tarde',t:'Sala de jantar, sala de estar, roll de entrada, corredor de cima',amb:['sala-jantar','roll-entrada','escada'],ori:[4,5]},
+    {dia:'Ter manhã',t:'Banheiros casal e crianças',amb:['banheiro-casal','banheiro-mf','banheiro-mi'],ori:[0,1]},
+    {dia:'Sex manhã',t:'Limpar vidros e portas da área gourmet',amb:[],ori:[0]},
+    {dia:'Sex tarde',t:'Faxina lavanderia',amb:['lavanderia'],ori:[]}
+  ],
+  3:[
+    {dia:'Seg tarde',t:'Quartos, closets e escritório',amb:['suite-casal','closet-casal','suite-mf','closet-mf','suite-bebe','closet-bebe','suite-hosp','escritorio'],ori:[5]},
+    {dia:'Ter manhã',t:'Banheiro hóspede e lavabo',amb:['banheiro-hosp','lavabo'],ori:[0,1]},
+    {dia:'Sex manhã',t:'Limpar vidros da sala de jantar, sala de estar e da escada',amb:[],ori:[0]},
+    {dia:'Sex tarde',t:'Limpar vidros escritório e brinquedoteca',amb:[],ori:[0]}
+  ],
+  4:[
+    {dia:'Seg tarde',t:'Brinquedoteca + Área gourmet',amb:['brinquedoteca','gourmet'],ori:[12]},
+    {dia:'Ter manhã',t:'Limpar vidros da cozinha e área de serviço',amb:[],ori:[0]},
+    {dia:'Sex manhã',t:'Vidros quartos e banheiros de baixo + lavabo + academia',amb:[],ori:[0]},
+    {dia:'Sex tarde',t:'Casa de Ivar / Escada / Portões e caixa de correios / Lista de compras',amb:['canil','escada'],ori:[11]}
+  ]
+};
+
+// ARRUMAÇÃO DIÁRIA — manutenção do dia a dia da Rose (não é faxina)
+var arrumGeral=[
+  'Recolher objetos espalhados pela casa e devolver cada um ao seu devido lugar — preste atenção em onde cada coisa estava',
+  'Arrumar e organizar as almofadas do sofá e da sala de estar',
+  'Limpar mesas e bancadas com pano úmido',
+  'Passar pano no chão dos ambientes usados no dia',
+  'Esvaziar lixeiras quando necessário',
+  'Dar uma olhada geral em cortinas, tapetes e objetos fora do lugar'
+];
+var arrumBanheiro=[
+  'Lavar o vaso sanitário — todos os dias',
+  'Limpar bancada e pia com pano e produto neutro',
+  'Aplicar mistura de CIF com água nos metais (torneiras, registro, descarga) para tirar manchas',
+  'Limpar o espelho',
+  'Organizar produtos de higiene e toalhas',
+  'Passar pano no chão'
+];
+
+// CALENDÁRIO
+var calMes=hoje.getMonth(),calAno=hoje.getFullYear(),diaSel=null;
+function mudarMes(d){
+  calMes+=d;
+  if(calMes>11){calMes=0;calAno++;}
+  if(calMes<0){calMes=11;calAno--;}
+  renderCal();
+}
+function renderCal(){
+  document.getElementById('cal-mes').textContent=mesesN[calMes]+' '+calAno;
+  var g=document.getElementById('cal-grid');
+  var html=diasC.map(function(d){return '<div class="cal-dow">'+d+'</div>';}).join('');
+  var prim=new Date(calAno,calMes,1).getDay();
+  var total=new Date(calAno,calMes+1,0).getDate();
+  for(var i=0;i<prim;i++) html+='<div class="cal-day vz"></div>';
+  for(var d=1;d<=total;d++){
+    var dt=new Date(calAno,calMes,d);dt.setHours(0,0,0,0);
+    var dow=dt.getDay();
+    var isH=dt.getTime()===hoje.getTime();
+    var isS=diaSel&&dt.getTime()===diaSel.getTime();
+    var isFDS=dow===0||dow===6;
+    var s=semCiclo(dt);
+    var evEscolar=calendarioEscolarMF[chaveData(dt)];
+    var dots='';
+    if(isFDS){dots='<div class="dots"><span class="df"></span></div>';}
+    else{
+      var hasC=false,hasR=false;
+      if(s&&(dow===1||dow===2||dow===5)) hasC=true;
+      if(s&&dow===4) hasR=true;
+      if(hasC||hasR) dots='<div class="dots">'+(hasC?'<span class="dc"></span>':'')+(hasR?'<span class="dr"></span>':'')+'</div>';
+    }
+    var cls='cal-day';
+    if(evEscolar) cls+=' evesc';
+    if(isH) cls+=' hj';
+    else if(isS) cls+=' sel';
+    var evIcon=evEscolar?'<span class="ev-ic">'+(evEscolar.tipo==='feriado'?'🔴':evEscolar.tipo==='recesso'?'🔵':'🎓')+'</span>':'';
+    var temLembrete=lembretesCache.some(function(l){return l.data===chaveData(dt)&&l.destino!=='fernanda';});
+    var lembIcon=temLembrete?'<span class="ev-ic">📌</span>':'';
+    var temCompromisso=compromissosCache.some(function(c){var ch=chaveData(dt);return ch>=c.dataInicio&&ch<=c.dataFim&&c.destino!=='fernanda';});
+    var compIcon=temCompromisso?'<span class="ev-ic">✈️</span>':'';
+    html+='<div class="'+cls+'" onclick="selDia('+calAno+','+calMes+','+d+')"><span class="cdn">'+d+'</span>'+evIcon+lembIcon+compIcon+dots+'</div>';
+  }
+  g.innerHTML=html;
+  if(diaSel) mostrarDet(diaSel);
+}
+function selDia(a,m,d){
+  diaSel=new Date(a,m,d);diaSel.setHours(0,0,0,0);
+  renderCal();
+  mostrarDet(diaSel);
+}
+function mostrarDet(dt){
+  var dow=dt.getDay();
+  var isFDS=dow===0||dow===6;
+  var s=semCiclo(dt); // pode ser null se ciclo não configurado — tudo bem
+  var dataStr=diasN[dow]+', '+dt.getDate()+' de '+mesesN[dt.getMonth()]+' de '+dt.getFullYear();
+  var html='<div class="ddet"><h3>📅 '+dataStr+'</h3>';
+  var evEscolarDet=calendarioEscolarMF[chaveData(dt)];
+  if(evEscolarDet){
+    var evBg=evEscolarDet.tipo==='feriado'?'#FDEAEA':evEscolarDet.tipo==='recesso'?'#EEF4FB':'var(--cb)';
+    var evBd=evEscolarDet.tipo==='feriado'?'#F0B8B8':evEscolarDet.tipo==='recesso'?'#BDD4EC':'var(--cbd)';
+    var evTxt=evEscolarDet.tipo==='feriado'?'#C44040':evEscolarDet.tipo==='recesso'?'#4A7FB5':'var(--cl)';
+    var evIconeDet=evEscolarDet.tipo==='feriado'?'🔴':evEscolarDet.tipo==='recesso'?'🔵':'🎓';
+    html+='<div style="background:'+evBg+';border:1px solid '+evBd+';border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:13px;color:'+evTxt+'"><strong>'+evIconeDet+' '+evEscolarDet.texto+'</strong></div>';
+  }
+  html+='<div id="lembretes-dia"></div>';
+  if(isFDS){
+    var trabalhaFDS=quemTrabalhaFDS(dt),folgaFDS=quemFolgaFDS(dt);
+    html+='<div class="dbloco"><div class="dbt f">🔄 Final de semana — '+trabalhaFDS+' trabalha, '+folgaFDS+' folga</div>';
+    fimSem.forEach(function(r){html+='<div class="ditem"><span class="dih">'+r.h+'</span><span>'+r.t+'</span></div>';});
+    html+='</div>';
+  } else {
+    var dIdx={1:0,2:1,3:2,4:3,5:4}[dow];
+    var dIdxEf=typeof dIdx!=='undefined'?diaEfetivo(dIdx,dt):dIdx;
+    // ROSE
+    var rRows=typeof dIdxEf!=='undefined'?roseD.filter(function(r){return r.d===dIdxEf;}):[];
+    if(rRows.length&&rRows[0].t==='FOLGA'){
+      html+='<div class="dbloco"><div class="dbt r">🍳 Rose</div><div class="ditem">Folga</div></div>';
+    } else if(rRows.length){
+      html+='<div class="dbloco"><div class="dbt r">🍳 Rose</div>';
+      rRows.forEach(function(r){
+        var texto=r.t;
+        if(dIdx!==dIdxEf){
+          if(dIdx===2) texto=texto.replace(/\bsexta\b/gi,'quarta');
+          else if(dIdx===4) texto=texto.replace(/\bquarta\b/gi,'sexta');
+        }
+        html+='<div class="ditem"><span class="dih">'+r.h+'</span><span>'+texto+'</span></div>';
+      });
+      html+='</div>';
+    } else if(dIdxEf===2){
+      html+='<div class="dbloco"><div class="dbt r">🍳 Rose</div><div class="ditem">Folga</div></div>';
+    }
+    // CÉLIA
+    var cRows=typeof dIdxEf!=='undefined'?celiaD.filter(function(r){return r.d===dIdxEf;}):[];
+    if(cRows.length&&cRows[0].t==='FOLGA'){
+      html+='<div class="dbloco"><div class="dbt c">✨ Célia</div><div class="ditem">Folga</div></div>';
+    } else if(cRows.length){
+      html+='<div class="dbloco"><div class="dbt c">✨ Célia</div>';
+      cRows.forEach(function(r){
+        var texto=r.t;
+        if(dIdx!==dIdxEf){
+          if(dIdx===2) texto=texto.replace(/\bsexta\b/gi,'quarta');
+          else if(dIdx===4) texto=texto.replace(/\bquarta\b/gi,'sexta');
+        }
+        html+='<div class="ditem"><span class="dih">'+r.h+'</span><span>'+texto+'</span></div>';
+      });
+      // bloco faxina rotativa só aparece se ciclo configurado
+      if(s){
+        var fxItems=[];
+        if(dIdxEf===0) fxItems.push(faxRot[s][0]);
+        if(dIdxEf===1) fxItems.push(faxRot[s][1]);
+        if(dIdxEf===4){fxItems.push(faxRot[s][2]);fxItems.push(faxRot[s][3]);}
+        fxItems.forEach(function(fx){
+          html+='<div class="drot c"><div class="drotl c">Faxina rotativa — '+rotuloDiaFaxina(fx.dia,dt)+' (semana '+s+')</div><div class="drott">'+fx.t+'</div></div>';
+        });
+      }
+      html+='</div>';
+    }
+  }
+  html+='</div>';
+  document.getElementById('ddet-wrap').innerHTML=html;
+  renderLembretesDia(dt);
+}
+
+// LEMBRETES COMPARTILHADOS (Google Sheets)
+var SHEETS_URL_PADRAO='https://script.google.com/macros/s/AKfycbyHCU2bqqchRE-T_tsz4P5wiPGugPOAXfedk40ZoC4r8f29S1L6a4z60v-scPt4NvaW3A/exec';
+var sheetsUrlCM=localStorage.getItem('cm_sheets_url')||SHEETS_URL_PADRAO;
+var lembretesCache=[];
+var compromissosCache=[];
+var lembretesCarregados=false;
+var compromissosCarregados=false;
+
+function carregarLembretes(){
+  fetch(sheetsUrlCM+'?app=lembretes')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      lembretesCache=(data&&data.lembretes)?data.lembretes:[];
+      lembretesCarregados=true;
+      renderCal();
+      if(diaSel) renderLembretesDia(diaSel);
+      if(typeof renderSched==='function') renderSched();
+    })
+    .catch(function(){lembretesCarregados=true;if(typeof renderSched==='function') renderSched();});
+}
+function carregarCompromissos(){
+  fetch(sheetsUrlCM+'?app=compromissos')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      compromissosCache=(data&&data.compromissos)?data.compromissos:[];
+      compromissosCarregados=true;
+      renderCal();
+      if(diaSel) renderLembretesDia(diaSel);
+      if(typeof renderSched==='function') renderSched();
+    })
+    .catch(function(){compromissosCarregados=true;if(typeof renderSched==='function') renderSched();});
+}
+function lembretesDoDia(dt){
+  var chave=chaveData(dt);
+  return lembretesCache.filter(function(l){return l.data===chave&&l.destino!=='fernanda';});
+}
+function compromissosDoDia(dt){
+  var chave=chaveData(dt);
+  return compromissosCache.filter(function(c){return chave>=c.dataInicio&&chave<=c.dataFim&&c.destino!=='fernanda';});
+}
+function renderLembretesDia(dt){
+  var el=document.getElementById('lembretes-dia');
+  if(!el) return;
+  if(!lembretesCarregados||!compromissosCarregados){
+    el.innerHTML='<div style="background:var(--c0);border-radius:var(--r);padding:8px 14px;font-size:12px;color:var(--c3)">⏳ Carregando lembretes e compromissos...</div>';
+    return;
+  }
+  var chave=chaveData(dt);
+  var compromissos=compromissosDoDia(dt);
+  var lembretes=lembretesDoDia(dt);
+  var html='';
+
+  if(compromissos.length){
+    html+='<div style="margin-bottom:14px">';
+    html+='<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--c3);margin-bottom:8px">✈️ Compromissos</div>';
+    compromissos.forEach(function(c){
+      var periodo=c.dataInicio===c.dataFim?formatarDataBR(c.dataInicio):formatarDataBR(c.dataInicio)+' a '+formatarDataBR(c.dataFim);
+      html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;background:var(--ab);border:1px solid var(--c1);border-radius:var(--r);padding:8px 12px;margin-bottom:6px">'
+        +'<div><div style="font-size:13px;color:var(--tx)">'+escapeHtmlCM(c.texto)+'</div><div style="font-size:11px;color:var(--c3);margin-top:2px">'+periodo+'</div></div>'
+        +'<button onclick="excluirCompromisso(\''+c.id+'\')" title="Excluir compromisso" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--c3);flex-shrink:0">🗑️</button>'
+        +'</div>';
+    });
+    html+='</div>';
+  }
+
+  html+='<div style="margin-bottom:12px">';
+  html+='<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--c3);margin-bottom:8px">📌 Lembretes deste dia</div>';
+  if(lembretes.length){
+    lembretes.forEach(function(l){
+      html+='<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--ab);border:1px solid var(--c1);border-radius:var(--r);padding:8px 12px;margin-bottom:6px">'
+        +'<span style="font-size:13px;color:var(--tx)">'+escapeHtmlCM(l.texto)+'</span>'
+        +'<button onclick="excluirLembrete(\''+l.id+'\')" title="Excluir lembrete" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--c3);flex-shrink:0">🗑️</button>'
+        +'</div>';
+    });
+  } else {
+    html+='<div style="font-size:12px;color:var(--c3);margin-bottom:8px">Nenhum lembrete ainda.</div>';
+  }
+  html+='<div style="display:flex;gap:8px;margin-top:8px">'
+    +'<input type="text" id="novo-lembrete-input" placeholder="Escrever um lembrete..." style="flex:1;padding:8px 12px;border:1px solid var(--bd);border-radius:var(--r);font-size:13px" onkeydown="if(event.key===\'Enter\')adicionarLembrete(\''+chave+'\')">'
+    +'<button onclick="adicionarLembrete(\''+chave+'\')" style="padding:8px 16px;border:none;border-radius:var(--r);background:var(--vd);color:#fff;font-size:12px;font-weight:600;cursor:pointer">Salvar</button>'
+    +'</div>'
+    +'<div style="display:flex;gap:6px;margin-top:6px">'
+    +'<label style="font-size:11px;color:var(--c3);display:flex;align-items:center;gap:3px"><input type="radio" name="dest-lemb" value="todos" checked style="margin:0"> Ambos</label>'
+    +'<label style="font-size:11px;color:var(--c3);display:flex;align-items:center;gap:3px"><input type="radio" name="dest-lemb" value="casa" style="margin:0"> Só Casa Magnum</label>'
+    +'<label style="font-size:11px;color:var(--c3);display:flex;align-items:center;gap:3px"><input type="radio" name="dest-lemb" value="fernanda" style="margin:0"> Só Maria Fernanda</label>'
+    +'</div>'
+    +'<div id="lembrete-fb" style="display:none;font-size:12px;margin-top:6px"></div>';
+  html+='</div>';
+  el.innerHTML=html;
+}
+function adicionarLembrete(chave){
+  var input=document.getElementById('novo-lembrete-input');
+  var texto=input.value.trim();
+  if(!texto) return;
+  var destRadio=document.querySelector('input[name="dest-lemb"]:checked');
+  var destino=destRadio?destRadio.value:'todos';
+  var fb=document.getElementById('lembrete-fb');
+  fb.style.display='block';fb.style.color='var(--c3)';fb.textContent='Salvando...';
+  fetch(sheetsUrlCM,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({app:'lembrete',data:chave,texto:texto,destino:destino})
+  }).then(function(){
+    input.value='';
+    fb.style.color='var(--rs)';fb.textContent='✅ Lembrete salvo!';
+    setTimeout(function(){var f=document.getElementById('lembrete-fb');if(f)f.style.display='none';},2500);
+    setTimeout(carregarLembretes,800);
+  }).catch(function(){
+    fb.style.color='#C44040';fb.textContent='❌ Não foi possível salvar agora.';
+  });
+}
+function excluirLembrete(id){
+  if(!confirm('Excluir este lembrete?')) return;
+  fetch(sheetsUrlCM,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({app:'excluir_lembrete',id:id})
+  }).then(function(){
+    setTimeout(carregarLembretes,800);
+  });
+}
+function adicionarCompromisso(){
+  var ini=document.getElementById('compromisso-inicio').value;
+  var fim=document.getElementById('compromisso-fim').value||ini;
+  var texto=document.getElementById('compromisso-texto').value.trim();
+  var destRadio=document.querySelector('input[name="dest-comp"]:checked');
+  var destino=destRadio?destRadio.value:'todos';
+  var fb=document.getElementById('compromisso-fb');
+  if(!ini||!texto){
+    fb.style.display='block';fb.style.color='#C44040';fb.textContent='Preencha a data de início e a descrição.';
+    return;
+  }
+  fb.style.display='block';fb.style.color='var(--c3)';fb.textContent='Salvando...';
+  fetch(sheetsUrlCM,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({app:'compromisso',dataInicio:ini,dataFim:fim,texto:texto,destino:destino})
+  }).then(function(){
+    fb.style.color='var(--rs)';fb.textContent='✅ Compromisso salvo!';
+    document.getElementById('compromisso-inicio').value='';
+    document.getElementById('compromisso-fim').value='';
+    document.getElementById('compromisso-texto').value='';
+    setTimeout(function(){var f=document.getElementById('compromisso-fb');if(f)f.style.display='none';},2500);
+    setTimeout(carregarCompromissos,800);
+  }).catch(function(){
+    fb.style.color='#C44040';fb.textContent='❌ Não foi possível salvar agora.';
+  });
+}
+function excluirCompromisso(id){
+  if(!confirm('Excluir este compromisso? Ele será removido de todos os dias do período.')) return;
+  fetch(sheetsUrlCM,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({app:'excluir_compromisso',id:id})
+  }).then(function(){
+    setTimeout(carregarCompromissos,800);
+  });
+}
+function formatarDataBR(iso){
+  if(!iso) return '';
+  var p=String(iso).split('-');
+  var anoValido=p.length===3&&p[0].length===4&&Number(p[0])>=2000;
+  return anoValido?(p[2]+'/'+p[1]+'/'+p[0]):'';
+}
+function dataValida(iso){
+  if(!iso) return false;
+  var p=String(iso).split('-');
+  return p.length===3&&p[0].length===4&&Number(p[0])>=2000;
+}
+function escapeHtmlCM(s){
+  var d=document.createElement('div');
+  d.textContent=s||'';
+  return d.innerHTML;
+}
+
+// ROTINA DIÁRIA
+var roseD=[
+  {d:0,h:'06:30',t:'Arrumar cozinha da noite anterior e fazer café da manhã'},
+  {d:0,h:'07:15',t:'Servir café da manhã'},
+  {d:0,h:'07:45',t:'Arrumar cozinha do café / Antecipação do almoço'},
+  {d:0,h:'08:20',t:'Arrumação quartos, escritório, banheiros e corredor'},
+  {d:0,h:'09:20',t:'Arrumar sala de jantar, living, lavabo'},
+  {d:0,h:'10:00',t:'Fazer lista de compras hortifruti / açougue'},
+  {d:0,h:'10:30',t:'Preparar o almoço conforme cardápio'},
+  {d:0,h:'11:30',t:'Horário de almoço'},
+  {d:0,h:'12:30',t:'Servir o almoço (após Genius e Dimona chegarem)'},
+  {d:0,h:'13:00',t:'Arrumar cozinha do almoço e área gourmet'},
+  {d:0,h:'13:45',t:'Preparar jantar'},
+  {d:0,h:'15:00',t:'Recolher lixo da cozinha e arrumação cozinha'},
+  {d:0,h:'15:30',t:'Saída'},
+  {d:1,h:'06:30',t:'Arrumar cozinha da noite anterior e fazer café da manhã'},
+  {d:1,h:'07:15',t:'Servir café da manhã e levar o cachorro para passear'},
+  {d:1,h:'07:45',t:'Arrumar cozinha do café / Antecipação do almoço'},
+  {d:1,h:'08:20',t:'Arrumação quartos, escritório, banheiros e corredor'},
+  {d:1,h:'09:20',t:'Arrumar sala de jantar, living, lavabo'},
+  {d:1,h:'10:00',t:'Higienizar compras / Organizar carnes por porção (vácuo + identificar)'},
+  {d:1,h:'10:30',t:'Preparar o almoço conforme cardápio'},
+  {d:1,h:'11:30',t:'Horário de almoço'},
+  {d:1,h:'12:30',t:'Servir o almoço'},
+  {d:1,h:'13:00',t:'Arrumar cozinha do almoço e área gourmet'},
+  {d:1,h:'13:45',t:'Preparar jantar'},
+  {d:1,h:'15:00',t:'Recolher lixo da cozinha e arrumação cozinha'},
+  {d:1,h:'15:30',t:'Saída'},
+  {d:2,h:'',t:'FOLGA'},
+  {d:3,h:'06:30',t:'Arrumar cozinha da noite anterior e fazer café da manhã'},
+  {d:3,h:'07:15',t:'Servir café da manhã e levar o cachorro para passear'},
+  {d:3,h:'07:45',t:'Arrumar cozinha do café / Antecipação do almoço'},
+  {d:3,h:'08:20',t:'Arrumação quartos, escritório, banheiros e corredor'},
+  {d:3,h:'09:20',t:'Arrumar sala de jantar, living, lavabo'},
+  {d:3,h:'10:00',t:'Limpeza express da geladeira (verificar líquidos, cheiro, vencidos e sobras)'},
+  {d:3,h:'10:30',t:'Preparar o almoço conforme cardápio'},
+  {d:3,h:'11:30',t:'Horário de almoço'},
+  {d:3,h:'12:30',t:'Servir o almoço'},
+  {d:3,h:'13:00',t:'Arrumar cozinha do almoço e área gourmet'},
+  {d:3,h:'13:45',t:'Preparar jantar'},
+  {d:3,h:'15:00',t:'Recolher lixo da cozinha e arrumação cozinha'},
+  {d:3,h:'15:30',t:'Saída'},
+  {d:4,h:'06:30',t:'Arrumar cozinha da noite anterior e fazer café da manhã'},
+  {d:4,h:'07:15',t:'Servir café da manhã'},
+  {d:4,h:'07:45',t:'Arrumar cozinha do café / Antecipação do almoço'},
+  {d:4,h:'08:20',t:'Arrumação quartos, escritório, banheiros e corredor'},
+  {d:4,h:'09:20',t:'Arrumar sala de jantar, living, lavabo'},
+  {d:4,h:'10:00',t:'Limpeza express do forno e microondas'},
+  {d:4,h:'10:30',t:'Preparar o almoço conforme cardápio'},
+  {d:4,h:'11:30',t:'Horário de almoço'},
+  {d:4,h:'12:30',t:'Servir o almoço'},
+  {d:4,h:'13:00',t:'Arrumar cozinha do almoço e área gourmet'},
+  {d:4,h:'13:45',t:'Preparar jantar'},
+  {d:4,h:'15:00',t:'Recolher lixo da cozinha e arrumação cozinha'},
+  {d:4,h:'15:30',t:'Saída'}
+];
+var fimSem=[
+  {h:'06:30',t:'Arrumar cozinha da noite anterior e fazer café da manhã'},
+  {h:'07:15',t:'Servir café da manhã e levar o cachorro para passear'},
+  {h:'07:45',t:'Arrumar cozinha do café / Antecipação do almoço'},
+  {h:'08:20',t:'Arrumação quartos, escritório, banheiros e corredor'},
+  {h:'09:20',t:'Arrumar sala de jantar, living, lavabo'},
+  {h:'10:00',t:'Arrumação área gourmet e banheiro do gourmet — varrer e passar pano no chão, limpar bancadas, conferir organização (toalhinha, papel higiênico, toalhas de piscina)'},
+  {h:'10:30',t:'Preparar o almoço conforme cardápio'},
+  {h:'11:30',t:'Horário de almoço'},
+  {h:'12:30',t:'Servir o almoço'},
+  {h:'13:00',t:'Arrumar cozinha do almoço e área gourmet'},
+  {h:'13:45',t:'Preparar jantar'},
+  {h:'15:00',t:'Recolher lixo da cozinha e arrumação cozinha'},
+  {h:'15:30',t:'Saída'}
+];
+var celiaD=[
+  {d:0,h:'06:40',t:'Limpeza canil / Higienizar vasilhas / Colocar água / Passeio cachorro'},
+  {d:0,h:'07:30',t:'Regar plantas'},
+  {d:0,h:'07:40',t:'Trocar roupa de cama e banho / Recolher roupas do cesto'},
+  {d:0,h:'08:00',t:'Pré-lavagem das roupas e limpeza dos sapatos'},
+  {d:0,h:'08:30',t:'Colocar roupas na máquina'},
+  {d:0,h:'09:00',t:'Lavar garagem'},
+  {d:0,h:'09:45',t:'Lavar varandas'},
+  {d:0,h:'10:45',t:'Lavar pátio / área da piscina'},
+  {d:0,h:'11:30',t:'Limpar jardim'},
+  {d:0,h:'12:00',t:'Almoço'},
+  {d:0,h:'13:00',t:'Faxina rotativa — ver aba Faxina rotativa'},
+  {d:0,h:'15:40',t:'Saída'},
+  {d:1,h:'06:40',t:'Limpeza canil / Higienizar vasilhas / Colocar água cachorro'},
+  {d:1,h:'07:30',t:'Faxina rotativa — manhã de terça (ver aba Faxina rotativa)'},
+  {d:1,h:'12:00',t:'Almoço'},
+  {d:1,h:'13:00',t:'Fazer separação / passar e guardar roupas'},
+  {d:1,h:'15:40',t:'Saída'},
+  {d:2,h:'06:30',t:'Arrumar cozinha da noite anterior e fazer café da manhã (cobertura Rose)'},
+  {d:2,h:'07:15',t:'Servir café da manhã e levar o cachorro para passear'},
+  {d:2,h:'07:45',t:'Arrumar cozinha do café / Antecipação do almoço'},
+  {d:2,h:'08:20',t:'Arrumação quartos, escritório, banheiros e corredor'},
+  {d:2,h:'09:20',t:'Arrumar sala de jantar, living, lavabo'},
+  {d:2,h:'10:00',t:'Limpeza express do canil / vasilhas / água do cachorro'},
+  {d:2,h:'10:30',t:'Preparar o almoço conforme cardápio'},
+  {d:2,h:'11:30',t:'Horário de almoço'},
+  {d:2,h:'12:30',t:'Servir o almoço'},
+  {d:2,h:'13:00',t:'Arrumar cozinha do almoço e área gourmet'},
+  {d:2,h:'13:45',t:'Preparar jantar'},
+  {d:2,h:'15:00',t:'Recolher lixo da cozinha e arrumação cozinha'},
+  {d:2,h:'15:30',t:'Saída'},
+  {d:3,h:'',t:'FOLGA'},
+  {d:4,h:'06:40',t:'Limpeza canil / Higienizar vasilhas / Colocar água / Passeio cachorro'},
+  {d:4,h:'07:30',t:'Regar plantas'},
+  {d:4,h:'07:40',t:'Limpar academia'},
+  {d:4,h:'08:40',t:'Faxina rotativa — manhã de sexta (ver aba Faxina rotativa)'},
+  {d:4,h:'12:00',t:'Almoço'},
+  {d:4,h:'13:00',t:'Faxina rotativa — tarde de sexta (ver aba Faxina rotativa)'},
+  {d:4,h:'15:40',t:'Saída'}
+];
+var curFn='rose',curDia=0;
+function setFn(fn,btn){
+  curFn=fn;
+  document.querySelectorAll('#cfn .chip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderSched();
+}
+function setDia(d,btn){
+  curDia=d;
+  document.querySelectorAll('#cdia .chip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderSched();
+}
+function renderSched(){
+  var isFDS=curDia===5||curDia===6;
+  var fdsInfoEl=document.getElementById('fds-info');
+  if(isFDS){
+    var trabalhaFDS=quemTrabalhaFDS(hoje),folgaFDS=quemFolgaFDS(hoje);
+    fdsInfoEl.style.display='block';
+    fdsInfoEl.innerHTML='🔄 <strong>Final de semana:</strong> '+trabalhaFDS+' trabalha este fim de semana. '+folgaFDS+' folga.';
+  } else {
+    fdsInfoEl.style.display='none';
+  }
+  var rows;
+  var trocaBanner='';
+  if(isFDS){rows=fimSem;}
+  else{
+    var src=curFn==='rose'?roseD:celiaD;
+    var dEfetivo=diaEfetivo(curDia,hoje);
+    rows=src.filter(function(r){return r.d===dEfetivo;});
+    if((curDia===2||curDia===4)&&roseFolgaSexta(hoje)){
+      trocaBanner='<div style="background:var(--ouro-bg,#FDF6E8);border:1px solid var(--ouro-bd,#EAD9A0);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--txt)">🔄 <strong>Semana de troca:</strong> Rose folga na sexta esta semana, então quarta e sexta trocaram de tarefas (pra ela e pra Célia).</div>';
+    }
+  }
+  var c=document.getElementById('sched');
+  var avisosBanner='';
+  if(curDia===diaAtual){
+    var aindaCarregando=!lembretesCarregados||!compromissosCarregados||!manutencaoCarregada;
+    var lembHoje=(typeof lembretesDoDia==='function')?lembretesDoDia(hoje):[];
+    var compHoje=(typeof compromissosDoDia==='function')?compromissosDoDia(hoje):[];
+    var manutProx=(typeof manutencaoProxima==='function')?manutencaoProxima():[];
+    if(aindaCarregando){
+      avisosBanner='<div style="background:var(--c0);border-radius:var(--r);padding:8px 14px;margin-bottom:12px;font-size:12px;color:var(--c3)">⏳ Carregando avisos de hoje...</div>';
+    } else if(lembHoje.length||compHoje.length||manutProx.length){
+      avisosBanner='<div style="background:var(--ab);border-left:5px solid var(--am);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)">'
+        +'<div style="font-size:14px;font-weight:800;color:var(--am);margin-bottom:8px">🔔 AVISOS DE HOJE</div>'
+        +compHoje.map(function(c){return '<div style="font-size:14px;color:var(--tx);margin-bottom:6px">✈️ '+escapeHtmlCM(c.texto)+'</div>';}).join('')
+        +lembHoje.map(function(l){return '<div style="font-size:14px;color:var(--tx);margin-bottom:6px">📌 '+escapeHtmlCM(l.texto)+'</div>';}).join('')
+        +manutProx.map(function(m){return '<div style="font-size:14px;color:var(--tx);margin-bottom:6px">🔧 '+(m.vencido?'<strong>Atrasado:</strong> ':'')+escapeHtmlCM(m.item)+' — '+formatarDataBR(m.proximo)+'</div>';}).join('')
+        +'</div>';
+    } else {
+      avisosBanner='<div style="background:var(--vb);border-radius:var(--r);padding:10px 16px;margin-bottom:14px;font-size:13px;color:var(--vd)">✅ Nenhum lembrete ou compromisso para hoje.</div>';
+    }
+  }
+  if(!rows.length||(rows.length===1&&rows[0].t==='FOLGA')){
+    c.innerHTML=avisosBanner+trocaBanner+'<div class="folga"><div style="font-size:36px">🌙</div><p style="margin-top:10px">Dia de folga</p></div>';
+    document.getElementById('rcoz-wrap').innerHTML='';
+    document.getElementById('rose-arrum-wrap').innerHTML='';
+    return;
+  }
+  c.innerHTML=avisosBanner+trocaBanner+rows.map(function(r){
+    var texto=r.t;
+    if(dEfetivo!==curDia){
+      if(curDia===2) texto=texto.replace(/\bsexta\b/gi,'quarta');
+      else if(curDia===4) texto=texto.replace(/\bquarta\b/gi,'sexta');
+    }
+    return '<div class="sr"><span class="sh">'+r.h+'</span><span class="sk">'+texto+'</span></div>';
+  }).join('');
+  var wrap=document.getElementById('rcoz-wrap');
+  if(curFn==='celia'&&(dEfetivo===0||dEfetivo===1||dEfetivo===4)){
+    var s3=semCiclo(hoje)||1;
+    var idxs=dEfetivo===0?[0]:dEfetivo===1?[1]:[2,3];
+    var diaCod=dEfetivo===0?'seg':dEfetivo===1?'ter':'sex';
+    var trocaNota=(dEfetivo!==curDia)?' <span style="opacity:.75">(trocou de sexta pra hoje)</span>':'';
+    var tasksHtml=idxs.map(function(ix){var fx=faxRot[s3][ix];return '<div class="rcoz-task">'+rotuloDiaFaxina(fx.dia,hoje)+': '+fx.t+'</div>';}).join('');
+    wrap.innerHTML='<div class="rcoz"><div class="rcoz-t">✨ Faxina rotativa de hoje — semana '+s3+trocaNota+'</div>'+tasksHtml+'<button class="rbtn" style="margin-top:10px" onclick="irFaxinaDia(\''+diaCod+'\')">🔗 Ver detalhes na Faxina rotativa</button></div>';
+  } else {
+    wrap.innerHTML='';
+  }
+  var arrumWrap=document.getElementById('rose-arrum-wrap');
+  if(curFn==='rose'){
+    arrumWrap.innerHTML=renderArrumHtml();
+  } else {
+    arrumWrap.innerHTML='';
+  }
+}
+function renderArrumHtml(){
+  var geral=arrumGeral.map(function(s,i){return '<div class="astep"><div class="asn">'+(i+1)+'</div><div style="font-size:13px;color:var(--tx)">'+s+'</div></div>';}).join('');
+  var ban=arrumBanheiro.map(function(s,i){return '<div class="astep"><div class="asn">'+(i+1)+'</div><div style="font-size:13px;color:var(--tx)">'+s+'</div></div>';}).join('');
+  return '<div class="rcoz" style="margin-top:12px">'
+    +'<div class="rcoz-t">📋 O que é a "arrumação" no dia a dia</div>'
+    +'<div style="font-size:12px;color:var(--c3);margin:6px 0 12px">Isso não é faxina pesada — é a manutenção diária para manter a casa em ordem.</div>'
+    +'<div style="font-size:12px;font-weight:700;color:var(--tx);margin-bottom:6px">Geral — quartos, salas, escritório, corredores...</div>'
+    +geral
+    +'<div style="font-size:12px;font-weight:700;color:var(--tx);margin:16px 0 6px">Banheiros — todos os dias</div>'
+    +ban
+    +'</div>';
+}
+
+// FAXINA
+var curSem=1;
+function setSemana(n,btn){
+  curSem=n;
+  document.querySelectorAll('#csem .chip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderFaxina(false); // false = consulta manual
+}
+function rotuloDiaFaxina(diaOriginal,dataRef){
+  if(roseFolgaSexta(dataRef||hoje)&&diaOriginal.indexOf('Sex')===0){
+    return diaOriginal.replace('Sex','Qua')+' (trocado de sexta)';
+  }
+  return diaOriginal;
+}
+function renderFaxina(automatico){
+  var itemsAll=faxRot[curSem];
+  var items=faxFoco?itemsAll.filter(function(i){return faxFoco.indexOf(i.dia)!==-1;}):itemsAll;
+  var semAtual=semCiclo(hoje);
+  var isAtual=semAtual===curSem;
+  // Data representativa da semana consultada (pode ser passada ou futura em relação a hoje,
+  // mas a troca quarta/sexta se repete com o mesmo padrão sempre que essa Semana X ocorrer)
+  var diffSemanaSel=semAtual?(curSem-semAtual):0;
+  var refDataSemana=new Date(hoje);refDataSemana.setDate(hoje.getDate()+diffSemanaSel*7);
+  var temSexTrocada=roseFolgaSexta(refDataSemana)&&items.some(function(i){return i.dia.indexOf('Sex')===0;});
+  // header indicando se é automático ou consulta
+  var headerCor=isAtual?'var(--vd)':'var(--c3)';
+  var headerBg=isAtual?'var(--vb)':'var(--c0)';
+  var headerBd=isAtual?'var(--vbd)':'var(--bd)';
+  var headerTxt=isAtual
+    ? '📅 Semana '+curSem+' — <strong>semana atual do ciclo</strong>'
+    : '🔍 Consultando semana '+curSem+(semAtual?' — semana atual é a <strong>'+semAtual+'</strong>':'');
+  var header='<div style="padding:10px 14px;border-radius:var(--r);background:'+headerBg+';border:1px solid '+headerBd+';color:'+headerCor+';font-size:13px;margin-bottom:12px">'+headerTxt+'</div>';
+  var trocaFaxTexto=isAtual
+    ? 'Célia cobre a Rose na sexta esta semana, então a faxina rotativa que seria de sexta foi antecipada para quarta-feira.'
+    : 'Nas semanas em que a Semana '+curSem+' do ciclo cair, Célia cobre a Rose na sexta — então a faxina rotativa que seria de sexta é antecipada para quarta-feira.';
+  var trocaFaxBanner=temSexTrocada?'<div style="padding:10px 14px;border-radius:var(--r);background:#FDF6E8;border:1px solid #EAD9A0;color:var(--tx);font-size:12px;margin-bottom:12px">🔄 <strong>Semana de troca:</strong> '+trocaFaxTexto+'</div>':'';
+  var focoBtn=faxFoco?'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">'
+    +'<button class="rbtn" style="margin:0" onclick="limparFocoFaxina()">↺ Ver semana completa</button>'
+    +(faxFocoCod?'<button class="rbtn" style="margin:0" onclick="irRotinaDia(\''+faxFocoCod+'\')">← Voltar à Rotina de Célia</button>':'')
+    +'</div>':'';
+  document.getElementById('fax-content').innerHTML=focoBtn+header+trocaFaxBanner+items.map(function(i){
+    var diaCod=i.dia.indexOf('Seg')===0?'seg':i.dia.indexOf('Ter')===0?'ter':'sex';
+    var ambChips=(i.amb||[]).map(function(aid){
+      var a=ambientes.filter(function(x){return x.id===aid;})[0];
+      if(!a) return '';
+      return '<span class="fx-link amb" onclick="irAmbiente(\''+aid+'\',\''+diaCod+'\')">'+a.ic+' '+a.nm+'</span>';
+    }).join('');
+    var oriChips=(i.ori||[]).map(function(oi){
+      var o=oris[oi];
+      if(!o) return '';
+      return '<span class="fx-link ori" onclick="irOrientacao('+oi+',\''+diaCod+'\')">'+o.ic+' '+o.tt+'</span>';
+    }).join('');
+    var linksHtml=(ambChips||oriChips)?'<div class="fx-links">'+ambChips+oriChips+'</div>':'';
+    return '<div class="fx-card"><div class="fx-dia">'+rotuloDiaFaxina(i.dia,refDataSemana)+'</div><div class="fx-task">'+i.t+'</div>'+linksHtml+'</div>';
+  }).join('');
+}
+function limparFocoFaxina(){
+  faxFoco=null;
+  faxFocoCod=null;
+  renderFaxina(true);
+}
+
+// OCASIÕES ESPECIAIS
+var ocasioes=[
+  {
+    id:'hospedes',ic:'🛏️',nm:'Recebendo hóspedes — preparando o quarto',
+    st:[
+      'Trocar a roupa de cama — lençol, fronha e colcha/manta limpos e passados',
+      'Toalhas de banho e rosto limpas, dobradas e dispostas no quarto ou banheiro',
+      'Deixar uma garrafa de água e um copo na mesa de cabeceira',
+      'Disponibilizar chinelos ou pantufas',
+      'Deixar cabides vazios no closet ou armário',
+      'Espelho limpo, sem manchas',
+      'Kit de higiene básico à disposição (sabonete, escova de dente extra, se aplicável)',
+      'Anotar e deixar visível a senha do wifi',
+      'Testar o ar-condicionado e a iluminação do quarto',
+      'Um toque de acolhimento — flor, chocolate ou bilhete de boas-vindas (opcional)'
+    ],
+    linkAmb:'banheiro-hosp',linkTxt:'Ver passo a passo do Banheiro Hóspede'
+  },
+  {
+    id:'mesa',ic:'🍽️',nm:'Como montar a mesa (etiqueta)',
+    sub:[
+      {t:'Dia a dia',st:[
+        'Jogo americano como base',
+        'Prato raso ao centro',
+        'Garfo à esquerda do prato',
+        'Faca à direita, com o fio da lâmina voltado para o prato',
+        'Colher à direita da faca',
+        'Guardanapo dobrado à esquerda do garfo ou sobre o prato',
+        'Copo de água posicionado acima da faca, à direita'
+      ],img:'<svg viewBox="0 0 360 245" xmlns="http://www.w3.org/2000/svg" style="max-width:360px;width:100%;height:auto">'
+        +'<rect x="15" y="20" width="330" height="195" rx="10" fill="#EDE8DF" stroke="#D9D4C8" stroke-width="1.5"/>'
+        +'<circle cx="180" cy="118" r="56" fill="#FFFFFF" stroke="#B8975A" stroke-width="2.5"/>'
+        +'<circle cx="180" cy="118" r="38" fill="none" stroke="#EAD9A0" stroke-width="1"/>'
+        +'<rect x="60" y="66" width="12" height="104" rx="6" fill="#5C5850"/>'
+        +'<rect x="278" y="66" width="11" height="104" rx="5" fill="#5C5850"/>'
+        +'<rect x="298" y="66" width="11" height="104" rx="5" fill="#5C5850"/>'
+        +'<rect x="30" y="70" width="20" height="96" rx="2" fill="#C4648A" opacity="0.85"/>'
+        +'<circle cx="278" cy="38" r="15" fill="none" stroke="#4A7FB5" stroke-width="2"/>'
+        +'<text x="66" y="188" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Garfo</text>'
+        +'<text x="40" y="205" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Guardanapo</text>'
+        +'<text x="283" y="188" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Faca</text>'
+        +'<text x="303" y="205" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Colher</text>'
+        +'<text x="278" y="20" font-size="10" fill="#4A7FB5" text-anchor="middle" font-family="Segoe UI,sans-serif">Copo</text>'
+        +'<text x="180" y="228" font-size="10" fill="#B8975A" text-anchor="middle" font-family="Segoe UI,sans-serif">Jogo americano</text>'
+        +'</svg>'},
+      {t:'Ocasiões especiais (jantar formal)',st:[
+        'Sousplat (prato de apresentação) como base',
+        'Talheres organizados de fora para dentro, na ordem em que serão usados',
+        'Garfo de entrada/salada e garfo principal à esquerda, nessa ordem de fora pra dentro',
+        'Faca principal, faca de peixe/entrada e colher de sopa à direita, na mesma lógica',
+        'Talher de sobremesa posicionado na horizontal, acima do prato',
+        'Taça de água e taça de vinho à direita, ligeiramente em diagonal',
+        'Guardanapo de tecido, dobrado com capricho, sobre o prato ou à esquerda dos talheres',
+        'Prato de pão à esquerda, acima dos garfos'
+      ],img:'<svg viewBox="0 0 360 255" xmlns="http://www.w3.org/2000/svg" style="max-width:360px;width:100%;height:auto">'
+        +'<circle cx="180" cy="135" r="68" fill="#F4EFE4" stroke="#B8975A" stroke-width="2"/>'
+        +'<circle cx="180" cy="135" r="50" fill="#FFFFFF" stroke="#D9C89A" stroke-width="1.5"/>'
+        +'<rect x="44" y="79" width="10" height="110" rx="5" fill="#5C5850"/>'
+        +'<rect x="60" y="79" width="10" height="110" rx="5" fill="#5C5850"/>'
+        +'<rect x="282" y="79" width="10" height="110" rx="5" fill="#5C5850"/>'
+        +'<rect x="298" y="79" width="10" height="110" rx="5" fill="#5C5850"/>'
+        +'<rect x="314" y="79" width="10" height="110" rx="5" fill="#5C5850"/>'
+        +'<rect x="140" y="52" width="80" height="9" rx="4" fill="#5C5850"/>'
+        +'<circle cx="262" cy="42" r="13" fill="none" stroke="#4A7FB5" stroke-width="2"/>'
+        +'<circle cx="290" cy="56" r="13" fill="none" stroke="#C4648A" stroke-width="2"/>'
+        +'<circle cx="70" cy="50" r="18" fill="#FFFFFF" stroke="#B8975A" stroke-width="1.5"/>'
+        +'<rect x="16" y="79" width="20" height="100" rx="2" fill="#C4648A" opacity="0.85"/>'
+        +'<text x="52" y="203" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Garfos</text>'
+        +'<text x="26" y="218" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Guardanapo</text>'
+        +'<text x="298" y="203" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Faca / colher</text>'
+        +'<text x="180" y="38" font-size="10" fill="#5C5850" text-anchor="middle" font-family="Segoe UI,sans-serif">Talher de sobremesa</text>'
+        +'<text x="262" y="22" font-size="10" fill="#4A7FB5" text-anchor="middle" font-family="Segoe UI,sans-serif">Água</text>'
+        +'<text x="304" y="36" font-size="10" fill="#C4648A" text-anchor="middle" font-family="Segoe UI,sans-serif">Vinho</text>'
+        +'<text x="70" y="26" font-size="10" fill="#B8975A" text-anchor="middle" font-family="Segoe UI,sans-serif">Pão</text>'
+        +'</svg>'}
+    ]
+  },
+  {
+    id:'festa',ic:'🎉',nm:'Festa ou aniversário em casa',
+    st:[
+      'Confirmar com Dimona número de convidados e organizar cadeiras/mesas extras',
+      'Preparar a área do bolo — toalha de mesa, pratinhos, talheres e guardanapos',
+      'Deixar bebidas na geladeira com antecedência e providenciar gelo extra',
+      'Organizar música ambiente, se solicitado',
+      'Capricho extra nos banheiros — social e/ou hóspedes, com toalhas de mão descartáveis',
+      'Organizar a área externa/jardim, se for usada',
+      'Disponibilizar lixeiras extras e visíveis para os convidados',
+      'Reservar uma área para descarte/recolhimento de pratos e copos usados',
+      'Organizar a sobremesa',
+      'Confirmar decoração combinada com Dimona antes do evento'
+    ]
+  },
+  {
+    id:'churrasco',ic:'🔥',nm:'Churrasco com convidados',
+    st:[
+      'Preparar a churrasqueira com antecedência — carvão e acendedor à mão',
+      'Organizar a bancada da área gourmet, com utensílios à disposição (pegador, faca, tábua)',
+      'Deixar bebidas geladas e gelo extra disponível',
+      'Organizar molhos e acompanhamentos (vinagrete, farofa, mandioca cozida, feijão tropeiro)',
+      'Limpar e organizar mesa e cadeiras da área externa',
+      'Disponibilizar pratos, talheres e guardanapos suficientes',
+      'Deixar uma lixeira grande disponível na área',
+      'Organizar a sobremesa',
+      'Música ambiente, se solicitado'
+    ],
+    linkAmb:'gourmet',linkTxt:'Ver passo a passo da Área Gourmet'
+  }
+];
+function renderOcasioes(){
+  var el=document.getElementById('ocasioes-grid');
+  if(!el) return;
+  el.innerHTML=ocasioes.map(function(o){
+    var corpo;
+    if(o.sub){
+      corpo=o.sub.map(function(s){
+        var img=s.img?'<div style="display:flex;justify-content:center;margin:10px 0 16px">'+s.img+'</div>':'';
+        return '<div class="osub-t">'+s.t+'</div>'+s.st.map(function(st,i){return '<div class="astep"><div class="asn">'+(i+1)+'</div><div style="font-size:13px;color:var(--tx)">'+st+'</div></div>';}).join('')+img;
+      }).join('');
+    } else {
+      corpo=o.st.map(function(st,i){return '<div class="astep"><div class="asn">'+(i+1)+'</div><div style="font-size:13px;color:var(--tx)">'+st+'</div></div>';}).join('');
+    }
+    if(o.linkAmb){
+      corpo+='<button class="fx-link amb" style="margin-top:12px" onclick="irAmbiente(\''+o.linkAmb+'\')">🔗 '+o.linkTxt+'</button>';
+    }
+    return '<div class="ocard" id="oc-'+o.id+'"><div class="ocard-hd" onclick="togOcasiao(\''+o.id+'\')"><span class="ocard-ic">'+o.ic+'</span><span class="ocard-titulo">'+o.nm+'</span><span class="ocard-chev">⌄</span></div><div class="ocard-body">'+corpo+'</div></div>';
+  }).join('');
+}
+function togOcasiao(id){
+  var card=document.getElementById('oc-'+id);
+  if(card) card.classList.toggle('on');
+}
+
+// AMBIENTES
+var ambientes=[
+  {id:'suite-casal',ic:'🛏️',nm:'Suíte Casal',tp:'Quarto',st:['Limpar TV','Limpar lustre','Retirar objetos de gavetas e armários','Limpar gavetas do criado-mudo e armários','Limpar cabeceira — pano úmido + Veja multiuso','Limpar trilhos da porta — aspirar + pano + Veja','Limpar paredes, rodapés e tomadas','Aspirar colchão','Limpar chão — pano úmido + desinfetante lavanda','Colocar cheirinho nas cortinas, colchão e ambiente'],ob:'Fotografe antes para saber onde cada objeto estava!'},
+  {id:'closet-casal',ic:'👗',nm:'Closet Casal',tp:'Closet',st:['Retirar objetos dos armários e gavetas','Limpar armários e gavetas — pano úmido + Veja','Organizar os objetos de volta','Limpar as portas de vidro','Limpar vidro do móvel','Aspirar e limpar poltrona','Limpar porta, paredes, rodapés e tomadas','Limpar chão — pano úmido + desinfetante lavanda'],ob:'Fotografe antes!'},
+  {id:'banheiro-casal',ic:'🚿',nm:'Banheiro Casal',tp:'Banheiro',st:['Retirar objetos das gavetas e armários','Limpar gavetas e armários','Limpar espelho','Lavar vaso — detergente + água sanitária','Lavar box — água + CIF','Lavar chão — água sanitária + CIF','Limpar chão — pano + desinfetante lavanda','Recolher lixos','Limpar porta, paredes e tomadas','Limpar luzes e lustre','Limpar chuveiro, torneira, toalheiro e porta-papel — CIF + microfibra'],ob:'Fotografe antes!'},
+  {id:'suite-mf',ic:'🛏️',nm:'Suíte Maria Fernanda',tp:'Quarto',st:['Limpar luminárias','Limpar criado-mudo por dentro e por fora','Limpar cabeceira — pano + Veja','Limpar mesa/bancada','Limpar prateleiras','Limpar porta, paredes, rodapés e tomadas'],ob:'Fotografe antes!'},
+  {id:'closet-mf',ic:'👗',nm:'Closet M. Fernanda',tp:'Closet',st:['Retirar objetos dos armários, gavetas e prateleiras','Limpar armários, prateleiras e gavetas — pano + Veja','Organizar os objetos de volta','Limpar porta, parede, tomadas e rodapés','Limpar chão — pano + desinfetante lavanda'],ob:'Fotografe antes!'},
+  {id:'banheiro-mf',ic:'🚿',nm:'Banheiro M. Fernanda',tp:'Banheiro',st:['Limpar bancadas e pia','Tirar pó e limpar objetos','Organizar objetos','Limpar espelho','Lavar vaso — detergente + água sanitária','Lavar box — CIF','Lavar chão e nichos — água sanitária + CIF','Limpar chão — pano + desinfetante lavanda','Limpar porta, tomadas e parede','Limpar chuveiro, torneira e porta-papel — CIF + microfibra'],ob:'Fotografe antes!'},
+  {id:'banheiro-mi',ic:'🚿',nm:'Banheiro Maria Isabel',tp:'Banheiro',st:['Limpar bancadas e pia','Tirar pó e limpar objetos','Organizar objetos','Limpar espelho','Lavar vaso — detergente + água sanitária','Lavar box — CIF','Lavar chão e nichos — água sanitária + CIF','Limpar chão — pano + desinfetante lavanda','Limpar porta, tomadas e parede','Limpar chuveiro, torneira e porta-papel — CIF + microfibra'],ob:'Fotografe antes!'},
+  {id:'suite-bebe',ic:'👶',nm:'Suíte Maria Isabel',tp:'Quarto',st:['Trocar roupas de cama','Limpar lustre','Limpar criado-mudo por dentro e por fora','Limpar cabeceira — pano + Veja','Limpar espelhos','Limpar mesa','Limpar porta, paredes, rodapés e tomadas'],ob:'Fotografe antes!'},
+  {id:'closet-bebe',ic:'👗',nm:'Closet Maria Isabel',tp:'Closet',st:['Retirar objetos dos armários, gavetas e prateleiras','Limpar armários, prateleiras e gavetas — pano + Veja','Organizar os objetos','Limpar porta, parede, tomadas e rodapés','Limpar chão — pano + desinfetante lavanda'],ob:'Fotografe antes!'},
+  {id:'suite-hosp',ic:'🛏️',nm:'Suíte Hóspedes',tp:'Quarto',st:['Trocar roupas de cama','Limpar TV (se houver)','Limpar lustre','Limpar criado-mudo por dentro e por fora','Limpar cabeceira','Limpar espelhos','Limpar porta, paredes, rodapés e tomadas'],ob:'Fotografe antes!'},
+  {id:'banheiro-hosp',ic:'🚿',nm:'Banheiro Hóspedes',tp:'Banheiro',st:['Limpar bancadas e pia','Tirar pó e limpar objetos','Organizar objetos','Limpar espelho','Lavar vaso — detergente + água sanitária','Lavar box — CIF','Lavar chão — água sanitária + CIF','Limpar porta e tomadas','Limpar chuveiro e torneira — CIF + microfibra'],ob:'Fotografe antes!'},
+  {id:'escritorio',ic:'💻',nm:'Escritório / Sala TV',tp:'Sala',st:['Retirar objetos dos armários, prateleiras e gavetas','Limpar armários, prateleiras e gavetas — pano + Veja','Limpar e organizar os objetos','Limpar bancada e mesa','Aspirar e limpar o sofá','Retirar pó da TV','Retirar pó das luminárias','Limpar porta, parede, tomadas e rodapés','Limpar chão — pano + desinfetante lavanda'],ob:'Fotografe antes!'},
+  {id:'brinquedoteca',ic:'🎮',nm:'Brinquedoteca',tp:'Sala',st:['Retirar objetos dos armários, prateleiras e gavetas','Limpar armários, prateleiras e gavetas — pano + Veja','Organizar os objetos de volta','Retirar pó das luzes','Limpar paredes, tomadas e rodapés','Limpar chão — pano + desinfetante lavanda'],ob:'Fotografe antes!'},
+  {id:'sala-jantar',ic:'🪑',nm:'Sala Jantar / Living',tp:'Sala',st:['Aspirar e limpar sofá, poltronas e cadeiras','Arrastar móveis para limpar por baixo','Limpar armários e mesa de apoio','Retirar pó das luzes e lustres','Limpar paredes, tomadas e rodapés','Limpar porta de entrada','Limpar chão — pano + desinfetante lavanda','Retirar sujeiras do jardim de inverno'],ob:'Fotografe antes!'},
+  {id:'cristaleira',ic:'🍷',nm:'Cristaleira',tp:'Sala',st:['Retirar todos os objetos das prateleiras','Limpar os objetos','Lavar os suportes de armazenamento','Limpar as prateleiras','Organizar e guardar os objetos','Limpar as portas de vidro'],ob:'Fotografe antes!'},
+  {id:'cozinha',ic:'🍳',nm:'Cozinha',tp:'Cozinha',st:['Retirar todos os objetos dos armários e gavetas','Limpar os objetos','Lavar suportes de armazenamento','Limpar armários e gavetas','Organizar e guardar os objetos','Limpar as portas dos armários','Limpar/lavar microondas, forno, geladeira, exaustor e bebedouro — CIF + água','Limpar/lavar paredes, portas, maçanetas, tomadas e rodapés'],ob:''},
+  {id:'gourmet',ic:'🔥',nm:'Área Gourmet',tp:'Externo',st:['Retirar todos os objetos das prateleiras e gavetas','Limpar objetos','Lavar suportes de armazenamento','Limpar prateleiras e gavetas','Organizar e guardar','Limpar bancadas','Limpar mesas e cadeiras','Retirar pó dos lustres e TV','Lavar e limpar a churrasqueira','Lavar pia e calhas — CIF','Limpar parede, rodapés e tomadas','Limpar freezer, cervejeira e adega','Lavar lixeiras'],ob:'Fotografe antes!'},
+  {id:'banheiro-gourmet',ic:'🚿',nm:'Banheiro Gourmet',tp:'Banheiro',st:['Limpar bancadas e pia','Tirar pó e limpar objetos','Organizar objetos','Limpar espelho','Lavar vaso — detergente + água sanitária','Lavar box — CIF','Lavar chão — água sanitária + CIF','Limpar chão — pano + desinfetante lavanda','Recolher lixos','Limpar porta, paredes, tomadas e rodapés','Lavar janela'],ob:'Fotografe antes!'},
+  {id:'lavabo',ic:'🚽',nm:'Lavabo',tp:'Banheiro',st:['Limpar bancadas e pia','Tirar pó e limpar objetos','Organizar objetos','Limpar espelho','Lavar vaso — detergente neutro + água sanitária','Limpar chão — pano + desinfetante lavanda','Limpar porta, parede, tomadas e rodapés','Tirar pó do lustre','Recolher lixos e limpar a cesta','Limpar torneira e porta-papel — CIF + microfibra'],ob:'Fotografe antes!'},
+  {id:'rouparia',ic:'🧺',nm:'Rouparia',tp:'Serviço',st:['Retirar os objetos dos armários','Limpar armários e prateleiras — pano + Veja','Organizar os objetos de volta','Limpar portas','Limpar chão — pano + desinfetante lavanda'],ob:'Fotografe antes!'},
+  {id:'lavanderia',ic:'🫧',nm:'Lavanderia',tp:'Serviço',st:['Retirar todos os objetos das prateleiras e armários','Limpar objetos','Limpar prateleiras e armários — pano + Veja','Tirar objetos dos cestos e limpar','Organizar e guardar de volta','Limpar paredes, rodapés e tomadas','Lavar portões do corredor','Limpar bancadas e pias','Limpar a máquina de lavar','Lavar lixeira','Lavar chão — pano + desinfetante lavanda'],ob:''},
+  {id:'academia',ic:'🏋️',nm:'Academia',tp:'Extra',st:['Aspirar o chão','Limpar o chão','Limpar pesos — pano microfibra + peróxido','Limpar rack — pano + peróxido'],ob:'Fotografe antes!'},
+  {id:'escada',ic:'🪜',nm:'Escada',tp:'Circulação',st:['Limpar degraus da escada','Limpar paredes da escada','Limpar luzes da escada','Limpar embaixo e laterais da escada'],ob:''},
+  {id:'deposito',ic:'📦',nm:'Depósito / Q. Fundo',tp:'Extra',st:['Retirar todos os objetos das prateleiras e armários','Limpar os objetos','Lavar os suportes de armazenamento','Limpar as prateleiras e armários','Organizar e guardar os objetos'],ob:''},
+  {id:'canil',ic:'🐕',nm:'Canil',tp:'Externo',st:['Retirar o cachorro do canil antes de limpar','Recolher fezes e descartar corretamente','Lavar o chão do canil com água e desinfetante pet-friendly','Lavar as vasilhas de água e ração com detergente neutro, enxaguar bem','Colocar água fresca e ração fresca nas vasilhas','Lavar a cama/almofada do cachorro conforme necessidade','Verificar se há objetos estranhos ou perigosos no canil','Deixar secar antes de devolver o cachorro'],ob:'Usar apenas produtos pet-friendly — produtos com amônia ou cloro são tóxicos para cães.'},
+  {id:'roll-entrada',ic:'🚪',nm:'Roll de Entrada',tp:'Circulação',st:['Varrer o piso removendo pó e sujeira seca','Limpar o piso com pano úmido e desinfetante lavanda','Limpar a porta de entrada por dentro e por fora — pano úmido + Veja','Limpar a maçaneta e fechadura com pano de microfibra','Limpar o espelho (se houver) com álcool 70% e microfibra','Limpar mesas, aparadores ou móveis de apoio — pano + Veja','Organizar objetos (chaves, bolsas, sapatos) nos devidos lugares','Limpar rodapés e tomadas','Tirar pó de quadros e luminárias'],ob:'Fotografe antes para saber onde cada objeto estava!'}
+];
+function renderAmb(){
+  document.getElementById('agrid').innerHTML=ambientes.map(function(a){
+    return '<div class="acard" id="ac-'+a.id+'" onclick="mostraAmb(\''+a.id+'\')"><div style="font-size:22px;margin-bottom:6px">'+a.ic+'</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+a.nm+'</div><div style="font-size:11px;color:var(--c3);margin-top:2px">'+a.tp+'</div></div>';
+  }).join('');
+}
+function mostraAmb(id){
+  var a=ambientes.filter(function(x){return x.id===id;})[0];
+  if(!a) return;
+  document.querySelectorAll('.acard').forEach(function(c){c.classList.remove('on');});
+  var card=document.getElementById('ac-'+id);
+  if(card) card.classList.add('on');
+  var det=document.getElementById('adet');
+  det.className='adet on';
+  det.innerHTML='<h3>'+a.ic+' '+a.nm+' <button class="xbtn" onclick="fechaAmb()">✕</button></h3>'+
+    a.st.map(function(s,i){return '<div class="astep"><div class="asn">'+(i+1)+'</div><div style="font-size:13px;color:var(--tx)">'+s+'</div></div>';}).join('')+
+    (a.ob?'<div class="aobs">📌 '+a.ob+'</div>':'');
+  det.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function fechaAmb(){
+  document.getElementById('adet').className='adet';
+  document.querySelectorAll('.acard').forEach(function(c){c.classList.remove('on');});
+}
+
+// TAREFAS DO DIA
+var todasTarefas=[
+  // CÉLIA — aparecem seg, ter, qua, sex (não quinta=folga)
+  {l:'Limpeza canil / higienizar vasilhas / colocar água',r:'celia',dias:[0,1,4]},
+  {l:'Regar plantas',r:'celia',dias:[0,4]},
+  // CÉLIA — segunda
+  {l:'Trocar roupa de cama e banho / recolher roupas do cesto',r:'celia',dias:[0]},
+  {l:'Pré-lavagem das roupas e limpeza dos sapatos',r:'celia',dias:[0]},
+  {l:'Colocar roupas na máquina',r:'celia',dias:[0]},
+  {l:'Lavar garagem',r:'celia',dias:[0]},
+  {l:'Lavar varandas',r:'celia',dias:[0]},
+  {l:'Lavar pátio / área da piscina',r:'celia',dias:[0]},
+  {l:'Limpar jardim',r:'celia',dias:[0]},
+  {l:'Faxina rotativa — tarde (ver aba Faxina rotativa)',r:'celia',dias:[0]},
+  {l:'Fazer lista de produtos de limpeza',r:'celia',dias:[0]},
+  // CÉLIA — terça
+  {l:'Faxina rotativa — manhã (ver aba Faxina rotativa)',r:'celia',dias:[1]},
+  {l:'Passar roupas (aprox. 3h)',r:'celia',dias:[1]},
+  {l:'Dobrar e guardar roupas',r:'celia',dias:[1]},
+  // CÉLIA — quarta (cobertura Rose)
+  {l:'Arrumação quartos, escritório, banheiros e corredor (cobertura Rose)',r:'celia',dias:[2]},
+  {l:'Arrumar sala de jantar, living, lavabo (cobertura Rose)',r:'celia',dias:[2]},
+  {l:'Limpeza express do canil / vasilhas / água do cachorro',r:'celia',dias:[2]},
+  {l:'Preparar o almoço conforme cardápio',r:'celia',dias:[2]},
+  {l:'Arrumar cozinha do almoço e área gourmet',r:'celia',dias:[2]},
+  {l:'Preparar jantar',r:'celia',dias:[2]},
+  // CÉLIA — sexta
+  {l:'Limpar academia',r:'celia',dias:[4]},
+  {l:'Faxina rotativa — manhã de sexta (ver aba Faxina rotativa)',r:'celia',dias:[4]},
+  {l:'Faxina rotativa — tarde de sexta (ver aba Faxina rotativa)',r:'celia',dias:[4]},
+  // ROSE — seg, ter, qui, sex
+  {l:'Arrumar cozinha da noite anterior e fazer café da manhã',r:'rose',dias:[0,1,3,4]},
+  {l:'Servir café da manhã',r:'rose',dias:[0,1,3,4]},
+  {l:'Fazer antecipação do almoço',r:'rose',dias:[0,1,3,4]},
+  {l:'Preparar o almoço conforme cardápio',r:'rose',dias:[0,1,3,4]},
+  {l:'Arrumar cozinha do almoço e área gourmet',r:'rose',dias:[0,1,3,4]},
+  {l:'Preparar jantar',r:'rose',dias:[0,1,3,4]},
+  {l:'Recolher lixo da cozinha e arrumação cozinha',r:'rose',dias:[0,1,3,4]},
+  {l:'Arrumação quartos, escritório, banheiros e corredor',r:'rose',dias:[0,1,3,4]},
+  {l:'Arrumar sala de jantar, living e lavabo',r:'rose',dias:[0,1,3,4]},
+  // ROSE — segunda
+  {l:'Fazer lista de compras hortifruti / açougue',r:'rose',dias:[0]},
+  // ROSE — terça
+  {l:'Higienizar compras / organizar carnes por porção (vácuo + identificar)',r:'rose',dias:[1]},
+  // ROSE — quinta
+  {l:'Limpeza express da geladeira (verificar líquidos, cheiro, vencidos e sobras)',r:'rose',dias:[3]},
+  // ROSE — sexta
+  {l:'Limpeza express do forno e microondas',r:'rose',dias:[4]},
+  // AMBAS — segunda
+  {l:'Verificar estoque de mantimentos e fazer lista de compras',r:'ambas',dias:[0]},
+  // FDS — sáb=5, dom=6
+  {l:'Arrumar cozinha da noite anterior e fazer café da manhã',r:'fds',dias:[5,6]},
+  {l:'Servir café da manhã e levar cachorro para passear',r:'fds',dias:[5,6]},
+  {l:'Fazer antecipação do almoço',r:'fds',dias:[5,6]},
+  {l:'Arrumação quartos, escritório, banheiros e corredor',r:'fds',dias:[5,6]},
+  {l:'Arrumar sala de jantar, living e lavabo',r:'fds',dias:[5,6]},
+  {l:'Arrumação área gourmet e banheiro do gourmet',r:'fds',dias:[5,6]},
+  {l:'Preparar o almoço conforme cardápio',r:'fds',dias:[5,6]},
+  {l:'Arrumar cozinha do almoço e área gourmet',r:'fds',dias:[5,6]},
+  {l:'Preparar jantar',r:'fds',dias:[5,6]},
+  {l:'Recolher lixo da cozinha e arrumação cozinha',r:'fds',dias:[5,6]},
+];
+
+var filtro='todas',taskDone={};
+
+function dowLocal(data){
+  var js=data.getDay();
+  if(js===0) return 6;
+  if(js===6) return 5;
+  return js-1;
+}
+function chaveStorage(){
+  var d=hoje;
+  return 'cm_tasks_'+d.getFullYear()+'-'+(d.getMonth()+1<10?'0':'')+(d.getMonth()+1)+'-'+(d.getDate()<10?'0':'')+d.getDate();
+}
+function carregarTasks(){
+  try{var s=localStorage.getItem(chaveStorage());taskDone=s?JSON.parse(s):{};}catch(e){taskDone={};}
+}
+function salvarTasks(){
+  try{localStorage.setItem(chaveStorage(),JSON.stringify(taskDone));}catch(e){}
+}
+function setFiltro(f,btn){
+  filtro=f;
+  document.querySelectorAll('#cfiltro .chip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderT();
+}
+function renderT(){
+  var dow=dowLocal(hoje);
+  var dowEf=diaEfetivo(dow,hoje);
+  var isFDS=dow===5||dow===6;
+  document.getElementById('tarefas-data').textContent=diasN[hoje.getDay()]+', '+hoje.getDate()+' de '+mesesN[hoje.getMonth()];
+  document.getElementById('cfiltro').style.display=isFDS?'none':'flex';
+  var lista=todasTarefas.filter(function(t){
+    var diaCheck=(t.r==='rose'||t.r==='celia')?dowEf:dow;
+    return t.dias.indexOf(diaCheck)!==-1;
+  });
+  var filtradas=lista.filter(function(t){
+    if(isFDS) return true;
+    if(filtro==='celia') return t.r==='celia'||t.r==='ambas';
+    if(filtro==='rose')  return t.r==='rose'||t.r==='ambas';
+    return true;
+  });
+  if(!filtradas.length){
+    document.getElementById('tlist').innerHTML='<div style="padding:24px;text-align:center;color:var(--c3);font-size:13px">&#127769; Sem tarefas para este filtro hoje.</div>';
+    updateProg();return;
+  }
+  var html='';
+  filtradas.forEach(function(t,i){
+    var done=taskDone[t.l];
+    var badge='';
+    if(t.r==='celia')      badge='<span class="bc">C&#233;lia</span>';
+    else if(t.r==='rose')  badge='<span class="br">Rose</span>';
+    else if(t.r==='ambas') badge='<span class="ba">Ambas</span>';
+    else if(t.r==='fds')   badge='<span class="ba">'+quemTrabalhaFDS(hoje)+'</span>';
+    var chk=done?'<svg width="11" height="11" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>':'';
+    var label=t.l;
+    if((t.r==='rose'||t.r==='celia')&&dow!==dowEf){
+      if(dow===2) label=label.replace(/\bsexta\b/gi,'quarta');
+      else if(dow===4) label=label.replace(/\bquarta\b/gi,'sexta');
+    }
+    html+='<div class="ci'+(done?' done':'')+'" data-idx="'+i+'" onclick="toggleT(this)"><div class="cbox">'+chk+'</div><span class="cil">'+label+'</span>'+badge+'</div>';
+  });
+  // guardar referência às tarefas filtradas para o toggleT acessar
+  window._tarefasFiltradas=filtradas;
+  document.getElementById('tlist').innerHTML=html;
+  updateProg();
+}
+function toggleT(el){
+  var i=parseInt(el.getAttribute('data-idx'));
+  var t=window._tarefasFiltradas[i];
+  if(!t) return;
+  taskDone[t.l]=!taskDone[t.l];
+  salvarTasks();
+  renderT();
+}
+function resetT(){taskDone={};salvarTasks();renderT();}
+function updateProg(){
+  var all=document.querySelectorAll('#tlist .ci').length;
+  var done=document.querySelectorAll('#tlist .ci.done').length;
+  document.getElementById('prog').style.width=(all?Math.round(done/all*100):0)+'%';
+  document.getElementById('ptxt').textContent=done+' de '+all+' concluídas';
+}
+
+// ORIENTAÇÕES
+var oris=[
+  {ic:'🪟',tt:'Vidros e espelhos',sb:'Janelas, boxes, portas de vidro e espelhos',pr:['Água','Detergente neutro','Álcool 70%','Esponja branca (lado macio)','Rodo de borracha','Pano de microfibra'],st:['Remova o pó seco com pano seco antes de molhar — jamais passe pano úmido em vidro empoeirado (risca)','Prepare a solução: água morna + 1 gota de detergente neutro + álcool 70%','Aplique com esponja branca (lado macio) em movimentos circulares suaves','Passe o rodo de cima para baixo com movimentos contínuos, enxugando o rodo a cada passagem','Finalize com pano de microfibra seco para eliminar marcas','Para espelhos: use apenas pano de microfibra levemente úmido com álcool — evite borrifar direto na borda (infiltra e mancha por baixo)'],dc:'Limpe vidros em dias nublados ou à sombra — sol direto seca rápido e deixa manchas.',al:'Nunca use esponja verde, palha de aço ou produtos com amônia em vidros.'},
+  {ic:'🛁',tt:'Banheiros e boxes',sb:'Vaso, pia, box, azulejos, rejuntes e ralos',pr:['Água sanitária','Detergente neutro','CIF (creme)','Escova sanitária','Esponja dupla face','Pano de microfibra','Luvas de borracha'],st:['Sempre use luvas ao manusear água sanitária e CIF','Vaso: aplique detergente + água sanitária dentro, aguarde 5 min, esfregue com escova e dê descarga','Box: CIF com esponja (lado verde no azulejo, lado macio no vidro), esfregue em círculos e enxágue','Rejuntes escuros: água sanitária pura com escovinha, aguarde 3 min e enxágue','Pia e bancada: CIF na esponja (lado macio), esfregue, enxágue e seque com microfibra','Torneiras e cromados: CIF e microfibra, seque bem para evitar calcário','Chão: água + água sanitária no pano, aguarde 2 min e enxágue','Ralos: água sanitária pura, aguarde e enxágue para eliminar odores'],dc:'Seque sempre as torneiras e o box após o uso diário para evitar acúmulo de calcário.',al:'Nunca misture água sanitária com amônia ou ácidos — gera gás tóxico.'},
+  {ic:'🍳',tt:'Fogão e forno',sb:'Queimadores, grelhas, frente e interior do forno',pr:['Detergente desgordurante','Bicarbonato de sódio','Água quente','Esponja dupla face','Palha de aço fina (só queimadores)','Pano de microfibra'],st:['Espere esfriar completamente antes de limpar','Remova grelhas e queimadores — deixe de molho em água quente com desgordurante por 15 min','Esfregue queimadores com palha de aço fina; grelhas com esponja','Superfície: aplique desgordurante, aguarde 2 min e limpe com esponja (lado macio)','Manchas difíceis: pasta de bicarbonato + água, aguarde 5 min e esfregue','Interior do forno: borrife desgordurante, aguarde 10-15 min, esfregue e retire com pano úmido','Vidro da porta: pasta de bicarbonato, aguarde e esfregue com esponja','Seque tudo com microfibra e recoloque as peças'],dc:'Limpe o fogão logo após usar — sujeira fresca sai com muito menos esforço.',al:'Nunca use palha de aço na superfície esmaltada ou de vidro do fogão.'},
+  {ic:'❄️',tt:'Geladeira',sb:'Interior, prateleiras, gavetas e borrachas',pr:['Água morna','Bicarbonato de sódio','Detergente neutro','Pano de microfibra ou esponja macia'],st:['Retire todos os alimentos e desligue ou coloque no modo descongelamento','Remova prateleiras e gavetas — lave com água morna + detergente, enxágue e seque bem','Interior: pano úmido com água morna + 1 colher de bicarbonato (desodoriza e higieniza)','Limpe as borrachas das portas com cotonete úmido — acúmulo ali causa mau cheiro e fungos','Parte externa: pano úmido com detergente neutro, seque com microfibra','Recoloque as prateleiras, ligue e aguarde atingir a temperatura antes de recolocar alimentos'],dc:'Coloque um potinho com bicarbonato dentro da geladeira para absorver odores.',al:'Nunca use produtos abrasivos ou esponjas verdes no interior — criam fissuras onde bactérias se proliferam.'},
+  {ic:'🪑',tt:'Sofás e estofados',sb:'Tecido, couro e almofadas',pr:['Aspirador de pó','Pano de microfibra','Detergente neutro diluído','Borrifador','Álcool 70% (couro)'],st:['Aspire todo o sofá — encosto, assento, laterais e frestas','Para tecido: dilua 1 colher de detergente em 500ml de água, borrife no pano (nunca direto no tecido) e limpe suavemente','Manchas no tecido: solução com cotonete, esfregue de fora para dentro e seque com pano seco','Para couro: pano de microfibra levemente úmido; manchas com álcool 70% suavemente','Almofadas: retire as capas e lave conforme a etiqueta; espuma pode ser arejada ao sol por 1-2h','Após limpar, deixe secar naturalmente'],dc:'Gire e vire as almofadas semanalmente para o desgaste ser uniforme.',al:'Nunca ensopie o tecido — umidade em excesso causa mofo no interior da espuma.'},
+  {ic:'🪵',tt:'Móveis de madeira',sb:'Armários, mesas, criados-mudos e cômodas',pr:['Pano de microfibra seco','Pano levemente úmido','Veja multiuso','Cera de carnaúba (opcional)'],st:['Tire o pó primeiro com pano seco — sempre no sentido do veio da madeira','Para limpeza mais profunda: pano levemente úmido com Veja, retire o excesso com pano seco','Nunca deixe água parada na madeira — seque imediatamente','Gavetas e prateleiras internas: esvazie, limpe com pano úmido, seque e recoloque os objetos','Vidros de móveis: pano de microfibra + álcool 70%','Madeira nobre ou laqueada: use apenas pano seco ou cera de carnaúba em movimentos circulares'],dc:'Para manchas brancas de umidade: passe ferro de passar na potência mínima com pano seco sobre a marca.',al:'Nunca use produtos com amônia, cloro ou esponjas abrasivas em madeira.'},
+  {ic:'🧺',tt:'Roupas — lavagem',sb:'Separação, lavagem, passagem e guarda',pr:['Sabão em pó ou líquido','Vinagre de álcool (para toalhas)','Tira-manchas','Alvejante sem cloro (roupas brancas)'],st:['Separe: brancas, claras, escuras e coloridas — nunca lave brancas com coloridas','Verifique todos os bolsos antes de colocar na máquina','Pré-lavagem: aplique tira-manchas nas manchas, aguarde 10 min','Roupas delicadas: ciclo delicado, água fria, viradas ao avesso','Roupas escuras: sempre ao avesso e água fria para não desbotar','Roupas de cama: 60°C para higienizar bem','Toalhas de banho: NUNCA use amaciante — reduz a absorção. Substitua por 1 xícara de vinagre de álcool na última enxaguagem. Use POUCO sabão (excesso resseca as fibras e causa mau cheiro)','Ao retirar da máquina: sacuda cada peça antes de estender','Para passar: comece pelas peças finas e termine nas pesadas','Gavetas: organize por tipo de roupa, depois por cor (da mais clara para a mais escura). Coloque roupas recém-lavadas EMBAIXO da pilha (isso se aplica apenas às gavetas, não aos cabideiros)','Roupas de academia: organize por tipo e conjunto','Cabideiros: roupas sociais sempre ao avesso, organizadas por tipo e comprimento'],dc:'💡 Nas gavetas, coloque as roupas recém-lavadas embaixo da pilha — assim todas as peças são usadas com frequência igual. Nos cabideiros não é necessário.',al:'⚠️ Nunca misture alvejante com cloro e amaciante na mesma lavagem. Para toalhas, use vinagre no lugar do amaciante.'},
+  {ic:'🌿',tt:'Plantas e jardins',sb:'Rega, limpeza das folhas, jardim e cuidados gerais',pr:['Regador','Pano de microfibra macio','Borrifador com água'],st:['Verifique a umidade da terra antes de regar — enfie o dedo 2cm; se úmida, aguarde','Regue sempre na terra, nunca nas folhas','Plantas em vaso: regue até escorrer pelo furo e esvazie o prato após 30 min','Limpeza das folhas: pano de microfibra levemente úmido passado suavemente','Plantas de folha larga: limpe folha por folha a cada 2 semanas','Retire folhas amareladas ou secas com tesoura limpa','No jardim: catar sujeiras, plásticos, papéis e objetos estranhos antes de regar ou varrer','Varrer folhas secas e galhos caídos do jardim regularmente'],dc:'Limpeza das folhas deixa a planta mais verde — o pó bloqueia a luz que ela precisa.',al:'Nunca use óleos ou produtos brilhantes nas folhas — obstruem os poros da planta.'},
+  {ic:'🌬️',tt:'Ar-condicionado',sb:'Filtros, grades e limpeza mensal',pr:['Aspirador de pó','Água morna','Detergente neutro','Pano de microfibra','Álcool 70%'],st:['Desligue e desconecte da tomada antes de qualquer limpeza','Abra a tampa frontal e retire o filtro com cuidado','Aspire o filtro para remover o pó grosso antes de molhar','Lave em água corrente morna com detergente neutro, esfregando suavemente','Enxágue bem e deixe secar completamente à sombra — nunca recoloque o filtro úmido','Limpe a grade interna e externa com pano úmido e álcool 70%','Recoloque o filtro seco e feche a tampa','Limpeza completa do equipamento: chamar técnico — 1 vez por ano'],dc:'Limpe o filtro 1 vez por mês — filtro sujo aumenta o consumo de energia e piora a qualidade do ar.',al:'Nunca ligue o ar-condicionado com o filtro molhado.'},
+  {ic:'🏊',tt:'Área da piscina e pátio',sb:'Piso molhado, cadeiras e área externa',pr:['Mangueira','Vassoura de pelo','Rodo','Detergente desgordurante','Esponja grossa'],st:['Varra toda a área antes de molhar para remover folhas e sujeira seca','Molhe o piso com mangueira partindo do fundo em direção à saída de água','Aplique desgordurante, esfregue com vassoura de pelo e enxágue','Ralos: limpe periodicamente com escova para evitar entupimento','Cadeiras e mesas: esponja com detergente, enxágue e seque o assento','Borda da piscina: esponja com CIF, esfregue e enxágue'],dc:'Varrer todos os dias evita que folhas entrem na piscina e poluam a água.',al:'Nunca use enceradeira elétrica em piso molhado ou área de piscina.'},
+  {ic:'🏋️',tt:'Academia',sb:'Pesos, rack, chão e equipamentos',pr:['Álcool 70%','Peróxido de hidrogênio 3%','Pano de microfibra','Aspirador de pó'],st:['Aspire o chão para remover pó e sujeira seca','Passe pano úmido com água + peróxido de hidrogênio no chão','Pesos e anilhas: pano de microfibra com álcool 70% em cada peça','Rack e suportes: pano com peróxido, atenção nas frestas onde o suor acumula','Espelhos: pano de microfibra com álcool 70%','Ventilador ou AC local: limpe a grade e o filtro mensalmente'],dc:'Limpe os equipamentos sempre após o uso — o suor corrói o metal ao longo do tempo.',al:'Nunca borrife álcool diretamente em equipamentos eletrônicos — aplique no pano.'},
+  {ic:'🚧',tt:'Portões e caixa de correio',sb:'Superfícies de alumínio e metal externo',pr:['Água morna','Detergente neutro','Esponja macia (lado branco)','Pano de microfibra','Álcool 70%'],st:['Enxágue o portão com água para remover poeira e sujeira solta antes de esfregar','Prepare solução de água morna + detergente neutro','Aplique com esponja macia (lado branco) em movimentos no sentido das ripas ou do alumínio — nunca em círculos','Esfregue com suavidade nas frestas e cantos usando esponja dobrada ou pincel de cerdas macias','Enxágue bem com água para remover todo o detergente — resíduo de sabão mancha o alumínio','Seque com pano de microfibra para evitar manchas de água','Caixa de correio: limpe por dentro e por fora, removendo folhas e resíduos acumulados','Limpe a fechadura e dobradiças com pano levemente úmido e seque bem'],dc:'💡 Limpeza mensal evita o acúmulo de oxidação e manchas escuras difíceis de remover no alumínio.',al:'⚠️ Nunca use palha de aço, esponja verde abrasiva ou produtos ácidos no alumínio — riscam e oxidam o material permanentemente.'},
+  {ic:'🔥',tt:'Churrasqueira e gourmet',sb:'Grelha, fornalha e superfícies externas',pr:['Água quente','Detergente desgordurante','Escova de aço para grelha','Espátula','Pano de microfibra'],st:['Espere esfriar completamente','Retire as grelhas e mergulhe em água quente com detergente por 15 min','Esfregue as grelhas com escova de aço para remover gordura carbonizada','Interior: espátula para raspar cinzas, recolha com pá de lixo','Paredes internas: esponja grossa e desgordurante, enxágue com pano úmido','Parte externa de inox: pano de microfibra com desgordurante, sempre no sentido do inox','Calhas e canaletas: raspe e lave com desgordurante'],dc:'💡 Limpe a churrasqueira sempre após o uso, quando ainda morna — gordura fresca sai com muito menos esforço do que resíduo frio carbonizado.',al:'Nunca use esponja de aço em inox — risca. Use escova de cerdas macias ou microfibra.'}
+];
+function renderOri(){
+  document.getElementById('ogrid').innerHTML=oris.map(function(o,i){
+    var prods=o.pr.map(function(p){return '<span class="oprod">'+p+'</span>';}).join('');
+    var steps=o.st.map(function(s,j){return '<div class="ostep"><div class="osn">'+(j+1)+'</div><div class="ost">'+s+'</div></div>';}).join('');
+    return '<div class="ocard" id="oc-'+i+'"><div class="ohd" onclick="togOri('+i+')"><span class="oic">'+o.ic+'</span><div><div class="otit">'+o.tt+'</div><div class="osub">'+o.sb+'</div></div><span class="ochev">⌄</span></div><div class="obdy"><div class="oplbl">Materiais necessários</div>'+prods+steps+(o.dc?'<div class="odica">💡 '+o.dc+'</div>':'')+(o.al?'<div class="oalert">⚠️ '+o.al+'</div>':'')+'</div></div>';
+  }).join('');
+}
+function togOri(i){document.getElementById('oc-'+i).classList.toggle('on');}
+
+// LEMBRETES
+var lembs=[
+  {n:'Lavar ar-condicionado',d:'Limpeza completa do equipamento',f:'1 vez por ano',c:'fa'},
+  {n:'Trocar velas do filtro de água',d:'',f:'1 vez por ano',c:'fa'},
+  {n:'Lavar cortinas e persianas',d:'',f:'A cada 6 meses / 1 ano',c:'f6'},
+  {n:'Lavar a seco sofás e estofados',d:'',f:'A cada 6 meses / 1 ano',c:'f6'},
+  {n:'Lavar edredons, colchas e mantas',d:'Uso diário',f:'1 vez por mês / 45 dias',c:'f1'},
+  {n:'Lavar tapetes',d:'',f:'A cada 6 meses / 1 ano',c:'f6'},
+  {n:'Dedetizar a casa',d:'',f:'1 vez por ano',c:'fa'},
+  {n:'Trocar filtros água, coifa e AC',d:'',f:'A cada 6 meses',c:'f6'},
+  {n:'Lavar caixa d\'água',d:'',f:'1 vez por ano',c:'fa'},
+  {n:'Limpeza caixa de gordura',d:'',f:'Conforme necessidade',c:'f3'},
+  {n:'Limpar filtros do ar-condicionado',d:'Tirar e lavar o filtro',f:'1 vez por mês',c:'f1'},
+  {n:'Limpeza piscina',d:'Piscineiro',f:'2 vezes por semana',c:'f3'}
+];
+function calcularProximaData(cat,dataBaseIso){
+  var dias=cat==='fa'?365:cat==='f6'?182:cat==='f1'?30:0;
+  if(dias<=0||!dataBaseIso) return '';
+  var partes=dataBaseIso.split('-');
+  if(partes.length!==3) return '';
+  var base=new Date(Number(partes[0]),Number(partes[1])-1,Number(partes[2]));
+  base.setDate(base.getDate()+dias);
+  return chaveData(base);
+}
+function autoPreencherProxima(idx){
+  var ultEl=document.getElementById('ult-'+idx);
+  var prxEl=document.getElementById('prx-'+idx);
+  if(!ultEl||!ultEl.value) return;
+  var cat=lembs[idx].c;
+  var proximo=calcularProximaData(cat,ultEl.value);
+  if(proximo&&prxEl) prxEl.value=proximo;
+}
+function salvarLembManual(idx){
+  var ultEl=document.getElementById('ult-'+idx);
+  var prxEl=document.getElementById('prx-'+idx);
+  var fb=document.getElementById('lemb-fb-'+idx);
+  var item=lembs[idx].n;
+  var ultimo=ultEl?ultEl.value:'';
+  var proximo=prxEl?prxEl.value:'';
+  if(fb){fb.style.display='block';fb.style.color='var(--c3)';fb.textContent='Salvando...';}
+  fetch(sheetsUrlCM,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({app:'manutencao',idx:idx,item:item,ultimo:ultimo,proximo:proximo})
+  }).then(function(){
+    manutencaoCache[idx]={idx:idx,item:item,ultimo:ultimo,proximo:proximo};
+    renderAvisosManutencao();
+    if(typeof renderSched==='function') renderSched();
+    if(fb){fb.style.color='var(--rs)';fb.textContent='✅ Salvo!';setTimeout(function(){fb.style.display='none';},2000);}
+  }).catch(function(){
+    if(fb){fb.style.color='#C44040';fb.textContent='❌ Não foi possível salvar agora.';}
+  });
+}
+var manutencaoCache={};
+var manutencaoCarregada=false;
+function carregarLemb(){
+  fetch(sheetsUrlCM+'?app=manutencao')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var lista=(data&&data.manutencao)?data.manutencao:[];
+      manutencaoCache={};
+      lista.forEach(function(m){manutencaoCache[m.idx]=m;});
+      lembs.forEach(function(l,i){
+        var m=manutencaoCache[i];
+        var ult=document.getElementById('ult-'+i);
+        var prx=document.getElementById('prx-'+i);
+        if(m){
+          if(ult&&dataValida(m.ultimo)) ult.value=m.ultimo;
+          if(prx&&dataValida(m.proximo)) prx.value=m.proximo;
+        }
+      });
+      manutencaoCarregada=true;
+      renderAvisosManutencao();
+      if(typeof renderSched==='function') renderSched();
+    })
+    .catch(function(){manutencaoCarregada=true;if(typeof renderSched==='function') renderSched();});
+}
+function manutencaoProxima(){
+  var em7dias=new Date(hoje);em7dias.setDate(hoje.getDate()+7);
+  var chave7=chaveData(em7dias);
+  var chaveHoje=chaveData(hoje);
+  var itens=[];
+  Object.keys(manutencaoCache).forEach(function(idx){
+    var m=manutencaoCache[idx];
+    if(!m.proximo||!dataValida(m.proximo)) return;
+    if(m.proximo<=chave7){
+      itens.push({item:m.item,proximo:m.proximo,vencido:m.proximo<chaveHoje});
+    }
+  });
+  itens.sort(function(a,b){return a.proximo<b.proximo?-1:1;});
+  return itens;
+}
+function renderAvisosManutencao(){
+  var el=document.getElementById('avisos-manut');
+  if(!el) return;
+  var itens=manutencaoProxima();
+  if(!itens.length){el.innerHTML='';return;}
+  el.innerHTML='<div style="background:var(--ab);border:1px solid var(--c1);border-radius:var(--r);padding:12px 14px;margin-bottom:16px">'
+    +'<div style="font-size:12px;font-weight:700;color:var(--tx);margin-bottom:6px">🔧 Manutenções próximas (7 dias)</div>'
+    +itens.map(function(it){
+      return '<div style="font-size:13px;color:var(--tx);margin-bottom:3px">'+(it.vencido?'⚠️ <strong>Atrasado</strong> — ':'')+it.item+' — '+formatarDataBR(it.proximo)+'</div>';
+    }).join('')
+    +'</div>';
+}
+function renderLemb(){
+  document.getElementById('lgrid').innerHTML=lembs.map(function(l,i){
+    return '<div class="lcard"><h4>'+l.n+'</h4>'+(l.d?'<p>'+l.d+'</p>':'')+'<span class="lfreq '+l.c+'">'+l.f+'</span>'
+      +'<div class="dg"><label>Data do último serviço</label><input type="date" id="ult-'+i+'" data-idx="'+i+'" onchange="autoPreencherProxima('+i+')"></div>'
+      +'<div class="dg"><label>Próximo serviço</label><input type="date" id="prx-'+i+'" data-idx="'+i+'"></div>'
+      +'<button onclick="salvarLembManual('+i+')" style="margin-top:10px;width:100%;padding:8px;border:1px solid var(--vd);border-radius:var(--r);background:#fff;color:var(--vd);font-size:12px;font-weight:600;cursor:pointer">💾 Salvar</button>'
+      +'<button onclick="concluirManutencao('+i+')" style="margin-top:8px;width:100%;padding:8px;border:none;border-radius:var(--r);background:var(--vd);color:#fff;font-size:12px;font-weight:600;cursor:pointer">✅ Marcar como feito hoje</button>'
+      +'<div id="lemb-fb-'+i+'" style="display:none;font-size:12px;margin-top:6px"></div></div>';
+  }).join('');
+  carregarLemb();
+}
+function concluirManutencao(idx){
+  var hojeStr=chaveData(hoje);
+  var cat=lembs[idx].c;
+  var proximo=calcularProximaData(cat,hojeStr);
+  var ultEl=document.getElementById('ult-'+idx);
+  var prxEl=document.getElementById('prx-'+idx);
+  if(ultEl) ultEl.value=hojeStr;
+  if(prxEl) prxEl.value=proximo;
+
+  var item=lembs[idx].n;
+  fetch(sheetsUrlCM,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({app:'manutencao',idx:idx,item:item,ultimo:hojeStr,proximo:proximo})
+  }).then(function(){
+    manutencaoCache[idx]={idx:idx,item:item,ultimo:hojeStr,proximo:proximo};
+    renderAvisosManutencao();
+    if(typeof renderSched==='function') renderSched();
+  }).catch(function(){});
+
+}
+
+// INIT
+renderFaxina();
+renderAmb();
+renderOcasioes();
+carregarTasks();
+renderT();
+renderOri();
+renderLemb();
+var mapaDia={1:0,2:1,3:2,4:3,5:4,6:5,0:6};
+var diaAtual=mapaDia[hoje.getDay()];
+var chipsDia=document.querySelectorAll('#cdia .chip');
+chipsDia.forEach(function(c){c.classList.remove('on');});
+if(chipsDia[diaAtual]) chipsDia[diaAtual].classList.add('on');
+curDia=diaAtual;
+renderSched();
+calMes=hoje.getMonth();calAno=hoje.getFullYear();
+renderCal();
+selDia(hoje.getFullYear(),hoje.getMonth(),hoje.getDate());
+carregarLembretes();
+carregarCompromissos();
+// Ler parâmetro ?fn= vindo do index.html
+try {
+  var urlParams=new URLSearchParams(window.location.search);
+  var fnParam=urlParams.get('fn');
+  if(fnParam==='rose'||fnParam==='celia'){
+    // Abrir aba Rotina diária
+    var navBtns=document.querySelectorAll('.ni');
+    for(var ni=0;ni<navBtns.length;ni++){
+      if(navBtns[ni].getAttribute('onclick')&&navBtns[ni].getAttribute('onclick').indexOf('rotina')!==-1){
+        nav('rotina',navBtns[ni]);
+        break;
+      }
+    }
+    // Pré-selecionar a funcionária na rotina diária
+    curFn=fnParam;
+    var fnChips=document.querySelectorAll('#cfn .chip');
+    for(var fni=0;fni<fnChips.length;fni++){
+      var foc=fnChips[fni].getAttribute('onclick')||'';
+      if(foc.indexOf("'"+fnParam+"'")!==-1){
+        document.querySelectorAll('#cfn .chip').forEach(function(c){c.classList.remove('on');});
+        fnChips[fni].classList.add('on');
+        renderSched();
+        break;
+      }
+    }
+    // Também filtrar a aba Tarefas, caso o usuário vá até lá depois
+    var filtroChips=document.querySelectorAll('#cfiltro .chip');
+    for(var fi=0;fi<filtroChips.length;fi++){
+      var oc=filtroChips[fi].getAttribute('onclick')||'';
+      if(oc.indexOf("'"+fnParam+"'")!==-1||oc.indexOf('"'+fnParam+'"')!==-1){
+        setFiltro(fnParam,filtroChips[fi]);
+        break;
+      }
+    }
+  }
+} catch(e){}
+</script>
+<!-- BOTÃO VOLTAR AO INÍCIO -->
+<a href="index.html" title="Voltar à página inicial" style="
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  background:#1E4D35;color:#D4B483;
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;font-size:20px;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  transition:all .2s;
+" onmouseover="this.style.background='#2E6B4F';this.style.transform='scale(1.08)'"
+   onmouseout="this.style.background='#1E4D35';this.style.transform='scale(1)'">
+  🏡
+</a>
+</body>
+</html>
