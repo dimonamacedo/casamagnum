@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardápio — Casa Magnum</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --verde:#1E4D35;--verde-m:#2E6B4F;--verde-c:#4A8C6A;
+  --ouro:#B8975A;--ouro-c:#D4B483;
+  --creme:#F8F5F0;--creme-e:#EDE8DF;
+  --txt:#1A1A18;--txt-s:#5A574F;--branco:#FFFFFF;--r:4px;
+}
+html,body{min-height:100vh;background:var(--creme);color:var(--txt);font-family:'Inter',system-ui,sans-serif}
+
+/* TOPO */
+.topo{background:var(--verde);padding:12px 40px;display:flex;align-items:center;justify-content:space-between}
+.topo-marca{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--ouro-c);text-decoration:none}
+.topo-data{font-size:11px;font-weight:300;letter-spacing:1px;color:rgba(255,255,255,.45)}
+
+/* HERO */
+.hero{background:var(--verde);padding:36px 40px 48px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 110%,rgba(184,151,90,.12) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{font-size:10px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--ouro);margin-bottom:12px;opacity:.85}
+.hero-titulo{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,60px);font-weight:300;color:var(--branco);letter-spacing:-1px;line-height:1}
+.hero-titulo em{font-style:italic;color:var(--ouro-c)}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(255,255,255,.45);margin-top:10px}
+
+/* ABAS PRINCIPAIS */
+.abas-wrap{background:var(--branco);border-bottom:1px solid var(--creme-e);padding:0 40px;display:flex;gap:0}
+.aba-btn{padding:14px 24px;font-size:13px;font-weight:500;color:var(--txt-s);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;user-select:none;background:none;border-top:none;border-left:none;border-right:none}
+.aba-btn:hover{color:var(--verde-m)}
+.aba-btn.on{color:var(--verde-m);border-bottom-color:var(--verde-m)}
+.aba-pnl{display:none}.aba-pnl.on{display:block}
+
+/* SEMANA STATUS */
+.semana-wrap{padding:20px 40px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.sem-status-badge{background:var(--verde);color:#fff;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:100px}
+.sem-status-ok{font-size:12px;color:var(--verde-m)}
+.sem-consulta-txt{font-size:12px;color:var(--ouro);font-style:italic}
+.semana-label{font-size:12px;font-weight:500;color:var(--txt-s);letter-spacing:.5px}
+.semana-chips{display:flex;gap:6px;flex-wrap:wrap}
+.schip{padding:5px 13px;border-radius:100px;font-size:12px;cursor:pointer;border:1px solid var(--creme-e);background:var(--branco);color:var(--txt-s);transition:all .15s;user-select:none}
+.schip.on{background:var(--verde);color:var(--branco);border-color:var(--verde)}
+.schip:hover:not(.on){border-color:var(--verde-c);color:var(--verde-m)}
+
+/* GRID DIAS */
+.dias-grid{padding:20px 40px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+
+/* LISTA DE COMPRAS */
+.compras-aviso{margin:14px 40px 0;font-size:12px;color:var(--txt-s);background:var(--creme-e);padding:10px 14px;border-radius:var(--r);line-height:1.5}
+.compras-titulo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--verde-m);margin:24px 0 12px}
+.cp-pw{background:var(--creme-e);border-radius:100px;height:6px;overflow:hidden;margin-bottom:6px}
+.cp-pb{background:var(--verde-m);height:100%;transition:width .2s}
+.cp-pt{font-size:11px;color:var(--txt-s);margin-bottom:16px}
+#compras-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.cp-item{display:flex;align-items:flex-start;gap:10px;background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 14px;cursor:pointer;font-size:13px;color:var(--txt);transition:all .15s;user-select:none}
+.cp-item:hover{border-color:var(--verde-c)}
+.cp-item.done{opacity:.5}
+.cp-item.done .cp-txt span{text-decoration:line-through}
+.cp-txt{display:flex;flex-direction:column;gap:2px}
+.cp-origem{font-size:11px;color:var(--txt-s);opacity:.75;font-style:italic}
+.cp-box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--ouro);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:var(--verde-m);font-weight:700;margin-top:1px}
+.cp-item.done .cp-box{background:var(--verde-m);border-color:var(--verde-m);color:#fff}
+.cp-reset{background:none;border:1px solid var(--creme-e);color:var(--txt-s);font-size:12px;padding:8px 16px;border-radius:100px;cursor:pointer;transition:all .15s}
+.cp-reset:hover{border-color:var(--ouro);color:var(--verde-m)}
+
+/* CARD DIA */
+.dia-card{background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);overflow:hidden;transition:box-shadow .2s}
+.dia-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.dia-card.hoje{border-color:var(--verde-m);box-shadow:0 0 0 2px rgba(46,107,79,.15)}
+.dia-header{padding:13px 16px 11px;border-bottom:1px solid var(--creme-e);display:flex;align-items:center;justify-content:space-between}
+.dia-nome{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--txt)}
+.dia-hoje-badge{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--verde-m);background:rgba(46,107,79,.08);padding:3px 10px;border-radius:100px}
+.dia-fds-badge{font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--ouro)}
+.dia-body{padding:14px 16px}
+.dia-section{margin-bottom:12px}
+.dia-section:last-child{margin-bottom:0}
+.dia-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--txt-s);opacity:.6;margin-bottom:5px}
+.dia-prato-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.dia-prato{font-size:14px;font-weight:500;color:var(--txt);line-height:1.4;flex:1}
+.rec-btn{background:none;border:none;cursor:pointer;font-size:16px;padding:2px 4px;opacity:.6;transition:opacity .15s;flex-shrink:0;line-height:1}
+.rec-btn:hover{opacity:1}
+.dia-acomp{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.dia-acomp span{background:var(--creme);border:1px solid var(--creme-e);border-radius:100px;padding:2px 9px;font-size:11px;color:var(--txt-s)}
+.dia-sobremesa{margin-top:10px;padding:9px 11px;background:linear-gradient(135deg,rgba(184,151,90,.08),rgba(184,151,90,.04));border:1px solid rgba(184,151,90,.25);border-radius:var(--r)}
+.dia-sobremesa-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ouro);margin-bottom:3px}
+.dia-sobremesa-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dia-sobremesa-txt{font-size:12px;color:var(--txt-s);flex:1}
+.dia-salada-chef{margin-top:10px;padding:9px 11px;background:rgba(46,107,79,.05);border:1px solid rgba(46,107,79,.2);border-radius:var(--r)}
+.dia-salada-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--verde-m);margin-bottom:3px}
+.dia-salada-txt{font-size:12px;color:var(--txt-s);font-style:italic}
+
+/* ROTAÇÃO */
+.rotacao-wrap{padding:0 40px 60px}
+.rotacao-titulo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--txt);margin-bottom:4px}
+.rotacao-sub{font-size:13px;color:var(--txt-s);margin-bottom:20px}
+.rotacao-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.rot-card{background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);padding:16px}
+.rot-dia{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--ouro);margin-bottom:10px}
+.rot-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--creme-e);font-size:13px;color:var(--txt-s);align-items:flex-start}
+.rot-item:last-child{border-bottom:none}
+.rot-n{width:18px;height:18px;border-radius:50%;background:var(--creme-e);color:var(--txt-s);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rot-item.atual .rot-n{background:var(--verde);color:var(--branco)}
+.rot-item.atual{color:var(--txt);font-weight:500}
+
+/* RECEITAS */
+.rec-cats{display:flex;gap:8px;flex-wrap:wrap;padding:24px 40px 0}
+.cat-btn{padding:6px 16px;border-radius:100px;font-size:12px;cursor:pointer;border:1px solid var(--creme-e);background:var(--branco);color:var(--txt-s);transition:all .15s;user-select:none}
+.cat-btn.on{background:var(--verde-m);color:var(--branco);border-color:var(--verde-m)}
+.rec-grid{padding:16px 40px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.rec-card{background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .15s}
+.rec-card:hover{border-color:var(--verde-c);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.07)}
+.rec-card-header{padding:14px 16px;display:flex;align-items:center;gap:12px}
+.rec-card-icon{font-size:22px;flex-shrink:0}
+.rec-card-nome{font-size:14px;font-weight:500;color:var(--txt)}
+.rec-card-cat{font-size:11px;color:var(--txt-s);margin-top:2px}
+.rec-card-chevron{margin-left:auto;color:var(--creme-e);font-size:18px;transition:all .2s}
+.rec-card:hover .rec-card-chevron{color:var(--verde-m)}
+.rec-card-body{display:none;padding:0 16px 16px;border-top:1px solid var(--creme-e)}
+.rec-card.open .rec-card-body{display:block}
+.rec-card.open .rec-card-chevron{transform:rotate(180deg);color:var(--verde-m)}
+.rec-section{margin-top:12px}
+.rec-section-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt-s);opacity:.6;margin-bottom:8px}
+.rec-ing{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.rec-ing span{background:var(--creme);border:1px solid var(--creme-e);border-radius:100px;padding:3px 10px;font-size:12px;color:var(--txt-s)}
+.rec-step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--creme-e)}
+.rec-step:last-child{border-bottom:none}
+.rec-step-n{width:22px;height:22px;border-radius:50%;background:rgba(46,107,79,.08);color:var(--verde-m);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rec-step-t{font-size:13px;color:var(--txt);line-height:1.5}
+.rec-obs{font-size:12px;color:var(--ouro);background:rgba(184,151,90,.07);border:1px solid rgba(184,151,90,.2);border-radius:var(--r);padding:8px 11px;margin-top:10px}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-bg.on{display:flex}
+.modal{background:var(--branco);border-radius:8px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.2)}
+.modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--creme-e);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:0;background:var(--branco)}
+.modal-titulo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--txt)}
+.modal-close{background:none;border:none;cursor:pointer;font-size:22px;color:var(--txt-s);line-height:1;padding:2px}
+.modal-body{padding:20px 24px 28px}
+.modal-section{margin-bottom:18px}
+.modal-section-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt-s);opacity:.6;margin-bottom:10px}
+.modal-ing{display:flex;flex-wrap:wrap;gap:5px}
+.modal-ing span{background:var(--creme);border:1px solid var(--creme-e);border-radius:100px;padding:4px 12px;font-size:12px;color:var(--txt-s)}
+.modal-step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--creme-e)}
+.modal-step:last-child{border-bottom:none}
+.modal-step-n{width:26px;height:26px;border-radius:50%;background:rgba(46,107,79,.08);color:var(--verde-m);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.modal-step-t{font-size:14px;color:var(--txt);line-height:1.6}
+.modal-obs{font-size:13px;color:var(--ouro);background:rgba(184,151,90,.07);border:1px solid rgba(184,151,90,.2);border-radius:var(--r);padding:10px 14px;margin-top:12px}
+
+/* DIVISOR */
+.divisor{display:flex;align-items:center;gap:16px;margin:0 40px 32px}
+.div-linha{flex:1;height:1px;background:var(--creme-e)}
+.div-icone{color:var(--ouro);font-size:12px;letter-spacing:4px;opacity:.5}
+
+/* RODAPÉ */
+footer{border-top:1px solid var(--creme-e);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+footer a{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--verde-m);text-decoration:none;opacity:.7}
+footer span{font-size:11px;color:var(--txt-s);opacity:.5}
+
+@media(max-width:640px){
+  .topo,.hero,.semana-wrap,.dias-grid,.rotacao-wrap,.divisor,.rec-cats,.rec-grid,footer{padding-left:20px;padding-right:20px}
+  .abas-wrap{padding:0 20px}
+}
+
+/* CASA MAGNUM — TRAVA DE ACESSO */
+.cm-lock{position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#1E4D35,#173F2A);display:flex;align-items:center;justify-content:center;padding:20px}
+.cm-lock-box{background:#fff;border-radius:16px;padding:36px 30px;max-width:340px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.cm-lock-box h2{font-family:'Cormorant Garamond',serif;font-size:26px;color:#1E4D35;margin-bottom:6px;font-weight:400}
+.cm-lock-box p{font-size:13px;color:#5A574F;margin-bottom:18px}
+.cm-lock-box input{width:100%;padding:12px 14px;border:1.5px solid #EDE8DF;border-radius:10px;font-size:15px;text-align:center;margin-bottom:12px;box-sizing:border-box;font-family:inherit}
+.cm-lock-box button{width:100%;padding:12px;border:none;border-radius:10px;background:#1E4D35;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.cm-lock-box button:hover{background:#173F2A}
+.cm-lock-err{color:#C44040;font-size:12px;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+<div class="cm-lock" id="cmLock">
+  <div class="cm-lock-box">
+    <h2>Casa Magnum</h2>
+    <p>Digite a senha de acesso para continuar</p>
+    <input type="password" id="cmLockInput" placeholder="Senha" onkeydown="if(event.key==='Enter')cmCheckLock()">
+    <button onclick="cmCheckLock()">Entrar</button>
+    <div class="cm-lock-err" id="cmLockErr">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+<script>
+(function(){
+  var SENHA_CM='casamagnum2026';
+  if(localStorage.getItem('cm_unlocked')==='1'){
+    document.getElementById('cmLock').style.display='none';
+  }
+  window.cmCheckLock=function(){
+    var v=document.getElementById('cmLockInput').value;
+    if(v===SENHA_CM){
+      try{localStorage.setItem('cm_unlocked','1');}catch(e){}
+      document.getElementById('cmLock').style.display='none';
+    } else {
+      document.getElementById('cmLockErr').style.display='block';
+    }
+  };
+})();
+</script>
+
+
+<div class="topo">
+  <a class="topo-marca" href="index.html">← Casa Magnum</a>
+  <span class="topo-data" id="topo-data"></span>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Almoço</div>
+  <h1 class="hero-titulo">Cardápio <em>Semanal</em></h1>
+  <p class="hero-sub">Rotação de 4 semanas</p>
+</div>
+
+<div class="abas-wrap">
+  <button class="aba-btn on" onclick="setAba('cardapio',this)">📅 Cardápio</button>
+  <button class="aba-btn" onclick="setAba('receitas',this)">📖 Receitas</button>
+  <button class="aba-btn" onclick="setAba('compras',this)">🛒 Lista de compras</button>
+</div>
+
+<!-- ABA CARDÁPIO -->
+<div class="aba-pnl on" id="aba-cardapio">
+  <div class="semana-wrap">
+    <div id="sem-status"></div>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="semana-label">Consultar:</span>
+      <div class="semana-chips">
+        <div class="schip" onclick="setSemana(1,this)">Sem. 1</div>
+        <div class="schip" onclick="setSemana(2,this)">Sem. 2</div>
+        <div class="schip" onclick="setSemana(3,this)">Sem. 3</div>
+        <div class="schip" onclick="setSemana(4,this)">Sem. 4</div>
+      </div>
+    </div>
+  </div>
+  <div class="dias-grid" id="dias-grid"></div>
+  <div class="divisor"><div class="div-linha"></div><span class="div-icone">✦</span><div class="div-linha"></div></div>
+  <div class="rotacao-wrap">
+    <div class="rotacao-titulo">Rotação dos pratos</div>
+    <p class="rotacao-sub">Cada dia da semana tem seu estilo fixo — a variação acontece a cada semana do ciclo.</p>
+    <div class="rotacao-grid" id="rot-grid"></div>
+  </div>
+</div>
+
+<!-- ABA RECEITAS -->
+<div class="aba-pnl" id="aba-receitas">
+  <div class="rec-cats" id="rec-cats"></div>
+  <div class="rec-grid" id="rec-grid"></div>
+</div>
+
+<!-- ABA LISTA DE COMPRAS -->
+<div class="aba-pnl" id="aba-compras">
+  <div class="semana-wrap">
+    <span class="semana-label">Ver lista de:</span>
+    <div class="semana-chips" id="compras-chips">
+      <div class="schip" onclick="setCompras('sem1',this)">Semana 1</div>
+      <div class="schip" onclick="setCompras('sem2',this)">Semana 2</div>
+      <div class="schip" onclick="setCompras('sem3',this)">Semana 3</div>
+      <div class="schip" onclick="setCompras('sem4',this)">Semana 4</div>
+      <div class="schip" onclick="setCompras('mes',this)">Mês completo</div>
+    </div>
+  </div>
+  <p class="compras-aviso" id="compras-aviso"></p>
+  <div id="compras-content" style="padding:0 40px 60px"></div>
+</div>
+
+<!-- MODAL RECEITA -->
+<div class="modal-bg" id="modal-bg" onclick="fecharModal(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<footer>
+  <a href="index.html">← Voltar para Casa Magnum</a>
+  <span id="rodape-ano"></span>
+</footer>
+
+<script>
+var hoje=new Date();hoje.setHours(0,0,0,0);
+var mesesN=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var diasN=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+document.getElementById('topo-data').textContent=diasN[hoje.getDay()]+', '+hoje.getDate()+' de '+mesesN[hoje.getMonth()]+' de '+hoje.getFullYear();
+document.getElementById('rodape-ano').textContent='© '+hoje.getFullYear()+' Casa Magnum';
+
+// CICLO — início fixo em 07/07/2025 (segunda-feira)
+var inicioCiclo=new Date(2025,6,7);inicioCiclo.setHours(0,0,0,0);
+function semCiclo(d){var diff=Math.floor((d-inicioCiclo)/(7*24*3600*1000));if(diff<0)return null;return(diff%4)+1;}
+var semHoje=semCiclo(hoje)||1;
+
+// ABAS
+function setAba(id,btn){
+  document.querySelectorAll('.aba-pnl').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.aba-btn').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('aba-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='compras') renderCompras();
+}
+
+// RECEITAS
+var receitas={
+  'tiramisu':{
+    nome:'Tiramisù',cat:'Sobremesas',icon:'☕',
+    ing:['500g mascarpone','4 ovos','100g açúcar','200ml café forte frio','Biscoito champanhe (2 pacotes)','Cacau em pó para polvilhar','Amaretto (opcional)'],ingBase:['Mascarpone','Ovos','Açúcar','Café','Biscoito champanhe','Cacau em pó','Amaretto (opcional)'],
+    steps:[
+      'Separe as gemas das claras. Bata as gemas com o açúcar até obter um creme claro e espesso.',
+      'Adicione o mascarpone às gemas e misture até ficar homogêneo.',
+      'Bata as claras em neve firme e incorpore delicadamente à mistura com espátula.',
+      'Prepare o café forte e deixe esfriar. Adicione o amaretto se quiser.',
+      'Molhe rapidamente os biscoitos no café (não deixe encharcar) e faça uma camada numa travessa.',
+      'Espalhe metade do creme de mascarpone sobre os biscoitos.',
+      'Repita com mais uma camada de biscoitos e finalize com o creme.',
+      'Polvilhe generosamente com cacau em pó.',
+      'Leve à geladeira por pelo menos 4 horas — de um dia para o outro fica ainda melhor.'
+    ],
+    obs:'Use ovos bem frescos. O Tiramisù deve ficar bem gelado para ser servido.'
+  },
+  'torta-abacaxi':{
+    nome:'Torta gelada de abacaxi',cat:'Sobremesas',icon:'🍍',
+    ing:['1 lata leite condensado','1 creme de leite','1 abacaxi picado','Biscoito maisena (2 pacotes)','Leite para umedecer','Chantilly para cobrir','Coco ralado para decorar'],ingBase:['Leite condensado','Creme de leite','Abacaxi','Biscoito maisena','Leite','Chantilly','Coco ralado'],
+    steps:[
+      'Cozinhe o abacaxi picado com 2 colheres de açúcar em fogo médio até amolecer levemente. Reserve.',
+      'Bata o leite condensado com o creme de leite até misturar bem.',
+      'Umedeça os biscoitos levemente no leite e faça uma camada no fundo da travessa.',
+      'Espalhe metade do creme de leite condensado.',
+      'Adicione uma camada do abacaxi cozido.',
+      'Repita com biscoitos, creme e finalize com o abacaxi.',
+      'Cubra com chantilly e decore com coco ralado.',
+      'Leve ao freezer por 3 horas. Retire 10 minutos antes de servir.'
+    ],
+    obs:'Pode substituir o abacaxi cozido por abacaxi em calda bem escorrido para facilitar.'
+  },
+  'pudim':{
+    nome:'Pudim de leite condensado',cat:'Sobremesas',icon:'🍮',
+    ing:['1 lata leite condensado','A mesma medida de leite integral','3 ovos inteiros','1 xícara de açúcar (para a calda)','½ xícara de água (para a calda)'],ingBase:['Leite condensado','Leite integral','Ovos','Açúcar'],
+    steps:[
+      'Calda: derreta o açúcar em fogo médio sem mexer até caramelizar dourado. Adicione a água aquecida com cuidado (vai espirrar). Mexa até dissolver e despeje na forma.',
+      'Bata no liquidificador o leite condensado, o leite e os ovos por 2 minutos.',
+      'Despeje na forma caramelizada passando por uma peneira para eliminar bolhas.',
+      'Cubra com papel alumínio e leve ao banho-maria no forno a 180°C por 1h a 1h20.',
+      'Teste espetando um palito — deve sair limpo.',
+      'Deixe esfriar completamente e leve à geladeira por pelo menos 4 horas.',
+      'Para desenformar: passe uma faca nas bordas e vire sobre prato fundo.'
+    ],
+    obs:'Para um pudim sem furinhos, bata pouco e evite o liquidificador na potência alta. Coe sempre antes de colocar na forma.'
+  },
+  'dois-amores':{
+    nome:'Dois Amores',cat:'Sobremesas',icon:'🍫',
+    ing:['4 latas de leite condensado','3 caixas de creme de leite','1 copo de leite líquido','Maisena (a gosto)','3 pacotes de Oreo','3 ovos','Chocolate em pó 100% cacau','2 colheres de manteiga','3 colheres de açúcar'],ingBase:['Leite condensado','Creme de leite','Leite','Maisena','Biscoito Oreo','Ovos','Chocolate em pó','Manteiga','Açúcar'],
+    steps:[
+      '1º CREME (branco): Misture 2 latas de leite condensado, a mesma medida da lata de leite líquido, 3 gemas, 2 colheres de maisena e 1 creme de leite. Leve ao fogo baixo mexendo sempre até formar um creme. Continue mexendo por mais 5 minutos para cozinhar bem. Reserve.',
+      '2º CREME (chocolate): Misture 2 latas de leite condensado, 6 colheres cheias de chocolate em pó 100%, 1 colher de maisena, 2 colheres de manteiga e 1 creme de leite. Leve ao fogo mexendo sempre até formar um creme. Reserve.',
+      '3º CREME (neve): Bata as 3 claras em neve. Adicione aos poucos 3 colheres de açúcar, sempre batendo, até formar uma espuma firme. Pare de bater e adicione 1 creme de leite aos poucos, misturando delicadamente com espátula. Reserve.',
+      'Tire o recheio dos biscoitos Oreo e trituje-os levemente.',
+      'MONTAGEM: Adicione uma camada do creme branco, depois o Oreo triturado, mais uma camada do creme branco, depois o creme de chocolate e por último o creme de neve (claras).',
+      'Leve ao freezer. Retire 15 minutos antes de servir.'
+    ],
+    obs:'As claras reservadas das gemas do 1º creme são exatamente as 3 claras usadas no 3º creme — sem desperdício!'
+  },
+  'carneiro-cozido':{
+    nome:'Carneiro cozido',cat:'Carnes',icon:'🥩',
+    ing:['1,5kg pernil ou paleta de carneiro em pedaços','4 dentes de alho','1 cebola','3 cenouras','3 batatas','Azeite','Sal, pimenta-do-reino','1 ramo de alecrim','1 folha de louro','500ml água ou caldo de legumes'],ingBase:['Carneiro (pernil ou paleta)','Alho','Cebola','Cenoura','Batata','Azeite','Sal','Pimenta-do-reino','Alecrim','Folha de louro','Caldo de legumes (opcional)'],
+    steps:[
+      'Tempere o carneiro com alho amassado, sal, pimenta e alecrim. Deixe marinar por 2 horas.',
+      'Doure os pedaços em azeite quente em panela de pressão.',
+      'Adicione a cebola, o louro e o caldo. Feche e cozinhe por 35 minutos após pegar pressão.',
+      'Abra, adicione cenoura e batata em pedaços grandes e cozinhe mais 10 minutos na pressão.',
+      'Ajuste o sal e sirva com o caldo do cozimento.'
+    ],
+    obs:'O carneiro tem sabor mais intenso que o cordeiro. Um bom tempo de marinada faz toda a diferença.'
+  },
+  'paleta-carneiro':{
+    nome:'Paleta de carneiro assada',cat:'Carnes',icon:'🥩',
+    ing:['1 paleta de carneiro (1,5 a 2kg)','6 dentes de alho','Sal grosso','Pimenta-do-reino','Alecrim fresco','Azeite','Suco de 1 limão','1 xícara de vinho branco seco'],ingBase:['Paleta de carneiro','Alho','Sal grosso','Pimenta-do-reino','Alecrim','Azeite','Limão','Vinho branco seco'],
+    steps:[
+      'Faça furos na paleta com uma faca e insira lâminas de alho.',
+      'Tempere com sal grosso, pimenta, alecrim e azeite. Regue com limão e vinho. Marine por 3 horas.',
+      'Embrulhe em papel alumínio e asse a 180°C por 2h30.',
+      'Retire o papel alumínio e asse mais 30 minutos para dourar.',
+      'Deixe descansar 10 minutos antes de servir.'
+    ],
+    obs:''
+  },
+  'pernil-carneiro':{
+    nome:'Pernil de carneiro assado com alecrim',cat:'Carnes',icon:'🥩',
+    ing:['1 pernil de carneiro (1,5 a 2kg)','6 dentes de alho','Sal grosso','Pimenta-do-reino','Alecrim fresco em abundância','Azeite','Suco de 1 limão','1 xícara de vinho tinto seco'],ingBase:['Pernil de carneiro','Alho','Sal grosso','Pimenta-do-reino','Alecrim','Azeite','Limão','Vinho tinto seco'],
+    steps:[
+      'Faça furos profundos no pernil e insira lâminas de alho e raminhos de alecrim.',
+      'Tempere externamente com sal grosso, pimenta e azeite. Regue com limão e vinho.',
+      'Marine coberto na geladeira por 4 horas ou de um dia para o outro.',
+      'Asse em forno a 160°C por 3 horas embrulhado em papel alumínio.',
+      'Retire o alumínio e asse mais 30 minutos até dourar bem.',
+      'Regue com o próprio suco durante o cozimento.'
+    ],
+    obs:''
+  },
+  'carneiro-vinho':{
+    nome:'Carneiro ao molho de vinho',cat:'Carnes',icon:'🥩',
+    ing:['1,5kg carneiro em cubos','1 garrafa vinho tinto seco','2 cebolas','4 dentes de alho','2 cenouras','Tomilho, louro, alecrim','Azeite','Sal e pimenta','1 colher de farinha'],ingBase:['Carneiro','Vinho tinto seco','Cebola','Alho','Cenoura','Tomilho','Louro','Alecrim','Azeite','Sal','Pimenta','Farinha de trigo'],
+    steps:[
+      'Marine o carneiro no vinho com os legumes e ervas por 8 horas.',
+      'Escorra e reserve a marinada. Seque os pedaços de carne com papel toalha.',
+      'Doure os cubos em azeite quente até selar todos os lados.',
+      'Adicione os legumes da marinada e refogue 5 minutos.',
+      'Polvilhe a farinha, misture e adicione a marinada reservada.',
+      'Cozinhe em fogo baixo tampado por 1h30 até a carne ficar macia.',
+      'Ajuste o sal e reduza o molho se necessário.'
+    ],
+    obs:'Um vinho de boa qualidade para cozinhar faz diferença no sabor final do molho.'
+  },
+  'bife-acebolado':{
+    nome:'Bife acebolado',cat:'Carnes',icon:'🥩',
+    ing:['4 bifes de contrafilé ou alcatra','2 cebolas grandes fatiadas','Alho','Sal e pimenta-do-reino','Azeite ou manteiga','Salsinha para decorar'],ingBase:['Contrafilé ou alcatra','Cebola','Alho','Sal','Pimenta-do-reino','Azeite','Manteiga','Salsinha'],
+    steps:[
+      'Tempere os bifes com sal, pimenta e alho amassado.',
+      'Aqueça bem a frigideira com azeite — deve estar bem quente.',
+      'Sele os bifes 2-3 minutos de cada lado. Reserve.',
+      'Na mesma frigideira, refogue a cebola em manteiga até caramelizar (15 minutos em fogo médio).',
+      'Volte os bifes para a frigideira, misture com a cebola e sirva.'
+    ],
+    obs:''
+  },
+  'tilapia-grelha':{
+    nome:'Tilápia grelhada ao limão',cat:'Peixes',icon:'🐟',
+    ing:['4 filés de tilápia','Suco de 2 limões','3 dentes de alho','Sal e pimenta','Azeite','Salsa e cebolinha'],ingBase:['Filé de tilápia','Limão','Alho','Sal','Pimenta','Azeite','Salsa','Cebolinha'],
+    steps:[
+      'Tempere os filés com sal, pimenta, alho e suco de limão. Deixe 20 minutos.',
+      'Aqueça a frigideira ou grelha com azeite em fogo alto.',
+      'Grelhe os filés 3-4 minutos de cada lado — não mexa antes de virar para não quebrar.',
+      'Finalize com azeite, limão e salsinha picada.'
+    ],
+    obs:'A tilápia é um peixe de sabor suave — não marine por muito tempo no limão para não "cozinhar" a carne.'
+  },
+  'moqueca-peixe':{
+    nome:'Moqueca de peixe',cat:'Peixes',icon:'🐟',
+    ing:['1kg filé de peixe firme (dourado, cação ou tilápia)','1 lata de leite de coco','2 tomates picados','1 cebola picada','1 pimentão vermelho','4 dentes de alho','Coentro e salsa','Azeite de dendê','Sal, pimenta, açafrão','Suco de 1 limão'],ingBase:['Filé de peixe firme','Leite de coco','Tomate','Cebola','Pimentão vermelho','Alho','Coentro','Salsa','Azeite de dendê','Sal','Pimenta','Açafrão','Limão'],
+    steps:[
+      'Tempere o peixe com sal, pimenta, alho e limão. Deixe 30 minutos.',
+      'Em panela de barro (ou caçarola), aqueça o dendê e refogue a cebola e o pimentão.',
+      'Adicione o tomate e refogue 3 minutos.',
+      'Coloque o peixe, o leite de coco e o açafrão. Tampe e cozinhe 15 minutos.',
+      'Finalize com coentro e salsa. Ajuste o sal.'
+    ],
+    obs:'O azeite de dendê é essencial — não substitua. Use com moderação para não ficar pesado.'
+  },
+  'boba-camarao':{
+    nome:'Bobó de camarão',cat:'Peixes',icon:'🦐',
+    ing:['600g camarão limpo','500g aipim cozido','1 lata leite de coco','2 tomates','1 cebola','4 dentes de alho','Coentro e salsa','Azeite de dendê','Sal, pimenta, páprica defumada','Suco de 1 limão'],ingBase:['Camarão','Aipim (mandioca)','Leite de coco','Tomate','Cebola','Alho','Coentro','Salsa','Azeite de dendê','Sal','Pimenta','Páprica defumada','Limão'],
+    steps:[
+      'Cozinhe o aipim até ficar bem macio. Bata no liquidificador com um pouco da água do cozimento até virar um creme.',
+      'Tempere o camarão com sal, pimenta e limão.',
+      'Refogue a cebola, alho e tomate em dendê.',
+      'Adicione o creme de aipim e o leite de coco. Mexa até incorporar.',
+      'Acrescente o camarão e cozinhe 5 minutos — não deixe passar do ponto.',
+      'Finalize com coentro, salsa e ajuste o sal.'
+    ],
+    obs:'O bobó já é cremoso pelo aipim — não precisa de pirão. O camarão cozinha rápido, evite passar do ponto para não ficar borrachudo.'
+  },
+  'frango-assado':{
+    nome:'Frango assado com ervas e alho',cat:'Aves',icon:'🍗',
+    ing:['1 frango inteiro ou 1kg coxas e sobrecoxas','6 dentes de alho','Alecrim, tomilho, orégano','Sal, pimenta-do-reino','Azeite','Suco de 1 limão','Manteiga'],ingBase:['Frango (inteiro ou coxa/sobrecoxa)','Alho','Alecrim','Tomilho','Orégano','Sal','Pimenta-do-reino','Azeite','Limão','Manteiga'],
+    steps:[
+      'Misture manteiga amolecida com alho amassado, ervas, sal e pimenta.',
+      'Passe a mistura sobre e sob a pele do frango.',
+      'Regue com limão e azeite. Marine 2 horas.',
+      'Asse a 200°C por 1h a 1h20 até dourar e a pele ficar crocante.',
+      'Regue com o próprio suco a cada 20 minutos.'
+    ],
+    obs:''
+  },
+  'frango-mostarda':{
+    nome:'Frango ao molho de mostarda',cat:'Aves',icon:'🍗',
+    ing:['1kg coxas e sobrecoxas','3 colheres de mostarda Dijon','200ml creme de leite','1 cebola','4 dentes de alho','Alecrim','Sal e pimenta','Azeite'],ingBase:['Frango (coxa e sobrecoxa)','Mostarda Dijon','Creme de leite','Cebola','Alho','Alecrim','Sal','Pimenta','Azeite'],
+    steps:[
+      'Tempere o frango com sal, pimenta e alho. Doure em azeite quente.',
+      'Retire o frango e refogue a cebola na mesma panela.',
+      'Adicione a mostarda e o creme de leite. Mexa bem.',
+      'Volte o frango ao molho, adicione o alecrim e cozinhe 25 minutos em fogo baixo tampado.',
+      'Ajuste o sal e reduza o molho se necessário.'
+    ],
+    obs:''
+  },
+  'frango-ensopado':{
+    nome:'Frango ensopado',cat:'Aves',icon:'🍗',
+    ing:['1kg frango em pedaços','2 tomates picados','1 cebola','4 dentes de alho','1 pimentão','Salsa e cebolinha','Colorau, sal e pimenta','Azeite','200ml água'],ingBase:['Frango','Tomate','Cebola','Alho','Pimentão','Salsa','Cebolinha','Colorau','Sal','Pimenta','Azeite'],
+    steps:[
+      'Tempere o frango com sal, pimenta, alho e colorau.',
+      'Doure os pedaços em azeite quente.',
+      'Adicione cebola, pimentão e tomate. Refogue 5 minutos.',
+      'Acrescente a água, tampe e cozinhe 30 minutos em fogo baixo.',
+      'Finalize com salsa e cebolinha.'
+    ],
+    obs:''
+  },
+  'lasanha':{
+    nome:'Lasanha de carne moída com molho branco',cat:'Massas',icon:'🍝',
+    ing:['500g massa para lasanha','500g carne moída','1 lata molho de tomate','1 cebola','3 dentes de alho','Sal, pimenta, orégano','500ml molho branco','200g mussarela fatiada','Parmesão ralado'],ingBase:['Massa para lasanha','Carne moída','Molho de tomate','Cebola','Alho','Sal','Pimenta','Orégano','Leite','Manteiga','Farinha de trigo','Mussarela','Parmesão'],
+    steps:[
+      'Refogue a cebola e o alho. Adicione a carne moída e doure bem.',
+      'Acrescente o molho de tomate, tempere com sal, pimenta e orégano. Cozinhe 15 minutos.',
+      'Molho branco: derreta 3 colheres de manteiga, adicione 3 colheres de farinha e misture. Acrescente 500ml de leite aos poucos mexendo sempre até engrossar. Tempere com sal, noz-moscada.',
+      'Montagem: espalhe molho branco no fundo, massa, carne, mussarela, molho branco. Repita.',
+      'Finalize com molho branco, mussarela e parmesão.',
+      'Cubra com papel alumínio e asse a 180°C por 30 minutos. Retire o alumínio e asse mais 15 minutos.'
+    ],
+    obs:'Cozinhe a massa al dente se for seca, ou use massa fresca para resultado mais macio.'
+  },
+  'fillet-madeira':{
+    nome:'Filé mignon ao molho madeira',cat:'Massas',icon:'🥩',
+    ing:['600g filé mignon em medalhões','200ml vinho Madeira seco','200ml caldo de carne','1 cebola pequena','2 colheres de manteiga','Sal e pimenta','Tomilho'],ingBase:['Filé mignon','Vinho Madeira','Caldo de carne','Cebola','Manteiga','Sal','Pimenta','Tomilho'],
+    steps:[
+      'Tempere os medalhões com sal e pimenta. Sele em manteiga quente 2 minutos de cada lado.',
+      'Reserve os medalhões. Na mesma frigideira, refogue a cebola.',
+      'Adicione o vinho Madeira e deixe reduzir pela metade.',
+      'Acrescente o caldo de carne e o tomilho. Cozinhe 5 minutos.',
+      'Finalize com uma colher de manteiga para dar brilho. Volte os medalhões para aquecer.'
+    ],
+    obs:'Não passe do ponto no selamento — o filé termina de cozinhar no molho.'
+  },
+  'picanha':{
+    nome:'Picanha assada com alho e chimichurri',cat:'Carnes',icon:'🥩',
+    ing:['1 peça de picanha (1 a 1,2kg)','Sal grosso','Pimenta-do-reino','4 dentes de alho','Chimichurri: salsa, orégano, alho, azeite, vinagre, pimenta calabresa'],ingBase:['Picanha','Sal grosso','Pimenta-do-reino','Alho','Salsa','Orégano','Vinagre','Pimenta calabresa'],
+    steps:[
+      'Marque a gordura da picanha em xadrez sem chegar na carne.',
+      'Tempere generosamente com sal grosso e pimenta.',
+      'Sele a picanha com a gordura para baixo em frigideira bem quente até dourar a gordura.',
+      'Vire e sele os outros lados rapidamente.',
+      'Transfira para o forno a 200°C por 20-25 minutos para ao ponto.',
+      'Deixe descansar 10 minutos antes de fatiar.',
+      'Chimichurri: misture salsa picada, orégano, alho, azeite, vinagre e pimenta calabresa. Deixe descansar 1 hora.'
+    ],
+    obs:'Sempre fatie a picanha contra a fibra para ficar macia.'
+  },
+  'pernil-suino':{
+    nome:'Pernil suíno assado com molho de laranja e mel',cat:'Carnes',icon:'🍖',
+    ing:['1 pernil suíno (2 a 3kg)','Suco de 4 laranjas','3 colheres de mel','6 dentes de alho','Sal, pimenta, cominho','Azeite','1 xícara vinho branco'],ingBase:['Pernil suíno','Laranja','Mel','Alho','Sal','Pimenta','Cominho','Azeite','Vinho branco'],
+    steps:[
+      'Fure o pernil e insira lâminas de alho.',
+      'Misture suco de laranja, mel, sal, pimenta, cominho e azeite. Cubra o pernil e marine 8 horas.',
+      'Embrulhe em papel alumínio e asse a 160°C por 3 horas.',
+      'Retire o alumínio, regue com o caldo acumulado e asse mais 40 minutos para dourar.',
+      'Reduza o caldo com vinho branco para fazer o molho de laranja.'
+    ],
+    obs:''
+  },
+};
+
+var curCat='Todas';
+var cats=['Todas','Sobremesas','Carnes','Aves','Peixes','Massas'];
+
+function setAba(id,btn){
+  document.querySelectorAll('.aba-pnl').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.aba-btn').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('aba-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+function setCat(c,btn){
+  curCat=c;
+  document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  renderReceitas();
+}
+
+function renderCats(){
+  document.getElementById('rec-cats').innerHTML=cats.map(function(c){
+    return '<div class="cat-btn'+(c===curCat?' on':'')+'" onclick="setCat(\''+c+'\',this)">'+c+'</div>';
+  }).join('');
+}
+
+function renderReceitas(){
+  var lista=Object.keys(receitas).filter(function(k){
+    return curCat==='Todas'||receitas[k].cat===curCat;
+  });
+  document.getElementById('rec-grid').innerHTML=lista.map(function(k){
+    var r=receitas[k];
+    var ings=r.ing.map(function(i){return '<span>'+i+'</span>';}).join('');
+    var steps=r.steps.map(function(s,i){return '<div class="rec-step"><div class="rec-step-n">'+(i+1)+'</div><div class="rec-step-t">'+s+'</div></div>';}).join('');
+    return '<div class="rec-card" id="rc-'+k+'">'+
+      '<div class="rec-card-header" onclick="togRec(\''+k+'\')">'+
+      '<span class="rec-card-icon">'+r.icon+'</span>'+
+      '<div><div class="rec-card-nome">'+r.nome+'</div><div class="rec-card-cat">'+r.cat+'</div></div>'+
+      '<span class="rec-card-chevron">⌄</span></div>'+
+      '<div class="rec-card-body">'+
+      '<div class="rec-section"><div class="rec-section-lbl">Ingredientes</div><div class="rec-ing">'+ings+'</div></div>'+
+      '<div class="rec-section"><div class="rec-section-lbl">Modo de preparo</div>'+steps+'</div>'+
+      (r.obs?'<div class="rec-obs">📌 '+r.obs+'</div>':'')+
+      '</div></div>';
+  }).join('');
+}
+
+function togRec(k){document.getElementById('rc-'+k).classList.toggle('open');}
+
+// MODAL
+function abrirModal(id){
+  var r=receitas[id];
+  if(!r) return;
+  var ings=r.ing.map(function(i){return '<span>'+i+'</span>';}).join('');
+  var steps=r.steps.map(function(s,i){return '<div class="modal-step"><div class="modal-step-n">'+(i+1)+'</div><div class="modal-step-t">'+s+'</div></div>';}).join('');
+  document.getElementById('modal-content').innerHTML=
+    '<div class="modal-header">'+
+    '<div><div style="font-size:13px;color:var(--txt-s);margin-bottom:4px">'+r.cat+'</div>'+
+    '<div class="modal-titulo">'+r.icon+' '+r.nome+'</div></div>'+
+    '<button class="modal-close" onclick="fecharModal()">✕</button></div>'+
+    '<div class="modal-body">'+
+    '<div class="modal-section"><div class="modal-section-lbl">Ingredientes</div><div class="modal-ing">'+ings+'</div></div>'+
+    '<div class="modal-section"><div class="modal-section-lbl">Modo de preparo</div>'+steps+'</div>'+
+    (r.obs?'<div class="modal-obs">📌 '+r.obs+'</div>':'')+
+    '</div>';
+  document.getElementById('modal-bg').classList.add('on');
+}
+
+function fecharModal(e){
+  if(!e||e.target===document.getElementById('modal-bg')) document.getElementById('modal-bg').classList.remove('on');
+}
+
+// CARDÁPIO
+var diaChef=[3,0,2,1];
+var cardapio={
+  0:{nome:'Segunda-feira',
+    pratos:['Carneiro cozido (batata, cenoura e cebola)','Paleta de carneiro assada','Carneiro cozido (batata, cenoura e cebola)','Pernil de carneiro assado com alecrim'],
+    recIds:['carneiro-cozido','paleta-carneiro','carneiro-cozido','pernil-carneiro'],
+    acomp:['Arroz branco','Feijão carioca','Purê de abóbora','Salada de alface, tomate e pepino'],
+    acompExtra:[
+      ['Arroz branco','Feijão carioca','Pirão do caldo do carneiro','Salada de alface, tomate e pepino'],
+      ['Arroz branco','Feijão carioca','Purê de abóbora','Salada de alface, tomate e pepino'],
+      ['Arroz branco','Feijão carioca','Pirão do caldo do carneiro','Salada de alface, tomate e pepino'],
+      ['Arroz branco','Feijão carioca','Purê de abóbora','Salada de alface, tomate e pepino']
+    ]},
+  1:{nome:'Terça-feira',
+    pratos:['Bife acebolado','Bife à parmegiana','Bife ao molho madeira','Bife grelhado com manteiga de ervas'],
+    recIds:['bife-acebolado',null,null,null],
+    acomp:['Arroz branco','Feijão carioca','Farofa de cenoura','Abobrinha refogada','Salada verde'],
+    acompExtra:[
+      ['Arroz branco','Feijão carioca','Farofa de cenoura','Abobrinha refogada','Salada verde'],
+      ['Arroz branco','Feijão carioca','Farofa de cenoura','Abobrinha empanada','Salada verde'],
+      ['Arroz branco','Feijão carioca','Farofa de cenoura','Abobrinha refogada','Salada verde'],
+      ['Arroz branco','Feijão carioca','Farofa de cenoura','Abobrinha empanada','Salada verde']
+    ]},
+  2:{nome:'Quarta-feira',
+    pratos:['Tilápia grelhada ao limão','Tilápia empanada no forno','Tilápia ao molho de alcaparras','Tilápia assada com crosta de ervas'],
+    recIds:['tilapia-grelha',null,null,null],
+    acomp:['Arroz branco','Feijão carioca','Pirão leve de peixe','Legumes no vapor','Salada de folhas']},
+  3:{nome:'Quinta-feira',
+    pratos:['Frango assado com ervas e alho','Frango ao molho de mostarda','Frango grelhado com ervas','Frango ensopado'],
+    recIds:['frango-assado','frango-mostarda',null,'frango-ensopado'],
+    acomp:['Arroz branco','Feijão carioca','Batata rústica assada','Salada de repolho com cenoura']},
+  4:{nome:'Sexta-feira',
+    pratos:['Bisteca suína grelhada + Fígado bovino acebolado','Costelinha suína assada + Fígado acebolado','Lombo suíno grelhado + Fígado acebolado','Costela suína barbecue caseira + Fígado acebolado'],
+    recIds:[null,null,null,null],
+    acomp:['Arroz branco','Feijão preto','Couve refogada','Mandioca frita','Vinagrete','Farofa de manteiga']},
+  5:{nome:'Sábado',
+    pratos:['Lasanha de carne moída com molho branco','Filé mignon ao molho madeira com tagliatelle','Moqueca de peixe com leite de coco e dendê','Filé de frango ao molho de maracujá com penne'],
+    recIds:['lasanha','fillet-madeira','moqueca-peixe',null],
+    acomp:['Arroz branco','Feijão tropeiro leve','Farofa de manteiga','Maionese de batatas','Salada especial'],
+    acompExtra:[
+      ['Salada verde','Salada caprese','Maionese de batatas'],
+      ['Tagliatelle ao alho e óleo','Arroz branco','Farofa de ervas','Salada caprese'],
+      ['Arroz branco','Farofa de dendê','Vatapá','Salada de folhas com manga'],
+      ['Penne ao sugo','Arroz branco','Farofa de ervas','Salada verde com tomate cereja']
+    ],
+    sobremesa:['Tiramisù','Torta gelada de abacaxi','Pudim de leite condensado','Dois Amores'],
+    recSob:['tiramisu','torta-abacaxi','pudim','dois-amores']},
+  6:{nome:'Domingo',
+    pratos:['Pernil suíno assado com molho de laranja e mel','Bobó de camarão','Frango ao molho pesto com fusilli','Churrasco (mix de carnes)'],
+    recIds:['pernil-suino','boba-camarao','frango-mostarda',null],
+    acomp:['Arroz branco','Feijão tropeiro','Arroz de brócolis','Batatas douradas','Salada festiva'],
+    acompExtra:[
+      ['Arroz branco','Feijão tropeiro','Arroz de brócolis','Batatas douradas','Salada festiva'],
+      ['Arroz branco','Farofa de dendê','Salada tropical'],
+      ['Fusilli ao pesto','Arroz branco','Salada verde com tomate cereja','Bruschetta'],
+      ['Arroz branco','Feijão tropeiro','Farofa na manteiga e cebola','Vinagrete','Salada de folhas']
+    ]}
+};
+
+var curSem=semHoje;
+
+function setSemana(n,btn){
+  curSem=n;
+  document.querySelectorAll('.schip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderCardapio();
+}
+
+function atualizarStatus(){
+  var el=document.getElementById('sem-status');
+  if(!el) return;
+  var isAuto=curSem===semHoje;
+  var html='<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">';
+  html+='<span class="sem-status-badge">Semana '+semHoje+' — Esta semana</span>';
+  if(!isAuto) html+='<span class="sem-consulta-txt">Consultando semana '+curSem+'</span>';
+  else html+='<span class="sem-status-ok">Cardápio calculado automaticamente ✓</span>';
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+function dowParaIdx(dow){if(dow===0)return 6;return dow-1;}
+
+function renderCardapio(){
+  var s=curSem-1;
+  var dowHoje=hoje.getDay();
+  var idxHoje=dowParaIdx(dowHoje);
+  var chefDia=diaChef[s];
+  atualizarStatus();
+  var html='';
+  [0,1,2,3,4,5,6].forEach(function(dIdx){
+    var d=cardapio[dIdx];
+    var isHoje=dIdx===idxHoje&&curSem===semHoje;
+    var isFDS=dIdx===5||dIdx===6;
+    var isChef=!isFDS&&dIdx===chefDia;
+    var recId=d.recIds?d.recIds[s]:null;
+    var acompList=(d.acompExtra&&d.acompExtra[s])?d.acompExtra[s]:d.acomp;
+
+    html+='<div class="dia-card'+(isHoje?' hoje':'')+'"><div class="dia-header">';
+    html+='<span class="dia-nome">'+d.nome+'</span>';
+    if(isHoje) html+='<span class="dia-hoje-badge">Hoje</span>';
+    else if(isFDS) html+='<span class="dia-fds-badge">Fim de semana</span>';
+    html+='</div><div class="dia-body">';
+
+    html+='<div class="dia-section"><div class="dia-section-label">Prato principal</div>';
+    html+='<div class="dia-prato-row"><span class="dia-prato">'+d.pratos[s]+'</span>';
+    if(recId) html+='<button class="rec-btn" onclick="abrirModal(\''+recId+'\')" title="Ver receita">📖</button>';
+    html+='</div></div>';
+
+    html+='<div class="dia-section"><div class="dia-section-label">Acompanhamentos</div><div class="dia-acomp">';
+    acompList.forEach(function(a){html+='<span>'+a+'</span>';});
+    html+='</div></div>';
+
+    if(isChef){
+      html+='<div class="dia-salada-chef"><div class="dia-salada-label">🥗 Salada do Chef</div>';
+      html+='<div class="dia-salada-txt">À escolha da cozinheira — criatividade da Rose!</div></div>';
+    }
+
+    if(d.sobremesa){
+      var recSobId=d.recSob?d.recSob[s]:null;
+      html+='<div class="dia-sobremesa"><div class="dia-sobremesa-label">✦ Sobremesa</div>';
+      html+='<div class="dia-sobremesa-row"><span class="dia-sobremesa-txt">'+d.sobremesa[s]+'</span>';
+      if(recSobId) html+='<button class="rec-btn" onclick="abrirModal(\''+recSobId+'\')" title="Ver receita">📖</button>';
+      html+='</div></div>';
+    }
+
+    html+='</div></div>';
+  });
+  document.getElementById('dias-grid').innerHTML=html;
+  renderRotacao();
+}
+
+function renderRotacao(){
+  var s=curSem-1;
+  var rotDias=[
+    {nome:'Segundas',icon:'🥩',itens:cardapio[0].pratos},
+    {nome:'Terças',icon:'🥩',itens:cardapio[1].pratos},
+    {nome:'Quartas',icon:'🐟',itens:cardapio[2].pratos},
+    {nome:'Quintas',icon:'🍗',itens:cardapio[3].pratos},
+    {nome:'Sextas',icon:'🥩',itens:cardapio[4].pratos},
+    {nome:'Sábados',icon:'🔥',itens:cardapio[5].pratos},
+    {nome:'Domingos',icon:'🍖',itens:cardapio[6].pratos},
+  ];
+  document.getElementById('rot-grid').innerHTML=rotDias.map(function(rd){
+    return '<div class="rot-card"><div class="rot-dia">'+rd.icon+' '+rd.nome+'</div>'+
+      rd.itens.map(function(it,i){
+        return '<div class="rot-item'+(i===s?' atual':'')+'"><div class="rot-n">'+(i+1)+'</div><span>'+it+'</span></div>';
+      }).join('')+'</div>';
+  }).join('');
+}
+
+// LISTA DE COMPRAS
+// Mapa de acompanhamentos/pratos sem receita cadastrada -> ingredientes-base (sem quantidade)
+var acompIngredientes={
+  'Abobrinha refogada':['Abobrinha','Alho'],
+  'Abobrinha empanada':['Abobrinha','Farinha de rosca','Ovos'],
+  'Arroz branco':['Arroz'],
+  'Arroz de brócolis':['Arroz','Brócolis'],
+  'Batata rústica assada':['Batata'],
+  'Batatas douradas':['Batata'],
+  'Bruschetta':['Pão italiano','Tomate','Alho','Manjericão','Azeite'],
+  'Couve refogada':['Couve','Alho'],
+  'Farofa de cenoura':['Farinha de mandioca','Cenoura'],
+  'Farofa de dendê':['Farinha de mandioca','Azeite de dendê'],
+  'Farofa de ervas':['Farinha de mandioca','Ervas finas'],
+  'Farofa de manteiga':['Farinha de mandioca','Manteiga'],
+  'Farofa na manteiga e cebola':['Farinha de mandioca','Manteiga','Cebola'],
+  'Feijão carioca':['Feijão carioca'],
+  'Feijão preto':['Feijão preto'],
+  'Pirão do caldo do carneiro':['Caldo de carneiro','Farinha de mandioca'],
+  'Feijão tropeiro':['Feijão carioca','Bacon','Linguiça','Farinha de mandioca','Ovos','Couve'],
+  'Feijão tropeiro leve':['Feijão carioca','Farinha de mandioca','Couve'],
+  'Fusilli ao pesto':['Macarrão fusilli','Manjericão','Alho','Parmesão','Castanha ou pinoli','Azeite'],
+  'Legumes no vapor':['Cenoura','Brócolis','Vagem'],
+  'Maionese de batatas':['Batata','Maionese','Cenoura','Ervilha'],
+  'Mandioca frita':['Mandioca'],
+  'Penne ao sugo':['Macarrão penne','Molho de tomate','Alho','Manjericão'],
+  'Pirão leve de peixe':['Caldo de peixe','Farinha de mandioca'],
+  'Purê de abóbora':['Abóbora','Leite','Manteiga'],
+  'Pão de queijo':['Pão de queijo (pronto ou polvilho)'],
+  'Salada caprese':['Tomate','Mussarela de búfala','Manjericão','Azeite'],
+  'Salada de alface, tomate e pepino':['Alface','Tomate','Pepino'],
+  'Salada de folhas':['Folhas verdes variadas'],
+  'Salada de folhas com manga':['Folhas verdes variadas','Manga'],
+  'Salada de repolho com cenoura':['Repolho','Cenoura'],
+  'Salada especial':['Folhas verdes variadas','Tomate','Cenoura'],
+  'Salada festiva':['Folhas verdes variadas','Tomate','Milho','Azeitona'],
+  'Salada tropical':['Folhas verdes variadas','Manga ou abacaxi','Tomate'],
+  'Salada verde':['Folhas verdes variadas'],
+  'Salada verde com tomate cereja':['Folhas verdes variadas','Tomate cereja'],
+  'Tagliatelle ao alho e óleo':['Macarrão tagliatelle','Alho','Azeite'],
+  'Vatapá':['Pão','Camarão seco','Leite de coco','Azeite de dendê','Amendoim','Castanha de caju','Gengibre'],
+  'Vinagrete':['Tomate','Cebola','Pimentão','Vinagre']
+};
+function addItemCompra(mapa,texto,origem){
+  var chave=texto.trim().toLowerCase();
+  if(!mapa[chave]) mapa[chave]={nome:texto.trim(),origens:[]};
+  if(origem&&mapa[chave].origens.indexOf(origem)===-1) mapa[chave].origens.push(origem);
+}
+function addIngredienteOuAcomp(mapa,nome){
+  var base=acompIngredientes[nome];
+  if(base){ base.forEach(function(b){addItemCompra(mapa,b,nome);}); }
+  else{ addItemCompra(mapa,nome,nome); }
+}
+function ingredientesSemana(sem){
+  var s=sem-1,mapa={};
+  for(var d=0;d<7;d++){
+    var dia=cardapio[d];
+    var recId=dia.recIds?dia.recIds[s]:null;
+    var pratoNome=dia.pratos[s];
+    if(recId&&receitas[recId]){
+      var base=receitas[recId].ingBase||receitas[recId].ing;
+      base.forEach(function(ingr){addItemCompra(mapa,ingr,pratoNome);});
+    }
+    var acompList=(dia.acompExtra&&dia.acompExtra[s])?dia.acompExtra[s]:dia.acomp;
+    acompList.forEach(function(a){addIngredienteOuAcomp(mapa,a);});
+    if(dia.sobremesa){
+      var sobNome=dia.sobremesa[s];
+      var recSobId=dia.recSob?dia.recSob[s]:null;
+      if(recSobId&&receitas[recSobId]){
+        var baseS=receitas[recSobId].ingBase||receitas[recSobId].ing;
+        baseS.forEach(function(ingr){addItemCompra(mapa,ingr,sobNome);});
+      }
+    }
+  }
+  return mapa;
+}
+function ingredientesMes(){
+  var mapa={};
+  for(var w=1;w<=4;w++){
+    var semMapa=ingredientesSemana(w);
+    Object.keys(semMapa).forEach(function(k){
+      var item=semMapa[k];
+      if(!mapa[k]) mapa[k]={nome:item.nome,origens:[]};
+      item.origens.forEach(function(o){ if(mapa[k].origens.indexOf(o)===-1) mapa[k].origens.push(o); });
+    });
+  }
+  return mapa;
+}
+var comprasModo=null;
+function setCompras(modo,btn){
+  comprasModo=modo;
+  document.querySelectorAll('#compras-chips .schip').forEach(function(c){c.classList.remove('on');});
+  btn.classList.add('on');
+  renderCompras();
+}
+function renderCompras(){
+  if(!comprasModo){
+    comprasModo='sem'+semHoje;
+    var idx=semHoje-1;
+    var chipsEl=document.querySelectorAll('#compras-chips .schip');
+    if(chipsEl[idx]) chipsEl[idx].classList.add('on');
+  }
+  var itens,titulo,semFaltando=false;
+  if(comprasModo==='mes'){
+    itens=ingredientesMes();
+    titulo='Mês completo — todas as 4 semanas do ciclo';
+  } else {
+    var n=parseInt(comprasModo.slice(3));
+    itens=ingredientesSemana(n);
+    titulo='Semana '+n+(n===semHoje?' — semana atual':'');
+    for(var d=0;d<7;d++){
+      var recId=cardapio[d].recIds?cardapio[d].recIds[n-1]:null;
+      if(!recId) semFaltando=true;
+    }
+  }
+  document.getElementById('compras-aviso').innerHTML=semFaltando
+    ?'💡 Alguns pratos principais dessa semana ainda não têm receita detalhada cadastrada — para esses dias, a lista traz os acompanhamentos certinhos, mas a carne/proteína principal precisa ser conferida à parte.'
+    :'';
+  var chave='cm_compras_'+comprasModo;
+  var marcados={};
+  try{marcados=JSON.parse(localStorage.getItem(chave)||'{}');}catch(e){}
+  var keys=Object.keys(itens).sort(function(a,b){return itens[a].nome.localeCompare(itens[b].nome,'pt-BR');});
+  window._comprasKeys=keys;
+  window._comprasChave=chave;
+  window._comprasItens=itens;
+  var html='<div class="compras-titulo">🛒 '+titulo+'</div>';
+  html+='<div class="cp-pw"><div class="cp-pb" id="cp-pb"></div></div>';
+  html+='<div class="cp-pt" id="cp-pt"></div>';
+  html+='<div id="compras-list">';
+  keys.forEach(function(k,i){
+    var checked=!!marcados[k];
+    var item=itens[k];
+    var origensTxt=item.origens&&item.origens.length?'<div class="cp-origem">'+item.origens.join(' · ')+'</div>':'';
+    html+='<div class="cp-item'+(checked?' done':'')+'" data-idx="'+i+'" onclick="toggleCompra(this)"><div class="cp-box">'+(checked?'✓':'')+'</div><div class="cp-txt"><span>'+item.nome+'</span>'+origensTxt+'</div></div>';
+  });
+  html+='</div>';
+  html+='<button class="cp-reset" onclick="resetCompras()">↺ Desmarcar todos</button>';
+  document.getElementById('compras-content').innerHTML=html;
+  atualizarProgCompras();
+}
+function toggleCompra(el){
+  var i=parseInt(el.getAttribute('data-idx'));
+  var k=window._comprasKeys[i];
+  var chave=window._comprasChave;
+  var marcados={};
+  try{marcados=JSON.parse(localStorage.getItem(chave)||'{}');}catch(e){}
+  marcados[k]=!marcados[k];
+  try{localStorage.setItem(chave,JSON.stringify(marcados));}catch(e){}
+  el.classList.toggle('done');
+  el.querySelector('.cp-box').textContent=marcados[k]?'✓':'';
+  atualizarProgCompras();
+}
+function resetCompras(){
+  try{localStorage.setItem(window._comprasChave,JSON.stringify({}));}catch(e){}
+  renderCompras();
+}
+function atualizarProgCompras(){
+  var all=document.querySelectorAll('#compras-list .cp-item').length;
+  var done=document.querySelectorAll('#compras-list .cp-item.done').length;
+  var pb=document.getElementById('cp-pb'),pt=document.getElementById('cp-pt');
+  if(pb) pb.style.width=(all?Math.round(done/all*100):0)+'%';
+  if(pt) pt.textContent=done+' de '+all+' já em casa';
+}
+
+// INIT
+(function(){
+  document.querySelectorAll('.schip').forEach(function(c,i){c.classList.toggle('on',i+1===curSem);});
+  renderCardapio();
+  renderCats();
+  renderReceitas();
+})();
+</script>
+<!-- BOTÃO VOLTAR AO INÍCIO -->
+<a href="index.html" title="Voltar à página inicial" style="
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  background:#1E4D35;color:#D4B483;
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;font-size:20px;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  transition:all .2s;
+" onmouseover="this.style.background='#2E6B4F';this.style.transform='scale(1.08)'"
+   onmouseout="this.style.background='#1E4D35';this.style.transform='scale(1)'">
+  🏡
+</a>
+</body>
+</html>
