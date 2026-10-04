@@ -110,6 +110,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--cr);color:var(
 .fx-card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:8px}
 .fx-dia{font-size:11px;font-weight:700;color:var(--cl);margin-bottom:4px}
 .fx-task{font-size:13px;color:var(--tx)}
+.fx-bim{font-size:11px;color:var(--c3);margin-top:4px}
 .fx-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .fx-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:5px 11px;border-radius:100px;cursor:pointer;transition:all .15s;user-select:none;border:1px solid transparent}
 .fx-link.amb{background:var(--vb);border-color:var(--vbd);color:var(--vd)}
@@ -531,30 +532,46 @@ function syncFaxSem(){
 // DADOS FAXINA ROTATIVA
 var faxRot={
   1:[
-    {dia:'Seg tarde',t:'Cozinha e cristaleira',amb:['cozinha','cristaleira'],ori:[0,2,3]},
-    {dia:'Ter manhã',t:'Banheiro gourmet + Rouparia',amb:['banheiro-gourmet','rouparia'],ori:[0,1]},
+    {dia:'Seg tarde',t:'Banheiro gourmet + Rouparia',amb:['banheiro-gourmet','rouparia'],ori:[0,1]},
+    {dia:'Ter manhã',t:'Quartos — suítes casal, Maria Fernanda, Maria Isabel e hóspedes',amb:['suite-casal','suite-mf','suite-bebe','suite-hosp'],ori:[5,8]},
     {dia:'Sex manhã',t:'Limpar vidros — quartos e banheiros de cima',amb:[],ori:[0]},
-    {dia:'Sex tarde',t:'Limpar teto, sancas, teias de aranha / Lustres e luminárias',amb:[],ori:[]}
-  ],
-  2:[
-    {dia:'Seg tarde',t:'Sala de jantar, sala de estar, roll de entrada, corredor de cima',amb:['sala-jantar','roll-entrada','escada'],ori:[4,5]},
-    {dia:'Ter manhã',t:'Banheiros casal e crianças',amb:['banheiro-casal','banheiro-mf','banheiro-mi'],ori:[0,1]},
-    {dia:'Sex manhã',t:'Limpar vidros e portas da área gourmet',amb:[],ori:[0]},
     {dia:'Sex tarde',t:'Faxina lavanderia',amb:['lavanderia'],ori:[]}
   ],
+  2:[
+    {dia:'Seg tarde',t:'Brinquedoteca (incluindo vidros) + Área gourmet',amb:['brinquedoteca','gourmet'],ori:[0,12]},
+    {dia:'Ter manhã',t:'Banheiros casal e crianças',amb:['banheiro-casal','banheiro-mf','banheiro-mi'],ori:[0,1]},
+    {dia:'Sex manhã',t:'Cozinha',amb:['cozinha'],ori:[2,3]},
+    {dia:'Sex tarde',t:'Cristaleira',amb:['cristaleira'],ori:[0]}
+  ],
   3:[
-    {dia:'Seg tarde',t:'Quartos, closets e escritório',amb:['suite-casal','closet-casal','suite-mf','closet-mf','suite-bebe','closet-bebe','suite-hosp','escritorio'],ori:[5]},
-    {dia:'Ter manhã',t:'Banheiro hóspede e lavabo + Lavar cerca da piscina',amb:['banheiro-hosp','lavabo'],ori:[0,1]},
+    {dia:'Seg tarde',t:'Banheiro hóspede e lavabo + Lavar cerca da piscina',amb:['banheiro-hosp','lavabo'],ori:[0,1,9]},
+    {dia:'Ter manhã',t:'Sala de jantar, sala de estar, roll de entrada, corredor de cima',amb:['sala-jantar','roll-entrada','escada'],ori:[4,5]},
     {dia:'Sex manhã',t:'Limpar vidros da sala de jantar, sala de estar e da escada',amb:[],ori:[0]},
-    {dia:'Sex tarde',t:'Limpar vidros escritório e brinquedoteca',amb:[],ori:[0]}
+    {dia:'Sex tarde',t:'Limpar vidros e portas da área gourmet',amb:[],ori:[0]}
   ],
   4:[
-    {dia:'Seg tarde',t:'Brinquedoteca + Área gourmet',amb:['brinquedoteca','gourmet'],ori:[12]},
-    {dia:'Ter manhã',t:'Limpar vidros da cozinha e área de serviço',amb:[],ori:[0]},
-    {dia:'Sex manhã',t:'Vidros quartos e banheiros de baixo + lavabo + academia',amb:[],ori:[0]},
-    {dia:'Sex tarde',t:'Casa de Ivar / Escada / Portões e caixa de correios / Lista de compras',amb:['canil','escada'],ori:[11]}
+    {dia:'Seg tarde',t:'Casa de Ivar / Escada / Portões e caixa de correios / Lista de compras',amb:['canil','escada'],ori:[11]},
+    {dia:'Ter manhã',t:'Limpar vidros da cozinha e área de serviço + quartos e banheiros de baixo, lavabo e academia',amb:[],ori:[0]},
+    // Bimestral: o item principal vale nos ciclos pares (mês A); "alt" vale nos ciclos ímpares (mês B)
+    {dia:'Sex manhã',t:'Closets — casal, Maria Fernanda e Maria Isabel',amb:['closet-casal','closet-mf','closet-bebe'],ori:[5],
+      alt:{t:'Limpar teto, sancas, teias de aranha / Lustres e luminárias',amb:[],ori:[]}},
+    {dia:'Sex tarde',t:'Escritório',amb:['escritorio'],ori:[4,5],
+      alt:{t:'Limpar vidros do escritório',amb:[],ori:[0]}}
   ]
 };
+// Ciclo bimestral (8 semanas): alterna o conteúdo dos itens com "alt"
+function bimestreB(data){
+  var diff=Math.floor((data-inicioCiclo)/(7*24*3600*1000));
+  if(diff<0) return false;
+  return Math.floor(diff/4)%2===1;
+}
+function fxItem(sem,ix,data){
+  var fx=faxRot[sem][ix];
+  if(!fx.alt) return fx;
+  var b=bimestreB(data||hoje);
+  var at=b?fx.alt:fx, outro=b?fx:fx.alt;
+  return {dia:fx.dia,t:at.t,amb:at.amb,ori:at.ori,bim:true,outro:outro.t};
+}
 
 // ARRUMAÇÃO DIÁRIA — manutenção do dia a dia da Rose (não é faxina)
 var arrumGeral=[
@@ -682,9 +699,9 @@ function mostrarDet(dt){
       // bloco faxina rotativa só aparece se ciclo configurado
       if(s){
         var fxItems=[];
-        if(dIdxEf===0) fxItems.push(faxRot[s][0]);
-        if(dIdxEf===1) fxItems.push(faxRot[s][1]);
-        if(dIdxEf===4){fxItems.push(faxRot[s][2]);fxItems.push(faxRot[s][3]);}
+        if(dIdxEf===0) fxItems.push(fxItem(s,0,dt));
+        if(dIdxEf===1) fxItems.push(fxItem(s,1,dt));
+        if(dIdxEf===4){fxItems.push(fxItem(s,2,dt));fxItems.push(fxItem(s,3,dt));}
         fxItems.forEach(function(fx){
           html+='<div class="drot c"><div class="drotl c">Faxina rotativa — '+rotuloDiaFaxina(fx.dia,dt)+' (semana '+s+')</div><div class="drott">'+fx.t+'</div></div>';
         });
@@ -1061,7 +1078,7 @@ function renderSched(){
     var idxs=dEfetivo===0?[0]:dEfetivo===1?[1]:[2,3];
     var diaCod=dEfetivo===0?'seg':dEfetivo===1?'ter':'sex';
     var trocaNota=(dEfetivo!==curDia)?' <span style="opacity:.75">(trocou de sexta pra hoje)</span>':'';
-    var tasksHtml=idxs.map(function(ix){var fx=faxRot[s3][ix];return '<div class="rcoz-task">'+rotuloDiaFaxina(fx.dia,hoje)+': '+fx.t+'</div>';}).join('');
+    var tasksHtml=idxs.map(function(ix){var fx=fxItem(s3,ix,hoje);return '<div class="rcoz-task">'+rotuloDiaFaxina(fx.dia,hoje)+': '+fx.t+'</div>';}).join('');
     wrap.innerHTML='<div class="rcoz"><div class="rcoz-t">✨ Faxina rotativa de hoje — semana '+s3+trocaNota+'</div>'+tasksHtml+'<button class="rbtn" style="margin-top:10px" onclick="irFaxinaDia(\''+diaCod+'\')">🔗 Ver detalhes na Faxina rotativa</button></div>';
   } else {
     wrap.innerHTML='';
@@ -1101,14 +1118,16 @@ function rotuloDiaFaxina(diaOriginal,dataRef){
   return diaOriginal;
 }
 function renderFaxina(automatico){
-  var itemsAll=faxRot[curSem];
-  var items=faxFoco?itemsAll.filter(function(i){return faxFoco.indexOf(i.dia)!==-1;}):itemsAll;
   var semAtual=semCiclo(hoje);
   var isAtual=semAtual===curSem;
   // Data representativa da semana consultada (pode ser passada ou futura em relação a hoje,
   // mas a troca quarta/sexta se repete com o mesmo padrão sempre que essa Semana X ocorrer)
+  // Semanas já passadas no ciclo atual apontam para a próxima ocorrência (relevante para itens bimestrais)
   var diffSemanaSel=semAtual?(curSem-semAtual):0;
+  if(diffSemanaSel<0) diffSemanaSel+=4;
   var refDataSemana=new Date(hoje);refDataSemana.setDate(hoje.getDate()+diffSemanaSel*7);
+  var itemsAll=faxRot[curSem].map(function(_,ix){return fxItem(curSem,ix,refDataSemana);});
+  var items=faxFoco?itemsAll.filter(function(i){return faxFoco.indexOf(i.dia)!==-1;}):itemsAll;
   var temSexTrocada=roseFolgaSexta(refDataSemana)&&items.some(function(i){return i.dia.indexOf('Sex')===0;});
   // header indicando se é automático ou consulta
   var headerCor=isAtual?'var(--vd)':'var(--c3)';
@@ -1139,7 +1158,8 @@ function renderFaxina(automatico){
       return '<span class="fx-link ori" onclick="irOrientacao('+oi+',\''+diaCod+'\')">'+o.ic+' '+o.tt+'</span>';
     }).join('');
     var linksHtml=(ambChips||oriChips)?'<div class="fx-links">'+ambChips+oriChips+'</div>':'';
-    return '<div class="fx-card"><div class="fx-dia">'+rotuloDiaFaxina(i.dia,refDataSemana)+'</div><div class="fx-task">'+i.t+'</div>'+linksHtml+'</div>';
+    var bimHtml=i.bim?'<div class="fx-bim">A cada 2 meses — alterna com: '+i.outro+'</div>':'';
+    return '<div class="fx-card"><div class="fx-dia">'+rotuloDiaFaxina(i.dia,refDataSemana)+'</div><div class="fx-task">'+i.t+'</div>'+bimHtml+linksHtml+'</div>';
   }).join('');
 }
 function limparFocoFaxina(){
