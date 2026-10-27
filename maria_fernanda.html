@@ -147,6 +147,49 @@ html,body{min-height:100vh;background:var(--creme);color:var(--txt);font-family:
 
 @media(min-width:600px){.content{max-width:600px;margin:0 auto}}
 
+/* AUTONOMIA */
+.aut-sub{display:flex;gap:6px;margin-bottom:16px;background:var(--branco);border:1px solid var(--creme-e);border-radius:100px;padding:4px}
+.aut-sub button{flex:1;border:none;background:none;padding:9px 6px;border-radius:100px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--txt-s);cursor:pointer}
+.aut-sub button.on{background:var(--rosa);color:#fff}
+.aut-area{display:none}.aut-area.on{display:block}
+.aut-semana-atual{background:linear-gradient(135deg,var(--rosa-bg),var(--lilas-bg));border:1px solid var(--lilas-bd);border-radius:var(--r);padding:14px 16px;margin-bottom:14px}
+.aut-semana-atual .rot{font-size:11px;font-weight:700;color:var(--lilas);text-transform:uppercase;letter-spacing:.8px}
+.aut-semana-atual .nome{font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:var(--txt);margin:2px 0 6px}
+.aut-semana-atual .meta{font-size:13px;color:var(--txt-s)}
+.aut-semana-ctrl{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.aut-chip{border:1px solid var(--creme-e);background:var(--branco);border-radius:100px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--txt-s);cursor:pointer;font-family:'Nunito',sans-serif}
+.aut-chip.on{background:var(--lilas);border-color:var(--lilas);color:#fff}
+.aut-lista{list-style:none;margin-top:6px}
+.aut-lista li{font-size:13.5px;line-height:1.5;padding:5px 0 5px 16px;position:relative;color:var(--txt)}
+.aut-lista li::before{content:'';position:absolute;left:2px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--rosa-c)}
+.aut-meta-tag{display:inline-block;background:var(--verde-bg);border:1px solid var(--verde-bd);color:var(--verde);font-size:12px;font-weight:700;padding:3px 10px;border-radius:100px;margin-top:8px}
+.aut-frase{background:var(--rosa-bg);border-left:3px solid var(--rosa);border-radius:0 var(--r) var(--r) 0;padding:10px 12px;margin-top:8px}
+.aut-frase .q{font-size:11px;font-weight:700;color:var(--rosa);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.aut-frase .t{font-size:14px;font-style:italic;color:var(--txt)}
+.aut-input{width:100%;border:1px solid var(--creme-e);border-radius:var(--r);padding:10px 12px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--txt);background:var(--branco)}
+.aut-input:focus{outline:none;border-color:var(--rosa-bd)}
+.aut-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aut-opts{display:flex;flex-wrap:wrap;gap:6px}
+.aut-reg{background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.aut-reg-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.aut-reg-top b{font-size:13px;color:var(--txt)}
+.aut-reg-top small{font-size:11px;color:var(--txt-s)}
+.aut-reg-del{border:none;background:none;color:var(--txt-s);font-size:16px;cursor:pointer;padding:0 4px}
+.aut-reac{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;margin-right:4px}
+.aut-reac.r1{background:var(--verde-bg);color:var(--verde)}
+.aut-reac.r2{background:var(--azul-bg);color:var(--azul)}
+.aut-reac.r3{background:var(--laranja-bg);color:var(--laranja)}
+.aut-reac.r4{background:var(--verm-bg);color:var(--verm)}
+.aut-reg p{font-size:13px;color:var(--txt);margin-top:4px;line-height:1.45}
+.aut-reg p span{color:var(--txt-s)}
+.aut-dia{font-size:12px;font-weight:700;color:var(--rosa);margin:14px 0 6px}
+.aut-res-num{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.aut-res-num div{background:var(--branco);border:1px solid var(--creme-e);border-radius:var(--r);padding:10px;text-align:center}
+.aut-res-num b{display:block;font-size:20px;color:var(--lilas)}
+.aut-res-num span{font-size:11px;color:var(--txt-s)}
+.aut-fb{display:none;font-size:13px;margin-top:8px;text-align:center}
+.aut-vazio{font-size:13px;color:var(--txt-s);text-align:center;padding:20px 10px}
+
 /* CASA MAGNUM — TRAVA DE ACESSO */
 .cm-lock{position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#1E4D35,#173F2A);display:flex;align-items:center;justify-content:center;padding:20px}
 .cm-lock-box{background:#fff;border-radius:16px;padding:36px 30px;max-width:340px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3)}
@@ -231,6 +274,7 @@ html,body{min-height:100vh;background:var(--creme);color:var(--txt);font-family:
   <button class="nav-btn" onclick="nav('avisar',this)">📢 O que avisar</button>
   <button class="nav-btn" onclick="nav('checklist',this)">✅ Fim do dia</button>
   <button class="nav-btn" onclick="nav('viagem',this)">✈️ Viagem</button>
+  <button class="nav-btn" onclick="nav('autonomia',this)">🌱 Autonomia</button>
 </div>
 
 <!-- ROTINA -->
@@ -701,6 +745,142 @@ html,body{min-height:100vh;background:var(--creme);color:var(--txt);font-family:
 
 
 <!-- VIAGEM -->
+<div class="pnl content" id="pnl-autonomia">
+  <div class="aut-sub">
+    <button class="on" onclick="autArea('plano',this)">Plano</button>
+    <button onclick="autArea('registro',this)">Registro diário</button>
+    <button onclick="autArea('resumo',this)">Resumo semanal</button>
+  </div>
+
+  <!-- PLANO E CRONOGRAMA -->
+  <div class="aut-area on" id="aut-plano">
+    <div class="aut-semana-atual" id="aut-semana-box"></div>
+
+    <div class="card" id="aut-card-s1"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🌱</span><span class="card-titulo">Semana 1 — Iniciação</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">
+      <li>2 a 3 oportunidades curtas de brincadeira independente por dia.</li>
+      <li>Começar com 30 segundos a 2 minutos, conforme a tolerância dela.</li>
+      <li>O adulto ajuda a iniciar a atividade e depois reduz a participação.</li>
+    </ul><span class="aut-meta-tag">Referência: 1–3 min em algumas tentativas</span></div></div>
+
+    <div class="card" id="aut-card-s2"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🧱</span><span class="card-titulo">Semana 2 — Construção</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">
+      <li>Oferecer duas opções de brincadeira.</li>
+      <li>Aumentar a duração aos poucos, sem exigir progressão diária.</li>
+      <li>Aproveitar tarefas domésticas para praticar, com supervisão.</li>
+    </ul><span class="aut-meta-tag">Referência: 3–5 min em algumas tentativas</span></div></div>
+
+    <div class="card" id="aut-card-s3"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🧺</span><span class="card-titulo">Semana 3 — Generalização</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">
+      <li>Praticar enquanto a mãe ou a babá realiza tarefas simples.</li>
+      <li>Permitir participação em tarefas domésticas seguras e adequadas à idade.</li>
+      <li>Ensinar a diferença entre tarefas em que ela pode ajudar e tarefas que o adulto precisa concluir sozinho.</li>
+    </ul><span class="aut-meta-tag">Referência: 5–8 min em algumas tentativas</span></div></div>
+
+    <div class="card" id="aut-card-s4"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🌷</span><span class="card-titulo">Semana 4 — Consolidação</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">
+      <li>Alternar atenção exclusiva, participação em tarefas e brincadeira independente.</li>
+      <li>Incentivar que ela escolha, inicie e organize suas atividades.</li>
+      <li>Reduzir gradualmente a participação do adulto.</li>
+    </ul><span class="aut-meta-tag">Referência: 8–10 min em algumas atividades, se estiver confortável</span></div></div>
+
+    <div style="margin:4px 0 14px;font-size:13px;line-height:1.5;background:var(--lilas-bg);border:1px solid var(--lilas-bd);border-radius:var(--r);padding:10px 12px">Os tempos são referências flexíveis, não exigências. Se houver sofrimento significativo, reduzir a duração e retomar aos poucos.</div>
+
+    <div class="card"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🕰️</span><span class="card-titulo">Rotina diária</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">
+      <li><b>Após o café da manhã:</b> brincadeira independente curta.</li>
+      <li><b>Durante uma tarefa doméstica:</b> brincar perto do adulto, com supervisão.</li>
+      <li><b>Em um momento apropriado:</b> participar de uma tarefa simples, como separar meias ou organizar brinquedos.</li>
+      <li><b>À tarde:</b> segunda oportunidade de brincadeira independente.</li>
+      <li><b>No fim do dia:</b> atenção exclusiva e conexão afetiva com um adulto de referência.</li>
+    </ul><p style="font-size:13px;color:var(--txt-s);margin-top:8px">Em dias atípicos, de cansaço ou de maior necessidade de acolhimento, não é preciso cumprir todos os blocos.</p></div></div>
+
+    <div class="card"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🤝</span><span class="card-titulo">Como os adultos respondem</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">
+      <li>Iniciar a brincadeira junto e depois se afastar aos poucos.</li>
+      <li>Avisar antes de começar uma tarefa: o que o adulto vai fazer e o que ela pode fazer.</li>
+      <li>Responder aos chamados de forma breve, calma e consistente, sem prolongar negociações.</li>
+      <li>Não recusar automaticamente pedidos de ajuda. Quando possível, oferecer uma tarefa simples e segura.</li>
+      <li>Quando não der para participar, explicar o limite e oferecer uma alternativa realista.</li>
+      <li>Nunca usar a brincadeira independente como punição, ameaça ou condição para receber carinho.</li>
+      <li>Acolher necessidades reais: sofrimento intenso, fome, cansaço, insegurança e situações de risco.</li>
+      <li>Não comparar com outras crianças nem cobrar a meta de tempo.</li>
+      <li>Manter supervisão adequada à idade em todos os momentos.</li>
+    </ul></div></div>
+
+    <div class="card"><div class="card-header" onclick="togCard(this)"><span class="card-icon">💬</span><span class="card-titulo">Frases de referência</span><span class="card-chevron">⌄</span></div><div class="card-body">
+      <div class="aut-frase"><div class="q">Adulto ocupado</div><div class="t">“Agora vou terminar esta tarefa enquanto você brinca aqui perto. Quando eu terminar, podemos fazer algo juntas.”</div></div>
+      <div class="aut-frase"><div class="q">Ela quer ajudar</div><div class="t">“Você quer me ajudar! Nesta parte você pode participar. Esta outra eu preciso terminar sozinha.”</div></div>
+      <div class="aut-frase"><div class="q">Chama repetidamente</div><div class="t">“Eu ouvi você. Estou aqui e vou terminar esta tarefa. Você pode continuar sua brincadeira.”</div></div>
+      <div class="aut-frase"><div class="q">Conseguiu brincar sozinha</div><div class="t">“Você escolheu o que fazer e conseguiu continuar por conta própria.”</div></div>
+    </div></div>
+
+    <div class="card"><div class="card-header" onclick="togCard(this)"><span class="card-icon">📌</span><span class="card-titulo">Combinados entre mãe e babá</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">
+      <li>Mesmo plano e mesmas orientações para as duas.</li>
+      <li>Metas flexíveis, adaptadas à resposta dela.</li>
+      <li>A semana só avança quando ela estiver pronta — a mudança é feita aqui, manualmente.</li>
+      <li>Prioridade: consistência, segurança, vínculo afetivo e autonomia progressiva.</li>
+      <li>Nem toda tarefa doméstica precisa virar atividade compartilhada.</li>
+      <li>Nunca exigir que ela fique sozinha quando precisa de acolhimento.</li>
+    </ul></div></div>
+  </div>
+
+  <!-- REGISTRO DIÁRIO -->
+  <div class="aut-area" id="aut-registro">
+    <p style="font-size:13px;color:var(--txt-s);margin-bottom:16px">Registre cada tentativa — pode haver várias no mesmo dia. O objetivo é acompanhar tendências, não avaliar.</p>
+
+    <div class="aut-row2 clf-section">
+      <div><div class="clf-titulo">Data</div><input type="date" id="aut-data" class="aut-input"></div>
+      <div><div class="clf-titulo">Semana do plano</div><select id="aut-semana" class="aut-input"><option value="1">Semana 1</option><option value="2">Semana 2</option><option value="3">Semana 3</option><option value="4">Semana 4</option></select></div>
+    </div>
+
+    <div class="clf-section"><div class="clf-titulo">Quem acompanhou</div>
+      <div class="aut-opts" id="aut-resp"><button class="aut-chip" data-v="Mãe" onclick="autChip('aut-resp',this)">Mãe</button><button class="aut-chip" data-v="Babá" onclick="autChip('aut-resp',this)">Babá</button></div>
+    </div>
+
+    <div class="clf-section"><div class="clf-titulo">Momento</div>
+      <select id="aut-momento" class="aut-input">
+        <option value="Após o café da manhã">Após o café da manhã</option>
+        <option value="Durante tarefa do adulto">Durante tarefa do adulto</option>
+        <option value="Participação em tarefa">Participação em tarefa</option>
+        <option value="À tarde">À tarde</option>
+        <option value="Outro momento">Outro momento</option>
+      </select>
+    </div>
+
+    <div class="clf-section"><div class="clf-titulo">Atividade proposta</div>
+      <input id="aut-ativ" class="aut-input" list="aut-ativ-list" placeholder="Ex.: massinha, blocos, separar meias"><datalist id="aut-ativ-list"></datalist>
+    </div>
+
+    <div class="clf-section"><div class="clf-titulo">Duração aproximada (minutos)</div>
+      <input id="aut-dur" class="aut-input" type="number" min="0" max="60" step="0.5" inputmode="decimal" placeholder="Ex.: 0.5 para 30 segundos">
+    </div>
+
+    <div class="clf-section"><div class="clf-titulo">Como ela reagiu</div>
+      <div class="aut-opts" id="aut-reac">
+        <button class="aut-chip" data-v="Tranquila" onclick="autChip('aut-reac',this)">Tranquila</button>
+        <button class="aut-chip" data-v="Precisou de lembretes" onclick="autChip('aut-reac',this)">Precisou de lembretes</button>
+        <button class="aut-chip" data-v="Pediu participação repetidamente" onclick="autChip('aut-reac',this)">Pediu participação repetidamente</button>
+        <button class="aut-chip" data-v="Ficou muito frustrada" onclick="autChip('aut-reac',this)">Ficou muito frustrada</button>
+      </div>
+    </div>
+
+    <div class="clf-section"><div class="clf-titulo">Estratégia que funcionou melhor</div>
+      <input id="aut-estr" class="aut-input" list="aut-estr-list" placeholder="Escolha ou escreva"><datalist id="aut-estr-list">
+        <option value="Começar junto e se afastar aos poucos"><option value="Avisar antes de começar a tarefa"><option value="Oferecer duas opções"><option value="Brincar perto do adulto"><option value="Oferecer uma parte da tarefa para ela"><option value="Resposta breve e calma aos chamados"><option value="Reduzir a duração">
+      </datalist>
+    </div>
+
+    <div class="clf-section"><div class="clf-titulo">Observações</div><textarea id="aut-obs" class="clf-textarea" placeholder="Algo relevante: cansaço, fome, mudança de rotina..."></textarea></div>
+    <div class="clf-section"><div class="clf-titulo">Próximo passo sugerido</div><textarea id="aut-prox" class="clf-textarea" style="min-height:50px" placeholder="Ex.: repetir amanhã com a mesma atividade"></textarea></div>
+
+    <button class="clf-save" onclick="autSalvar()">Salvar registro</button>
+    <div class="aut-fb" id="aut-fb"></div>
+
+    <div class="clf-hist"><div class="clf-hist-titulo">Registros recentes</div><div id="aut-hist"></div></div>
+  </div>
+
+  <!-- RESUMO SEMANAL -->
+  <div class="aut-area" id="aut-resumo">
+    <div class="aut-opts" id="aut-res-sem" style="margin-bottom:14px"></div>
+    <div id="aut-res-corpo"></div>
+  </div>
+</div>
+
 <div class="pnl content" id="pnl-viagem">
 
   <div class="alerta" style="background:var(--rosa-bg);border:1px solid var(--rosa-bd);margin-bottom:16px">
@@ -2080,6 +2260,220 @@ var atvChips=document.querySelectorAll('#atv-chips .dchip');
 atvChips.forEach(function(c,i){c.classList.toggle('on',i===curAtvIdx);});
 renderAtvDia();
 renderBanco();
+</script>
+<script>
+// AUTONOMIA — plano de 4 semanas (dados compartilhados na mesma planilha do Painel da Casa)
+var AUT_SEMANAS={
+  1:{nome:'Iniciação',meta:'1–3 min em algumas tentativas',min:1},
+  2:{nome:'Construção',meta:'3–5 min em algumas tentativas',min:3},
+  3:{nome:'Generalização',meta:'5–8 min em algumas tentativas',min:5},
+  4:{nome:'Consolidação',meta:'8–10 min em algumas atividades, se estiver confortável',min:8}
+};
+var AUT_REAC={'Tranquila':'r1','Precisou de lembretes':'r2','Pediu participação repetidamente':'r3','Ficou muito frustrada':'r4'};
+var autRegs=[];
+var autSemanaAtual=1;
+var autResSem=null;
+
+function autEsc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function autHojeISO(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function autDataBR(iso){
+  var p=String(iso||'').slice(0,10).split('-');if(p.length<3) return iso||'';
+  var d=new Date(+p[0],+p[1]-1,+p[2]);
+  var t=d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit'});return t.charAt(0).toUpperCase()+t.slice(1);
+}
+function autFmtDur(m){
+  m=parseFloat(m);if(isNaN(m)) return '—';
+  if(m<1) return Math.round(m*60)+' s';
+  return (Math.round(m*10)/10).toString().replace('.',',')+' min';
+}
+function autLerLocal(){
+  try{autRegs=JSON.parse(localStorage.getItem('mf_autonomia')||'[]');}catch(e){autRegs=[];}
+  try{var s=parseInt(localStorage.getItem('mf_autonomia_semana'),10);if(s>=1&&s<=4) autSemanaAtual=s;}catch(e){}
+}
+function autGravarLocal(){
+  try{localStorage.setItem('mf_autonomia',JSON.stringify(autRegs));localStorage.setItem('mf_autonomia_semana',String(autSemanaAtual));}catch(e){}
+}
+function autPost(obj){
+  return fetch(sheetsUrlCM,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(obj)});
+}
+function autCarregar(){
+  fetch(sheetsUrlCM+'?app=autonomia')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(!data) return;
+      if(data.registros){
+        var srv=data.registros.map(function(r){r.data=String(r.data||'').slice(0,10);r.semana=parseInt(r.semana,10)||1;return r;});
+        var ids={};srv.forEach(function(r){ids[r.id]=true;});
+        var pend=autRegs.filter(function(r){return r.pend&&!ids[r.id];});
+        autRegs=srv.concat(pend);
+      }
+      var s=parseInt(data.semana,10);
+      if(s>=1&&s<=4) autSemanaAtual=s;
+      autGravarLocal();autRenderTudo();
+    })
+    .catch(function(){});
+}
+
+function autArea(id,btn){
+  document.querySelectorAll('.aut-area').forEach(function(a){a.classList.remove('on');});
+  document.querySelectorAll('.aut-sub button').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('aut-'+id).classList.add('on');btn.classList.add('on');
+  if(id==='resumo') autRenderResumo();
+}
+function autChip(grupo,btn){
+  document.querySelectorAll('#'+grupo+' .aut-chip').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+}
+function autChipVal(grupo){var b=document.querySelector('#'+grupo+' .aut-chip.on');return b?b.getAttribute('data-v'):'';}
+
+function autRenderSemana(){
+  var s=AUT_SEMANAS[autSemanaAtual];
+  var chips='';
+  for(var i=1;i<=4;i++) chips+='<button class="aut-chip'+(i===autSemanaAtual?' on':'')+'" onclick="autMudarSemana('+i+')">Semana '+i+'</button>';
+  document.getElementById('aut-semana-box').innerHTML=
+    '<div class="rot">Semana atual do plano</div>'+
+    '<div class="nome">Semana '+autSemanaAtual+' — '+s.nome+'</div>'+
+    '<div class="meta">Referência: '+s.meta+'</div>'+
+    '<div class="aut-semana-ctrl">'+chips+'</div>';
+  for(var j=1;j<=4;j++){var c=document.getElementById('aut-card-s'+j);if(c) c.classList.toggle('open',j===autSemanaAtual);}
+  var sel=document.getElementById('aut-semana');if(sel) sel.value=String(autSemanaAtual);
+}
+function autMudarSemana(n){
+  if(n===autSemanaAtual) return;
+  if(!confirm('Mudar o plano para a Semana '+n+' — '+AUT_SEMANAS[n].nome+'? A mudança vale para mãe e babá.')) return;
+  autSemanaAtual=n;autGravarLocal();autRenderSemana();
+  autPost({app:'autonomia_semana',semana:n}).catch(function(){});
+}
+
+function autSalvar(){
+  var reg={
+    id:'a'+Date.now()+Math.floor(Math.random()*1000),
+    data:document.getElementById('aut-data').value,
+    semana:parseInt(document.getElementById('aut-semana').value,10)||autSemanaAtual,
+    resp:autChipVal('aut-resp'),
+    momento:document.getElementById('aut-momento').value,
+    ativ:document.getElementById('aut-ativ').value.trim(),
+    dur:document.getElementById('aut-dur').value,
+    reac:autChipVal('aut-reac'),
+    estr:document.getElementById('aut-estr').value.trim(),
+    obs:document.getElementById('aut-obs').value.trim(),
+    prox:document.getElementById('aut-prox').value.trim()
+  };
+  if(!reg.data){alert('Informe a data.');return;}
+  if(!reg.resp){alert('Indique quem acompanhou.');return;}
+  if(!reg.ativ){alert('Informe a atividade proposta.');return;}
+  if(!reg.reac){alert('Indique como ela reagiu.');return;}
+  reg.pend=true;
+  autRegs.unshift(reg);autGravarLocal();
+  var fb=document.getElementById('aut-fb');
+  fb.style.display='block';fb.style.color='var(--txt-s)';fb.textContent='Salvando...';
+  var envio={app:'autonomia_registro'};for(var k in reg) if(k!=='pend') envio[k]=reg[k];
+  autPost(envio).then(function(){
+    fb.style.color='var(--verde)';fb.textContent='✅ Registro salvo!';
+    setTimeout(autCarregar,900);
+  }).catch(function(){
+    fb.style.color='var(--laranja)';fb.textContent='Salvo neste aparelho. Sem conexão com a planilha agora.';
+  }).then(function(){setTimeout(function(){fb.style.display='none';},3000);});
+  ['aut-ativ','aut-dur','aut-estr','aut-obs','aut-prox'].forEach(function(id){document.getElementById(id).value='';});
+  document.querySelectorAll('#aut-reac .aut-chip').forEach(function(b){b.classList.remove('on');});
+  autRenderTudo();
+}
+function autExcluir(id){
+  if(!confirm('Excluir este registro?')) return;
+  autRegs=autRegs.filter(function(r){return r.id!==id;});autGravarLocal();autRenderTudo();
+  autPost({app:'excluir_autonomia',id:id}).then(function(){setTimeout(autCarregar,900);}).catch(function(){});
+}
+
+function autOrdenados(){
+  return autRegs.slice().sort(function(a,b){return a.data<b.data?1:a.data>b.data?-1:(String(a.id)<String(b.id)?1:-1);});
+}
+function autCardReg(r){
+  var h='<div class="aut-reg"><div class="aut-reg-top"><b>'+autEsc(r.ativ)+'</b><small>'+autEsc(r.resp)+' · Sem. '+autEsc(r.semana)+
+    (r.pend?' · ⏳':'')+'<button class="aut-reg-del" onclick="autExcluir(\''+autEsc(r.id)+'\')" title="Excluir">×</button></small></div>';
+  h+='<span class="aut-reac '+(AUT_REAC[r.reac]||'r2')+'">'+autEsc(r.reac)+'</span><span style="font-size:12px;color:var(--txt-s)">'+autEsc(r.momento)+' · '+autFmtDur(r.dur)+'</span>';
+  if(r.estr) h+='<p><span>Funcionou:</span> '+autEsc(r.estr)+'</p>';
+  if(r.obs) h+='<p><span>Obs.:</span> '+autEsc(r.obs)+'</p>';
+  if(r.prox) h+='<p><span>Próximo passo:</span> '+autEsc(r.prox)+'</p>';
+  return h+'</div>';
+}
+function autRenderHist(){
+  var el=document.getElementById('aut-hist');
+  var lista=autOrdenados().slice(0,30);
+  if(!lista.length){el.innerHTML='<div class="aut-vazio">Nenhum registro ainda.</div>';return;}
+  var h='',dia='';
+  lista.forEach(function(r){
+    if(r.data!==dia){dia=r.data;h+='<div class="aut-dia">'+autEsc(autDataBR(dia))+'</div>';}
+    h+=autCardReg(r);
+  });
+  el.innerHTML=h;
+  var ativs={};autRegs.forEach(function(r){if(r.ativ) ativs[r.ativ]=1;});
+  document.getElementById('aut-ativ-list').innerHTML=Object.keys(ativs).map(function(a){return '<option value="'+autEsc(a)+'">';}).join('');
+}
+
+function autContar(lista,campo){
+  var c={};lista.forEach(function(r){var v=(r[campo]||'').trim();if(v) c[v]=(c[v]||0)+1;});
+  return Object.keys(c).sort(function(a,b){return c[b]-c[a];}).map(function(k){return {v:k,n:c[k]};});
+}
+function autMediana(arr){
+  if(!arr.length) return null;var s=arr.slice().sort(function(a,b){return a-b;});var m=Math.floor(s.length/2);
+  return s.length%2?s[m]:(s[m-1]+s[m])/2;
+}
+function autRenderResumo(){
+  if(!autResSem) autResSem=autSemanaAtual;
+  var chips='';for(var i=1;i<=4;i++) chips+='<button class="aut-chip'+(i===autResSem?' on':'')+'" onclick="autResSem='+i+';autRenderResumo()">Semana '+i+'</button>';
+  document.getElementById('aut-res-sem').innerHTML=chips;
+  var w=autResSem,regs=autRegs.filter(function(r){return parseInt(r.semana,10)===w;});
+  var corpo=document.getElementById('aut-res-corpo');
+  if(!regs.length){corpo.innerHTML='<div class="aut-vazio">Ainda não há registros da Semana '+w+'.</div>';return;}
+
+  var dias={};regs.forEach(function(r){dias[r.data]=1;});
+  var conf=regs.filter(function(r){return r.reac==='Tranquila';});
+  var durConf=conf.map(function(r){return parseFloat(r.dur);}).filter(function(x){return !isNaN(x);});
+  var maxConf=durConf.length?Math.max.apply(null,durConf):null;
+  var medConf=autMediana(durConf);
+
+  // Atividades com mais autonomia: reação tranquila ou só com lembretes, ordenadas pela duração média
+  var ga={};regs.forEach(function(r){
+    if(r.reac!=='Tranquila'&&r.reac!=='Precisou de lembretes') return;
+    var d=parseFloat(r.dur);if(!ga[r.ativ]) ga[r.ativ]={s:0,n:0,q:0};
+    ga[r.ativ].q++;if(!isNaN(d)){ga[r.ativ].s+=d;ga[r.ativ].n++;}
+  });
+  var ativs=Object.keys(ga).sort(function(a,b){var ma=ga[a].n?ga[a].s/ga[a].n:0,mb=ga[b].n?ga[b].s/ga[b].n:0;return mb-ma||ga[b].q-ga[a].q;}).slice(0,4);
+
+  var dificeis=regs.filter(function(r){return r.reac==='Pediu participação repetidamente'||r.reac==='Ficou muito frustrada';});
+  var estr=autContar(regs.filter(function(r){return r.reac==='Tranquila'||r.reac==='Precisou de lembretes';}),'estr').slice(0,3);
+  if(!estr.length) estr=autContar(regs,'estr').slice(0,3);
+
+  // Sugestão de ajuste (nunca avança sozinha)
+  var n=regs.length,calm=(conf.length+regs.filter(function(r){return r.reac==='Precisou de lembretes';}).length)/n;
+  var frust=regs.filter(function(r){return r.reac==='Ficou muito frustrada';}).length/n;
+  var sug;
+  if(n<3) sug='Poucos registros nesta semana. Manter a Semana '+w+' e registrar mais algumas tentativas antes de decidir.';
+  else if(frust>=0.3) sug='Houve frustração frequente. Manter a Semana '+w+' com durações mais curtas e mais apoio no início, retomando aos poucos.';
+  else if(calm>=0.7&&maxConf!==null&&maxConf>=AUT_SEMANAS[w].min&&w<4) sug='Ela parece confortável. Se mãe e babá concordarem, pode seguir para a Semana '+(w+1)+' — '+AUT_SEMANAS[w+1].nome+'. A mudança é feita no Plano.';
+  else if(calm>=0.7&&w===4) sug='Consolidação em bom caminho. Seguir alternando atenção exclusiva, participação em tarefas e brincadeira independente.';
+  else sug='Manter a Semana '+w+' por mais alguns dias, repetindo as atividades e estratégias que funcionaram melhor.';
+
+  var h='<div class="aut-res-num"><div><b>'+n+'</b><span>tentativas</span></div><div><b>'+Object.keys(dias).length+'</b><span>dias com registro</span></div><div><b>'+(medConf!==null?autFmtDur(medConf):'—')+'</b><span>duração confortável típica</span></div></div>';
+  h+='<div class="card open"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🌟</span><span class="card-titulo">Onde brincou com mais autonomia</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">'+
+    (ativs.length?ativs.map(function(a){var g=ga[a];return '<li>'+autEsc(a)+(g.n?' — média de '+autFmtDur(g.s/g.n):'')+(g.q>1?' ('+g.q+' vezes)':'')+'</li>';}).join(''):'<li>Sem tentativas tranquilas registradas nesta semana.</li>')+'</ul></div></div>';
+  h+='<div class="card open"><div class="card-header" onclick="togCard(this)"><span class="card-icon">⏱️</span><span class="card-titulo">Duração sustentada com conforto</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">'+
+    (maxConf!==null?'<li>Tipicamente '+autFmtDur(medConf)+'; a mais longa foi '+autFmtDur(maxConf)+'.</li>':'<li>Ainda sem tentativas tranquilas com duração anotada.</li>')+
+    '<li>Referência da semana: '+AUT_SEMANAS[w].meta+'.</li></ul></div></div>';
+  h+='<div class="card open"><div class="card-header" onclick="togCard(this)"><span class="card-icon">🤲</span><span class="card-titulo">Pediu mais participação do adulto</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">'+
+    (dificeis.length?dificeis.slice(0,6).map(function(r){return '<li>'+autEsc(r.ativ)+' ('+autEsc(r.momento.toLowerCase())+') — '+autEsc(r.reac.toLowerCase())+(r.obs?'. '+autEsc(r.obs):'')+'</li>';}).join(''):'<li>Nenhuma situação difícil registrada.</li>')+'</ul></div></div>';
+  h+='<div class="card open"><div class="card-header" onclick="togCard(this)"><span class="card-icon">💡</span><span class="card-titulo">Estratégias que funcionaram melhor</span><span class="card-chevron">⌄</span></div><div class="card-body"><ul class="aut-lista">'+
+    (estr.length?estr.map(function(e){return '<li>'+autEsc(e.v)+(e.n>1?' ('+e.n+' vezes)':'')+'</li>';}).join(''):'<li>Nenhuma estratégia anotada.</li>')+'</ul></div></div>';
+  h+='<div class="aut-semana-atual" style="margin-top:4px"><div class="rot">Sugestão para a próxima semana</div><div class="meta" style="color:var(--txt);font-size:14px;margin-top:6px;line-height:1.5">'+autEsc(sug)+'</div></div>';
+  corpo.innerHTML=h;
+}
+
+function autRenderTudo(){
+  autRenderSemana();autRenderHist();
+  if(document.getElementById('aut-resumo').classList.contains('on')) autRenderResumo();
+}
+document.getElementById('aut-data').value=autHojeISO();
+autLerLocal();autRenderTudo();autCarregar();
 </script>
 </body>
 </html>
