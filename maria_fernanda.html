@@ -871,7 +871,7 @@ html,body{min-height:100vh;background:var(--creme);color:var(--txt);font-family:
     <button class="clf-save" onclick="autSalvar()">Salvar registro</button>
     <div class="aut-fb" id="aut-fb"></div>
 
-    <div class="clf-hist"><div class="clf-hist-titulo">Registros recentes</div><div id="aut-hist"></div></div>
+    <div class="clf-hist"><div class="clf-hist-titulo">Registros</div><div class="aut-opts" id="aut-hist-sem" style="margin-bottom:10px"></div><div id="aut-hist"></div></div>
   </div>
 
   <!-- RESUMO SEMANAL -->
@@ -2273,6 +2273,7 @@ var AUT_REAC={'Tranquila':'r1','Precisou de lembretes':'r2','Pediu participaçã
 var autRegs=[];
 var autSemanaAtual=1;
 var autResSem=null;
+var autHistSem=null;
 
 function autEsc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function autHojeISO(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
@@ -2364,6 +2365,7 @@ function autSalvar(){
   if(!reg.ativ){alert('Informe a atividade proposta.');return;}
   if(!reg.reac){alert('Indique como ela reagiu.');return;}
   reg.pend=true;
+  autHistSem=reg.semana;
   autRegs.unshift(reg);autGravarLocal();
   var fb=document.getElementById('aut-fb');
   fb.style.display='block';fb.style.color='var(--txt-s)';fb.textContent='Salvando...';
@@ -2398,14 +2400,23 @@ function autCardReg(r){
 }
 function autRenderHist(){
   var el=document.getElementById('aut-hist');
-  var lista=autOrdenados().slice(0,30);
-  if(!lista.length){el.innerHTML='<div class="aut-vazio">Nenhum registro ainda.</div>';return;}
+  if(!autHistSem) autHistSem=autSemanaAtual;
+  var chips='';
+  for(var i=1;i<=4;i++){
+    var q=autRegs.filter(function(r){return parseInt(r.semana,10)===i;}).length;
+    chips+='<button class="aut-chip'+(i===autHistSem?' on':'')+'" onclick="autHistSem='+i+';autRenderHist()">Semana '+i+(q?' · '+q:'')+'</button>';
+  }
+  document.getElementById('aut-hist-sem').innerHTML=chips;
+  var lista=autOrdenados().filter(function(r){return parseInt(r.semana,10)===autHistSem;});
+  if(!lista.length){el.innerHTML='<div class="aut-vazio">Nenhum registro na Semana '+autHistSem+'.</div>';}
+  else{
   var h='',dia='';
   lista.forEach(function(r){
     if(r.data!==dia){dia=r.data;h+='<div class="aut-dia">'+autEsc(autDataBR(dia))+'</div>';}
     h+=autCardReg(r);
   });
   el.innerHTML=h;
+  }
   var ativs={};autRegs.forEach(function(r){if(r.ativ) ativs[r.ativ]=1;});
   document.getElementById('aut-ativ-list').innerHTML=Object.keys(ativs).map(function(a){return '<option value="'+autEsc(a)+'">';}).join('');
 }
