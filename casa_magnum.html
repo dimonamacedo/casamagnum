@@ -1536,8 +1536,23 @@ var lembs=[
   {n:'Limpar filtros do ar-condicionado',d:'Tirar e lavar o filtro',f:'1 vez por mês',c:'f1'},
   {n:'Limpeza piscina',d:'Piscineiro',f:'2 vezes por semana',c:'f3'}
 ];
+// Configuração das manutenções, editável também pelo OMNIA. Fica na própria planilha: cada item na sua linha (idx; o nome
+// gravado lá vale), itens novos a partir do idx 12, e frequências/ocultos numa linha especial (idx 999, item "CONFIG:{...}").
+var MANUT_CFG_IDX=999,manutCfg={f:{},o:[]};
+function freqTexto(d){d=Number(d)||0;if(!d)return 'Conforme necessidade';if(d%365===0)return d===365?'1 vez por ano':'A cada '+(d/365)+' anos';if(d===182||d===180)return 'A cada 6 meses';if(d%30===0)return d===30?'1 vez por mês':'A cada '+(d/30)+' meses';if(d%7===0)return d===7?'1 vez por semana':'A cada '+(d/7)+' semanas';return 'A cada '+d+' dias';}
+function diasManut(idx){var l=lembs[idx];if(l&&l.dias!=null)return l.dias;var c=l?l.c:'';return c==='fa'?365:c==='f6'?182:c==='f1'?30:0;}
+function aplicarConfigManut(){
+  var cfgRow=manutencaoCache[MANUT_CFG_IDX];manutCfg={f:{},o:[]};
+  if(cfgRow&&String(cfgRow.item||'').indexOf('CONFIG:')===0){try{var c=JSON.parse(String(cfgRow.item).slice(7));manutCfg={f:c.f||{},o:c.o||[]};}catch(e){}}
+  delete manutencaoCache[MANUT_CFG_IDX];
+  Object.keys(manutencaoCache).forEach(function(k){var i=Number(k),m=manutencaoCache[k];if(!m||!m.item||!(i>=0))return;
+    if(lembs[i])lembs[i].n=m.item;else lembs[i]={n:m.item,d:'',f:'Conforme necessidade',c:'f3',dias:0};});
+  lembs.forEach(function(l,i){if(!l)return;
+    if(manutCfg.f[i]!=null){l.dias=Number(manutCfg.f[i])||0;l.f=freqTexto(l.dias);l.c=l.dias>=365?'fa':l.dias>=150?'f6':l.dias>0?'f1':'f3';}
+    l.oculto=manutCfg.o.indexOf(i)>=0;});
+}
 function calcularProximaData(cat,dataBaseIso){
-  var dias=cat==='fa'?365:cat==='f6'?182:cat==='f1'?30:0;
+  var dias=typeof cat==='number'?cat:cat==='fa'?365:cat==='f6'?182:cat==='f1'?30:0;
   if(dias<=0||!dataBaseIso) return '';
   var partes=dataBaseIso.split('-');
   if(partes.length!==3) return '';
@@ -1549,7 +1564,7 @@ function autoPreencherProxima(idx){
   var ultEl=document.getElementById('ult-'+idx);
   var prxEl=document.getElementById('prx-'+idx);
   if(!ultEl||!ultEl.value) return;
-  var cat=lembs[idx].c;
+  var cat=diasManut(idx);
   var proximo=calcularProximaData(cat,ultEl.value);
   if(proximo&&prxEl) prxEl.value=proximo;
 }
@@ -1584,6 +1599,7 @@ function carregarLemb(){
       var lista=(data&&data.manutencao)?data.manutencao:[];
       manutencaoCache={};
       lista.forEach(function(m){manutencaoCache[m.idx]=m;});
+      aplicarConfigManut();desenharLemb();
       lembs.forEach(function(l,i){
         var m=manutencaoCache[i];
         var ult=document.getElementById('ult-'+i);
@@ -1607,6 +1623,7 @@ function manutencaoProxima(){
   Object.keys(manutencaoCache).forEach(function(idx){
     var m=manutencaoCache[idx];
     if(!m.proximo||!dataValida(m.proximo)) return;
+    var lm=lembs[Number(idx)];if(lm&&lm.oculto) return;
     if(m.proximo<=chave7){
       itens.push({item:m.item,proximo:m.proximo,vencido:m.proximo<chaveHoje});
     }
@@ -1626,8 +1643,9 @@ function renderAvisosManutencao(){
     }).join('')
     +'</div>';
 }
-function renderLemb(){
+function desenharLemb(){
   document.getElementById('lgrid').innerHTML=lembs.map(function(l,i){
+    if(!l||l.oculto) return '';
     return '<div class="lcard"><h4>'+l.n+'</h4>'+(l.d?'<p>'+l.d+'</p>':'')+'<span class="lfreq '+l.c+'">'+l.f+'</span>'
       +'<div class="dg"><label>Data do último serviço</label><input type="date" id="ult-'+i+'" data-idx="'+i+'" onchange="autoPreencherProxima('+i+')"></div>'
       +'<div class="dg"><label>Próximo serviço</label><input type="date" id="prx-'+i+'" data-idx="'+i+'"></div>'
@@ -1635,11 +1653,14 @@ function renderLemb(){
       +'<button onclick="concluirManutencao('+i+')" style="margin-top:8px;width:100%;padding:8px;border:none;border-radius:var(--r);background:var(--vd);color:#fff;font-size:12px;font-weight:600;cursor:pointer">✅ Marcar como feito hoje</button>'
       +'<div id="lemb-fb-'+i+'" style="display:none;font-size:12px;margin-top:6px"></div></div>';
   }).join('');
+}
+function renderLemb(){
+  desenharLemb();
   carregarLemb();
 }
 function concluirManutencao(idx){
   var hojeStr=chaveData(hoje);
-  var cat=lembs[idx].c;
+  var cat=diasManut(idx);
   var proximo=calcularProximaData(cat,hojeStr);
   var ultEl=document.getElementById('ult-'+idx);
   var prxEl=document.getElementById('prx-'+idx);
